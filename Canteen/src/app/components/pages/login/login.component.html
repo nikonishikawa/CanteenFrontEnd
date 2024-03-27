@@ -5,10 +5,9 @@
             <div class="signup">
                 <form>
                     <label for="chk" aria-hidden="true">Sign up</label>
-                    <input type="text" name="txt" placeholder="User name" required="">
-                    <input type="email" name="email" placeholder="Email" required="">
-                    <input type="password" name="pswd" placeholder="Password" required="">
-                    <button>Sign up</button>
+                    <input type="text" name="txt" [(ngModel)]="registrationObj.username" placeholder="username" required="">
+                    <input type="password" name="password" [(ngModel)]="registrationObj.password" placeholder="password" required="">
+                    <button (click)="onSignup()">Sign up</button>
                 </form>
             </div>
     
