@@ -15,6 +15,10 @@ export const routes: Routes = [
         pathMatch:'full'
     },
     {
+        path:'register',
+        component: RegisterComponent
+    },
+    {
         path:'',
         component:LayoutComponent,
         children: [{

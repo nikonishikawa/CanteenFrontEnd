@@ -1,1 +1,15 @@
-<p>register works!</p>
+<form class="register">
+    <input type="name" name="username" [(ngModel)]="registernUser.username" placeholder="username" required="">
+    <input type="password" name="password" [(ngModel)]="registernUser.password" placeholder="password" required="">
+
+    <input type="name" name="email" [(ngModel)]="registernUser.info.email" placeholder="email" required="">
+    <input type="number" name="addressId" [(ngModel)]="registernUser.info.addressId" placeholder="address" required="">
+    <input type="text" name="contactNumber" [(ngModel)]="registernUser.info.contactNumber" placeholder="phone number" required="">
+    <input type="text" name="firstName" [(ngModel)]="registernUser.info.firstName" placeholder="first name" required="">
+    <input type="text" name="middleName" [(ngModel)]="registernUser.info.middleName" placeholder="middle name" required="">
+    <input type="text" name="lastName" [(ngModel)]="registernUser.info.lastName" placeholder="last name" required="">
+
+    <button type="button" (click)="onRegister()">Register</button>
+    <a class="signup-txt">Already have an account?</a>
+    <a routerLink="login" class="signup-link">Login Now</a>
+</form>

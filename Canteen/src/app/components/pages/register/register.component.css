@@ -1,0 +1,100 @@
+.register {
+	overflow: hidden;
+	background-color: white;
+	padding: 40px 30px 30px 30px;
+	border-radius: 10px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 400px;
+	transform: translate(-50%, -50%);
+	transition: transform 300ms, box-shadow 300ms;
+	box-shadow: 5px 10px 10px rgba(2, 128, 144, 0.2);
+  }
+  .register::before, .register::after {
+	content: "";
+	position: absolute;
+	width: 600px;
+	height: 600px;
+	border-top-left-radius: 40%;
+	border-top-right-radius: 45%;
+	border-bottom-left-radius: 35%;
+	border-bottom-right-radius: 40%;
+	z-index: -1;
+  }
+  .register::before {
+	left: 40%;
+	bottom: -130%;
+	background-color: rgba(69, 105, 144, 0.15);
+	animation: wawes 6s infinite linear;
+  }
+  .register::after {
+	left: 35%;
+	bottom: -125%;
+	background-color: rgba(2, 128, 144, 0.2);
+	animation: wawes 7s infinite;
+  }
+  .register > input {
+	font-family: "Asap", sans-serif;
+	display: block;
+	border-radius: 5px;
+	font-size: 16px;
+	background: white;
+	width: 100%;
+	border: 0;
+	padding: 10px 10px;
+	margin: 15px -10px;
+  }
+  .register > button {
+	font-family: "Asap", sans-serif;
+	cursor: pointer;
+	color: #fff;
+	font-size: 16px;
+	text-transform: uppercase;
+	width: 80px;
+	border: 0;
+	padding: 10px 0;
+	margin-top: 10px;
+	margin-left: -5px;
+	border-radius: 5px;
+	background-color: #f45b69;
+	transition: background-color 300ms;
+  }
+  .register > button:hover {
+	background-color: #f24353;
+  }
+  
+  a.signup-txt {
+	font-size: 13px;
+    font-family: "Roboto", sans-serif;
+    color: #111010; 
+    text-decoration: none;
+	margin-top: 20px;
+    margin-right: 10px; 
+  }
+
+  a.signup-link {
+	font-size: 13px;
+    font-family: "Roboto", sans-serif;
+    color: #f45b69; 
+    text-decoration: none;
+    transition: color 0.3s ease;
+    float: right; 
+    margin-right: 30px; 
+	margin-top: 20px;
+  }
+  
+  a.signup-link:hover {
+	color: #f24353; 
+  }
+
+  
+  @keyframes wawes {
+	from {
+	  transform: rotate(0);
+	}
+	to {
+	  transform: rotate(360deg);
+	}
+  }
+  

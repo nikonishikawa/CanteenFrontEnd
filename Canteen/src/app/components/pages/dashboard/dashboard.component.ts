@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,4 +10,10 @@ import { Component } from '@angular/core';
 })
 export class DashboardComponent {
 
+  constructor(private http: HttpClient){}
+
+  // loadUser(){
+  //   this.http.get('')
+  // }
 }
+
