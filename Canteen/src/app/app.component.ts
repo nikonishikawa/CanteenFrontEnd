@@ -11,6 +11,7 @@ import { ToastrModule } from 'ngx-toastr';
     templateUrl: './app.component.html',
     styleUrl: './app.component.css',
     imports: [RouterModule, FormsModule, HttpClientModule, RouterOutlet]
+    
 })
 export class AppComponent {
   title = 'Canteen';

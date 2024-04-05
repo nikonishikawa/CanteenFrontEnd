@@ -1,0 +1,25 @@
+<div class="filter-container">
+  <select [(ngModel)]="selectedCategory" (change)="filterMenu()">
+    <option value="0" selected>Select Category</option>
+    <option *ngFor="let menuItem of menus" [value]="menuItem.category">{{ menuItem.category }}</option>
+  </select>
+</div>
+
+<h2>Menu Items</h2>
+<div *ngIf="filteredMenu.length > 0">
+  <ul>
+    <li *ngFor="let menuItem of filteredMenu">
+      <strong>Item ID:</strong> {{ menuItem.itemId }}<br>
+      <strong>Item:</strong> {{ menuItem.item }}<br>
+      <strong>Description:</strong> {{ menuItem.description }}<br>
+      <strong>Food Image:</strong> <img [src]="menuItem.foodImage" alt="Food Image"><br>
+      <strong>Is Halal:</strong> {{ menuItem.isHalal }}<br>
+      <strong>Price:</strong> {{ menuItem.price }}<br>
+      <strong>Category:</strong> {{ menuItem.category }}
+    </li>
+  </ul>
+</div>
+
+<div *ngIf="filteredMenu.length === 0">
+  <p>No menu items available.</p>
+</div>
