@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../environments/environment';
 import { Observable, catchError, throwError } from 'rxjs';
@@ -13,25 +13,41 @@ export class MenuService {
 
   constructor(private http: HttpClient) { }
 
-  // getAllMenu(): Observable<ApiResponseMessage<Menu[]>> {
-  //   return this.http.get<ApiResponseMessage<Menu[]>>(this.baseApiUrl + 'api/Item/GetAllItem')
-  //     .pipe(
-  //       catchError(error => {
-  //         // Handle error here
-  //         console.error('An error occurred:', error);
-  //         return throwError(error); // Rethrow the error
-  //       })
-  //     );
-  // }
-
   getAllMenu(): Observable<Menu[]> {
-      return this.http.get<Menu[]>(this.baseApiUrl + 'api/Item/GetAllItem');
-        // .pipe(
-        //   catchError(error => {
-        //     // Handle error here
-        //     console.error('An error occurred:', error);
-        //     return throwError(error); // Rethrow the error
-        //   })
-        // );
+    // Retrieve token from localStorage
+    const token = localStorage.getItem('loginToken');
+
+    // Check if token exists
+    if (!token) {
+      console.error('Token not found');
+      return new Observable<Menu[]>(observer => {
+        observer.error('Token not found');
+      });
     }
+
+    // Create headers with token
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    // Make HTTP GET request with headers
+    return this.http.get<Menu[]>(`${this.baseApiUrl}api/Item/GetAllItem`, { headers });
+  }
+
+  addMenu(addMenuRequest: Menu): Observable<Menu> {
+    // Retrieve token from localStorage
+    const token = localStorage.getItem('loginToken');
+
+    // Check if token exists
+    if (!token) {
+      console.error('Token not found');
+      return new Observable<Menu>(observer => {
+        observer.error('Token not found');
+      });
+    }
+
+    // Create headers with token
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    // Make HTTP POST request with headers
+    return this.http.post<Menu>(`${this.baseApiUrl}api/Item/InsertItem`, addMenuRequest, { headers });
+  }
 }

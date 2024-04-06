@@ -1,9 +1,12 @@
-.main category {
+.main .category {
     font-size: 36px;
     font-weight: bold;
 }
 
-.main item {
+.main .item {
     font-size: 20px;
     font-weight: bold;
 }
+.right-link {
+    text-align: right;
+  }

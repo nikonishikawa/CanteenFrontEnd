@@ -1,1 +1,21 @@
-<p>dashboard works!</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Details</title>
+</head>
+<body>
+    <h1>Customer Details</h1>
+    <div id="customerDetails" *ngIf="customer">
+        <p><strong>Customer ID:</strong> {{ customer.customerId }}</p>
+        <p><strong>Cus Credential:</strong> {{ customer.cusCredentials }}</p>
+        <p><strong>Name:</strong> {{ customer.cusName }}</p>
+        <p><strong>Address:</strong> {{ customer.cusAddress }}</p>
+        <p><strong>Membership:</strong> {{ customer.membership }}</p>
+        <p><strong>Status:</strong> {{ customer.status }}</p>
+    </div>
+    <div *ngIf="!customer">Loading...</div>
+  <div *ngIf="!customer">Loading...</div>
+</body>
+</html>

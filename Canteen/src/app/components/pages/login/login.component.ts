@@ -23,9 +23,9 @@ export class LoginComponent {
   onLogin() {
     this.loginService.SignIn(this.loginUser).subscribe((res: any) => {
       if (res.isSuccess) {
-        this.toaster.success('Login successful'); 
         localStorage.setItem('loginToken', res.data.userToken); 
-        this.router.navigateByUrl('dashboard');
+        this.toaster.success('Login successful'); 
+        this.router.navigateByUrl('layout');
       } else {
         this.toaster.error(res.message);
       }

@@ -18,14 +18,14 @@ import { CommonModule } from '@angular/common';
 })
 
 export class MenuComponent implements OnInit {
-  menus: Menu[] = []; // Define menus as an array of Menu objects
+  addMenuRequest: Menu = new Menu();
+  menus: Menu[] = []; 
   filteredMenu: Menu[] = [];
   selectedCategory: number = 0;
-  constructor(private menuService: MenuService, private toastr: ToastrService) { }
+  constructor(private route: ActivatedRoute, private router: Router, private menuService: MenuService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.loadMenu();
-    // this.loadMenu();
   }
 
   loadMenu() {
@@ -33,15 +33,13 @@ export class MenuComponent implements OnInit {
       next: (response: any) => {
         if (response && response.data) {
           this.menus = response.data;
-          this.filterMenu(); // Apply initial filtering after loading menus
+          this.filterMenu(); 
         } else {
           console.error('Error retrieving menus:', response.message);
-          // Handle error here
         }
       },
       error: (error) => {
         console.error('Error fetching menus', error);
-        // Handle error here
       }
     });
   }
@@ -51,32 +49,13 @@ export class MenuComponent implements OnInit {
     console.log('All Menus:', this.menus);
   
     if (this.selectedCategory === 0) {
-      this.filteredMenu = [...this.menus]; // Display all menu items if "Select Category" is chosen
+      this.filteredMenu = [...this.menus]; 
     } else {
       this.filteredMenu = this.menus.filter(menu => menu.category === this.selectedCategory);
     }
   
     console.log('Filtered Menu:', this.filteredMenu);
   }
-  
-  
-  
-  
-  
-  
-  
-
-  // loadMenu() {
-  //   this.menuService.getAllMenu().subscribe({
-  //     next: (menus) => {
-  //       this.menus = menus.category;
-  //       this.filterMenu();
-  //     },
-  //     error: (response) => {
-  //       console.log(response);
-  //     }
-  //   });
-  // }
   
   getAllMenus() {
     this.menuService.getAllMenu().subscribe(
@@ -106,18 +85,7 @@ export class MenuComponent implements OnInit {
         }
       },
       (error) => {
-        // console.error('Error fetching menus', error);
       }
     );
   }
-
-  // filterMenu() {
-  //   if (this.selectedCategory === 0) {
-  //     this.filteredMenu = [...this.menus]; // Display all menu items if "Select Category" is chosen
-  //   } else {
-  //     this.filteredMenu = this.menus.filter(menu => menu.category === this.selectedCategory);
-  //   }
-  // }
-  
-
 }

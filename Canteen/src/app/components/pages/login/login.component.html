@@ -1,7 +1,8 @@
-
 <form class="login">
-	<input type="name" name="username" [(ngModel)]="loginUser.username" placeholder="username" required="">
-    <input type="password" name="password" [(ngModel)]="loginUser.password" placeholder="password" required="">
-	<button (click)="onLogin()">Login</button>
-	<a class="signup-txt">Don't have an account yet?</a> <a href="register" class="signup-link">Join Now</a>
+    <input type="text" name="username" [(ngModel)]="loginUser.username" placeholder="username" required autocomplete="username">
+    <input type="password" name="password" [(ngModel)]="loginUser.password" placeholder="password" required autocomplete="new-password">
+    <button (click)="onLogin()">Login</button>
+    <a class="signup-txt">Don't have an account yet?</a>
+    <a href="register" class="signup-link">Join Now</a>
+    <input type="text" name="username-hidden" style="display: none;">
 </form>
