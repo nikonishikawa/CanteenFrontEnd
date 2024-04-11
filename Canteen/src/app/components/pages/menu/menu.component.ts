@@ -37,9 +37,6 @@ export class MenuComponent implements OnInit {
         } else {
           console.error('Error retrieving menus:', response.message);
         }
-      },
-      error: (error) => {
-        console.error('Error fetching menus', error);
       }
     });
   }

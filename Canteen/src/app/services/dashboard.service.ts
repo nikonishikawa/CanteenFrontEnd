@@ -13,27 +13,24 @@ export class DashboardService {
 
   constructor(private http: HttpClient) { }
 
-  getUserIdFromToken(): string {
-    if (typeof localStorage !== 'undefined') {
-      const loginToken = localStorage.getItem('loginToken');
-      if (loginToken) {
-        return JSON.parse(atob(loginToken.split('.')[1]))["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"];
-      } else {
-        console.error('Login token not found');
-        return '';
-      }
+ getUserIdFromToken(): string {
+  if (typeof localStorage !== 'undefined') {
+    const loginToken = localStorage.getItem('loginToken');
+    if (loginToken) {
+      return JSON.parse(atob(loginToken.split('.')[1]))["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"];
     } else {
-      console.error('localStorage is not available');
       return '';
     }
+  } else {
+    return '';
   }
+}
+
 
   loadCustomerData(): Observable<ApiResponseMessage<Customer>> {
     const userId = this.getUserIdFromToken();
     if (!userId) {
-      console.error('User ID not found');
       return new Observable<ApiResponseMessage<Customer>>(observer => {
-        observer.error('User ID not found');
       });
     }
 
