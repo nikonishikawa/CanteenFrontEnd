@@ -1,9 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component, Injectable, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { DashboardService } from '../../../services/dashboard.service';
 import { Customer } from '../../../models/user.model';
-
+import { ToastrService } from 'ngx-toastr';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,12 +15,18 @@ import { Customer } from '../../../models/user.model';
   imports: [CommonModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
-})
+}
+)
+
 
 export class DashboardComponent implements OnInit {
   customer: Customer = new Customer();
 
-  constructor(private dashboardService: DashboardService) { }
+  constructor(
+    private dashboardService: DashboardService,
+    private router: Router,
+    private toaster: ToastrService
+  ) { }
 
   ngOnInit() {
     this.loadCustomerData();
@@ -29,11 +39,24 @@ export class DashboardComponent implements OnInit {
         this.customer = res.data;
         console.log(this.customer.cusCredentials);
         console.log(this.customer.cusName);
-      },
-      error: (err) => {
-        
       }
     });
   }
 }
 
+@Injectable()
+export class ErrorInterceptor implements HttpInterceptor {
+    constructor(private router: Router) {}
+
+    intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        return next.handle(request).pipe(
+            catchError((error: any) => {
+                if (error instanceof HttpErrorResponse && error.status === 401) {
+                    // Redirect to login page
+                    this.router.navigate(['/login']);
+                }
+                return throwError(error);
+            })
+        );
+    }
+}
