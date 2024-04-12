@@ -31,7 +31,7 @@ export class DashboardComponent implements OnInit {
         console.log(this.customer.cusName);
       },
       error: (err) => {
-        console.error('Error fetching customer data:', err);
+        
       }
     });
   }
