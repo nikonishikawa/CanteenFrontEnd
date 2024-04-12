@@ -18,6 +18,7 @@ import { CommonModule } from '@angular/common';
 })
 
 export class MenuComponent implements OnInit {
+  toaster=inject(ToastrService);
   addMenuRequest: Menu = new Menu();
   menus: Menu[] = []; 
   filteredMenu: Menu[] = [];
@@ -34,9 +35,13 @@ export class MenuComponent implements OnInit {
         if (response && response.data) {
           this.menus = response.data;
           this.filterMenu(); 
-        } else {
-          console.error('Error retrieving menus:', response.message);
-        }
+        } 
+      },
+      error: (error) => {
+        if (error.status === 401) { 
+          this.toaster.error(`Your session has expired. Please login again to continue using the app`, 'Session Expired');
+          this.router.navigate(['/login']);
+        } 
       }
     });
   }
@@ -80,8 +85,6 @@ export class MenuComponent implements OnInit {
         } else {
           console.error('Error retrieving menus:', response.message);
         }
-      },
-      (error) => {
       }
     );
   }
