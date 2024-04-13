@@ -8,34 +8,28 @@
   </div>
   <h1>Menu</h1>
   <hr>
-  <div class="filter-container" *ngFor="let menuItem of menus">
-    <input  type="button" [value]="menuItem.category" (change)="filterMenu()">
-    <!-- <select [(ngModel)]="selectedCategory" (change)="filterMenu()">
-      <option value="0" selected disabled>Select Category</option>
-      <option *ngFor="let menuItem of menus" [value]="menuItem.category"></option>
-    </select> -->
+  <!-- <div class="filter-container" *ngFor="let menuItem of menus">
+    <input type="button" [value]="menuItem.category" (click)="filterMenu(menuItem.category)">
   </div>
-  
-  <div class="menu-item-container" *ngIf="filteredMenu.length > 0">
-    <div class="category-container" *ngFor="let menuItem of filteredMenu">
-      <h1>{{menuItem.category}}</h1>
-      <div class="main-container">
-        <div class="grid-container">
-          <div class="image-container">
-            <img [src]="menuItem.foodImage" alt="Food image">
-          </div>
-          <div class="header-container">
-            <h1 class="item" [ngStyle]="{'font-size.px': menuItem.item.length > 8 ? 26 : 32}">{{menuItem.item}}</h1>
-            <h1 id="price">₱{{menuItem.price}}</h1>
-          </div>
-          <div class="body-container">
-            <p *ngIf="menuItem.isHalal > 0">Halal Certified</p>
-            <p *ngIf="menuItem.isHalal === 0"></p>
-            <p id="description">{{menuItem.description}}</p>
-          </div>
-          <div class="action-container">
-            <button type="submit" [value]="menuItem.itemId">Add to Tray</button>
-          </div>
+   -->
+  <div class="category-container" *ngFor="let menuItem of filteredMenu">
+    <h1>{{ menuItem.category }}</h1>
+    <div class="main-container">
+      <div class="grid-container">
+        <div class="image-container">
+          <img [src]="menuItem.foodImage" alt="Food image">
+        </div>
+        <div class="header-container">
+          <h1 class="item" [ngStyle]="{'font-size.px': menuItem.item.length > 8 ? 26 : 32}">{{ menuItem.item }}</h1>
+          <h1 id="price">₱{{ menuItem.price }}</h1>
+        </div>
+        <div class="body-container">
+          <p *ngIf="menuItem.isHalal > 0">Halal Certified</p>
+          <p *ngIf="menuItem.isHalal === 0"></p>
+          <p id="description">{{ menuItem.description }}</p>
+        </div>
+        <div class="action-container">
+          <button type="button" (click)="addToTray(menuItem)">Add to Tray</button>
         </div>
       </div>
     </div>
@@ -45,31 +39,32 @@
     <div class="tray-main-container">
       <h1>Tray</h1>
     </div>
-
+  
     <div class="tray-items-container">
-      <div class="item-container">
+      <div class="item-container" *ngFor="let trayItem of trayItems">
+        <!-- Display tray item details -->
         <div class="item-image-container">
-          <img src="https://www.allrecipes.com/thmb/SI6dn__pfJb9G5eBpYAqkyGCLxQ=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/50050-five-minute-ice-cream-DDMFS-4x3-076-fbf49ca6248e4dceb3f43a4f02823dd9.jpg" alt="Ice Cream">
+          <img [src]="trayItem.imageUrl" alt="Item Image">
         </div>
-        <h4 id="menu-item">Menu Item</h4>
-        <h5 id="price">0.00</h5>
-        <form class="quantity-container">
-          <input id="del" type="button" value="-">
-          <h6 id="quantity">#</h6>
-          <input id="add" type="button" value="+">
-        </form>
+        <div class="header-container">
+          <h4 class="item">{{ trayItem.item }}</h4>
+          <h5 id="price">{{ trayItem.price }}</h5>
+          <form class="quantity-container">
+            <input id="del" type="button" value="-">
+            <h6 id="quantity">{{ trayItem.quantity }}</h6>
+            <input id="add" type="button" value="+">
+          </form>
+        </div>
       </div>
     </div>
     
-    <h5 id="sub-total-label">Sub-total</h5>
-    <h5 id="sub-total">0.00</h5>
-    <h5 id="discount-label">Discount</h5>
-    <h5 id="total-label">Total</h5>
-    <button id="tray-button" type="button">Order Now</button>
-  </div>
+    <h5 id="sub-total-label">Sub-total: {{ subTotal }}</h5>
+  <h5 id="discount-label">Discount: {{ discount }}</h5>
+  <h5 id="total-label">Total: {{ total }}</h5>
+  <button id="tray-button" type="button" (click)="orderNow()">Order Now</button>
+</div>
   
   <div *ngIf="filteredMenu.length === 0">
     <p>No menu items available.</p>
   </div>
-  
 </body>
