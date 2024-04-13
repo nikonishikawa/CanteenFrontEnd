@@ -6,7 +6,8 @@ import { Menu } from '../../../models/menu.model';
 import { ToastrService } from 'ngx-toastr';
 import { MenuService } from '../../../services/menu.service';
 import { CommonModule } from '@angular/common';
-
+import { Customer } from '../../../models/user.model';
+import { CustomerService } from '../../../services/customer.service';
 
 
 @Component({
@@ -18,14 +19,27 @@ import { CommonModule } from '@angular/common';
 })
 
 export class MenuComponent implements OnInit {
+  customer: Customer = new Customer();
+  
+  toaster=inject(ToastrService);
   addMenuRequest: Menu = new Menu();
   menus: Menu[] = []; 
   filteredMenu: Menu[] = [];
   selectedCategory: number = 0;
-  constructor(private route: ActivatedRoute, private router: Router, private menuService: MenuService, private toastr: ToastrService) { }
+  constructor(private route: ActivatedRoute, private router: Router, private menuService: MenuService, private toastr: ToastrService, private customerService: CustomerService,) { }
 
   ngOnInit(): void {
+    this.loadCustomerData();
     this.loadMenu();
+  }
+
+  loadCustomerData() {
+    this.customerService.loadCustomerData().subscribe({
+      next: (res) => {
+        console.log('Received customer data:', res);
+        this.customer = res.data;
+      }
+    });
   }
 
   loadMenu() {
@@ -34,9 +48,7 @@ export class MenuComponent implements OnInit {
         if (response && response.data) {
           this.menus = response.data;
           this.filterMenu(); 
-        } else {
-          console.error('Error retrieving menus:', response.message);
-        }
+        } 
       }
     });
   }
@@ -50,8 +62,6 @@ export class MenuComponent implements OnInit {
     } else {
       this.filteredMenu = this.menus.filter(menu => menu.category === this.selectedCategory);
     }
-  
-    console.log('Filtered Menu:', this.filteredMenu);
   }
   
   getAllMenus() {
@@ -59,7 +69,6 @@ export class MenuComponent implements OnInit {
       (response: any) => {
         if (response.isSuccess) {
           this.menus = response.data;
-          console.log("Response", response);
   
           if (this.menus && this.menus.length > 0) {
             this.menus.forEach(menuItem => {
@@ -84,3 +93,4 @@ export class MenuComponent implements OnInit {
     );
   }
 }
+
