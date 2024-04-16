@@ -9,8 +9,6 @@ import { CommonModule } from '@angular/common';
 import { CustomerService } from '../../../services/customer.service';
 import { Customer } from '../../../models/user.model';
 
-
-
 @Component({
   selector: 'app-menu',
   standalone: true,
@@ -29,6 +27,8 @@ export class MenuComponent implements OnInit {
   subTotal: number = 0;
   discount: number = 0;
   total: number = 0;
+  trayTempId: string = ''; 
+  trayTempIdNum: number = 0; 
 
   constructor(
     private menuService: MenuService,
@@ -36,20 +36,37 @@ export class MenuComponent implements OnInit {
     private customerService: CustomerService
   ) { }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    await this.loadCustomerData();
+    this.fetchTrayTempId();
     this.loadMenu();
-    this.loadCustomerData();
   }
 
-  loadCustomerData() {
-    this.customerService.loadCustomerData().subscribe({
-      next: (res) => {
-        console.log('Received customer data:', res.data.customerId);
-        this.customerId = res.data.customerId;
-      }
+  loadCustomerData(): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.customerService.loadCustomerData().subscribe({
+        next: (res) => {
+          console.log('Received customer data:', res.data.customerId);
+          this.customerId = res.data.customerId;
+          resolve();
+        },
+        error: (error) => {
+          console.error('Error loading customer data:', error);
+          reject(error);
+        }
+      });
     });
   }
 
+  fetchTrayTempId() {
+    this.menuService.getTrayTempIdByCustomerId(this.customerId).subscribe({
+      next: (trayTempId: number) => {
+        this.trayTempIdNum = trayTempId;
+        console.log('TrayTempId:', trayTempId);
+      },
+    });
+  }
+  
   loadMenu() {
     this.menuService.getAllMenu().subscribe({
       next: (response: any) => {
@@ -83,56 +100,64 @@ export class MenuComponent implements OnInit {
       itemName: menuItem.item,
       price: menuItem.price,
       quantity: 1,
-      TrayTempId: '' // Initialize TrayTempId for the first item
+      TrayTempId: this.trayTempId, 
+      addStamp: new Date().toISOString()
     };
-
-    if (this.trayItems.length === 0) {
-      trayItem.TrayTempId = this.generateTrayTempId(); // Generate TrayTempId for the first item
-    } else {
-      trayItem.TrayTempId = this.trayItems[0].TrayTempId; // Use the TrayTempId of the first item for subsequent items
-    }
-
+  
     this.trayItems.push(trayItem);
     this.calculateTotal();
-
-    // Immediately insert the selected item into the temporary table
-    this.insertDataToTray(menuItem, trayItem.TrayTempId);
+    this.insertDataToTray(this.trayItems);
+  
+    localStorage.setItem('trayItems', JSON.stringify(this.trayItems));
   }
 
-  calculateTotal() {
-    this.subTotal = this.trayItems.reduce((total, item) => total + item.price * item.quantity, 0);
-    // Implement discount calculation logic if needed
-    this.total = this.subTotal - this.discount;
+  fetchTrayItems() {
+    const storedTrayItems = localStorage.getItem('trayItems');
+    if (storedTrayItems) {
+      this.trayItems = JSON.parse(storedTrayItems);
+      this.calculateTotal();
+    } else {
+      this.menuService.getItemsByTrayTempId(this.trayTempIdNum).subscribe({
+        next: (response: any) => {
+          if (response && response.data) {
+            this.trayItems = response.data;
+            this.calculateTotal();
+          }
+        },
+        error: (error) => {
+          console.error('Error loading tray items:', error);
+        }
+      });
+    }
   }
+  
 
-  orderNow() {
+  insertDataToTray(trayItems: any[]) {
     const data = {
       cusId: this.customerId,
-      items: this.trayItems.map(item => ({
+      items: trayItems.map(item => ({
         item: item.itemId,
-        quantity: item.quantity,
-        addStamp: new Date().toISOString()
+        TrayTempId: item.TrayTempId,
+        quantity: item.Quantity,
+        addStamp: item.addStamp 
       }))
     };
 
     this.menuService.insertData(data).subscribe(
       response => {
         console.log('Data inserted to tray successfully:', response);
-        this.toastr.success('Items added to tray successfully');
-        this.clearTray();
+        this.toastr.success('Item added to tray successfully');
       },
       error => {
         console.error('Error inserting data to tray:', error);
-        this.toastr.error('Error adding items to tray');
+        this.toastr.error('Error adding item to tray');
       }
     );
   }
 
-  clearTray() {
-    this.trayItems = [];
-    this.subTotal = 0;
-    this.discount = 0;
-    this.total = 0;
+  calculateTotal() {
+    this.subTotal = this.trayItems.reduce((total, item) => total + item.price * item.quantity, 0);
+    this.total = this.subTotal - this.discount;
   }
 
   getAllMenus() {
@@ -163,40 +188,5 @@ export class MenuComponent implements OnInit {
         }
       }
     );
-  }
-
-  insertDataToTray(menuItem: Menu, trayTempId: string) {
-    if (!this.customerId) {
-      this.toastr.error('Customer ID not found');
-      return;
-    }
-
-    const data = {
-      cusId: this.customerId,
-      items: [
-        {
-          item: menuItem.itemId,
-          TrayTempId: trayTempId, // Pass the TrayTempId along with the item
-          addStamp: new Date().toISOString()
-        }
-      ]
-    };
-
-    this.menuService.insertData(data).subscribe(
-      response => {
-        console.log('Data inserted to tray successfully:', response);
-        this.toastr.success('Item added to tray successfully');
-      },
-      error => {
-        console.error('Error inserting data to tray:', error);
-        this.toastr.error('Error adding item to tray');
-      }
-    );
-  }
-
-  generateTrayTempId(): string {
-    // Implement your logic to generate a unique TrayTempId
-    // For example, you can use a combination of timestamp and random numbers
-    return 'TRAY_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
   }
 }
