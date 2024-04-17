@@ -35,7 +35,7 @@
     </div>
   </div>
 
-  <div class="tray-container">
+  <div class="tray-container" *ngIf="filteredMenu !== null">
         <div class="tray-main-container">
           <h1>Tray</h1>
         </div>
@@ -60,10 +60,9 @@
         <h5 id="discount-label">Discount</h5>
         <h5 id="total-label">Total</h5>
         <button id="tray-button" type="button">Order Now</button>
-      </div>
-     
-      <div *ngIf="filteredMenu.length === 0">
-        <p>No menu items available.</p>
-      </div>
-     
-    </body>
+  </div>
+
+  <div *ngIf="filteredMenu.length === 0">
+    <p>No menu items available.</p>
+  </div>
+</body>
