@@ -31,34 +31,34 @@ export class MenuService {
     return this.http.get<Menu[]>(`${this.baseApiUrl}api/Item/GetAllItem`, { headers });
   }
 
-  getTrayTempIdByCustomerId(customerId: number): Observable<number> {
-    if (typeof localStorage === 'undefined') {
-      return throwError('');
-    }
+  // getTrayTempIdByCustomerId(customerId: number): Observable<number> {
+  //   if (typeof localStorage === 'undefined') {
+  //     return throwError('');
+  //   }
 
-    const token = localStorage.getItem('loginToken');
+  //   const token = localStorage.getItem('loginToken');
 
-    if (!token) {
-      return throwError('Token not found');
-    }
+  //   if (!token) {
+  //     return throwError('Token not found');
+  //   }
 
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const url = `${this.baseApiUrl}api/TrayItem/customer/${customerId}`;
+  //   const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  //   const url = `${this.baseApiUrl}api/TrayItem/customer/${customerId}`;
 
-    return this.http.get<any>(url, { headers }).pipe(
-      map((response: any) => {
-        if (response && response.data && response.data.length > 0) {
-          return response.data[0].trayTempId;
-        } else {
-          throw new Error('No tray temp data found');
-        }
-      }),
-      catchError((error: any) => {
-        console.error('Error fetching tray temp id:', error);
-        return throwError('Error fetching tray temp id. Please try again later.');
-      })
-    );
-  }
+  //   return this.http.get<any>(url, { headers }).pipe(
+  //     map((response: any) => {
+  //       if (response && response.data && response.data.length > 0) {
+  //         return response.data[0].trayTempId;
+  //       } else {
+  //         throw new Error('No tray temp data found');
+  //       }
+  //     }),
+  //     catchError((error: any) => {
+  //       console.error('Error fetching tray temp id:', error);
+  //       return throwError('Error fetching tray temp id. Please try again later.');
+  //     })
+  //   );
+  // }
 
   getItemsByTrayTempId(trayTempId: number): Observable<any> {
     if (typeof localStorage === 'undefined') {
@@ -75,6 +75,28 @@ export class MenuService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
     return this.http.get<any>(`${this.baseApiUrl}api/TrayItem/tray/${trayTempId}`, { headers }).pipe(
+      catchError((error: any) => {
+        console.error('Error fetching tray items by trayTempId:', error);
+        return throwError('Error fetching tray items by trayTempId. Please try again later.');
+      })
+    );
+  }
+
+  GetTraytempId(cusId: number): Observable<any> {
+    if (typeof localStorage === 'undefined') {
+      return throwError('');
+    }
+
+    const token = localStorage.getItem('loginToken');
+
+    if (!token) {
+      console.error('Token not found');
+      return throwError('Token not found');
+    }
+
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    return this.http.get<any>(`${this.baseApiUrl}api/TrayItem/GetTrayTempId/${cusId}`, { headers }).pipe(
       catchError((error: any) => {
         console.error('Error fetching tray items by trayTempId:', error);
         return throwError('Error fetching tray items by trayTempId. Please try again later.');
@@ -131,6 +153,29 @@ export class MenuService {
 
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    return this.http.post<any>(`${this.baseApiUrl}api/TrayItem/InsertTrayTemp`, data, { headers });
+    return this.http.post<any>(`${this.baseApiUrl}api/TrayItem/AddToTrayTest`, data, { headers });
+  }
+
+  generateTrayTempId(cusId: string): Observable<string> {
+    if (typeof localStorage === 'undefined') {
+      return throwError('');
+    }
+
+    const token = localStorage.getItem('loginToken');
+
+    if (!token) {
+      console.error('Token not found');
+      return throwError('Token not found');
+    }
+
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    return this.http.post<string>(`${this.baseApiUrl}api/TrayItem/AddTrayTempId`, { cusId }, { headers })
+      .pipe(
+        catchError(error => {
+          console.error('Error generating TrayTempId:', error);
+          return throwError(error);
+        })
+      );
   }
 }

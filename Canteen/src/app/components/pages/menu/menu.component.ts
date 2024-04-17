@@ -27,8 +27,9 @@ export class MenuComponent implements OnInit {
   subTotal: number = 0;
   discount: number = 0;
   total: number = 0;
-  trayTempId: string = ''; 
+  trayTempId: string | null = null; 
   trayTempIdNum: number = 0; 
+  
 
   constructor(
     private menuService: MenuService,
@@ -36,34 +37,59 @@ export class MenuComponent implements OnInit {
     private customerService: CustomerService
   ) { }
 
-  async ngOnInit(): Promise<void> {
-    await this.loadCustomerData();
-    this.fetchTrayTempId();
-    this.loadMenu();
+  ngOnInit(): void {
+    this.loadCustomerData();
+    this.loadMenu(); 
+    this.fetchTrayItems();
   }
-
-  loadCustomerData(): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      this.customerService.loadCustomerData().subscribe({
-        next: (res) => {
-          console.log('Received customer data:', res.data.customerId);
-          this.customerId = res.data.customerId;
-          resolve();
-        },
-        error: (error) => {
-          console.error('Error loading customer data:', error);
-          reject(error);
-        }
-      });
+  
+  loadCustomerData(): void {
+    this.customerService.loadCustomerData().subscribe({
+      next: (res) => {
+        console.log('Received customer data:', res.data.customerId);
+        this.customerId = res.data.customerId;
+        this.generateTrayTempId();
+      },
+      error: (error) => {
+        console.error('Error loading customer data:', error);
+      }
     });
   }
-
-  fetchTrayTempId() {
-    this.menuService.getTrayTempIdByCustomerId(this.customerId).subscribe({
-      next: (trayTempId: number) => {
-        this.trayTempIdNum = trayTempId;
-        console.log('TrayTempId:', trayTempId);
+  
+  generateTrayTempId() {
+    this.trayTempId = localStorage.getItem('trayTempId');
+  
+    if (!this.trayTempId) {
+      this.menuService.generateTrayTempId(this.customerId.toString()).subscribe(
+        (trayTempId) => {
+          this.trayTempId = trayTempId;
+          localStorage.setItem('trayTempId', JSON.stringify(trayTempId));
+          this.getTrayTempId();
+        },
+        (error) => {
+          console.error('Error generating TrayTempId:', error);
+        }
+      );
+    } else {
+      this.getTrayTempId(); 
+    }
+  }
+  
+  getTrayTempId(): void {
+    if (!this.customerId) {
+      console.error('Customer Id not found');
+      return;
+    }
+  
+    this.menuService.GetTraytempId(this.customerId).subscribe({
+      next: (res) => {
+        console.log('Received trayTempId:', res.data);
+        this.trayTempId = res.data;
+        this.fetchTrayItems();
       },
+      error: (error) => {
+        console.error('Error fetching trayTempId:', error);
+      }
     });
   }
   
@@ -76,7 +102,6 @@ export class MenuComponent implements OnInit {
         }
       },
       error: (error) => {
-        console.error('Error loading menu:', error);
       }
     });
   }
@@ -93,60 +118,29 @@ export class MenuComponent implements OnInit {
 
     console.log('Filtered Menu:', this.filteredMenu);
   }
+ 
 
   addToTray(menuItem: Menu) {
     const trayItem = {
-      itemId: menuItem.itemId,
-      itemName: menuItem.item,
-      price: menuItem.price,
+      item: menuItem.itemId,
       quantity: 1,
-      TrayTempId: this.trayTempId, 
       addStamp: new Date().toISOString()
     };
   
-    this.trayItems.push(trayItem);
-    this.calculateTotal();
-    this.insertDataToTray(this.trayItems);
-  
-    localStorage.setItem('trayItems', JSON.stringify(this.trayItems));
-  }
-
-  fetchTrayItems() {
-    const storedTrayItems = localStorage.getItem('trayItems');
-    if (storedTrayItems) {
-      this.trayItems = JSON.parse(storedTrayItems);
-      this.calculateTotal();
-    } else {
-      this.menuService.getItemsByTrayTempId(this.trayTempIdNum).subscribe({
-        next: (response: any) => {
-          if (response && response.data) {
-            this.trayItems = response.data;
-            this.calculateTotal();
-          }
-        },
-        error: (error) => {
-          console.error('Error loading tray items:', error);
-        }
-      });
-    }
+    this.insertDataToTray(trayItem); 
   }
   
-
-  insertDataToTray(trayItems: any[]) {
+  insertDataToTray(trayItem: any) {
     const data = {
-      cusId: this.customerId,
-      items: trayItems.map(item => ({
-        item: item.itemId,
-        TrayTempId: item.TrayTempId,
-        quantity: item.Quantity,
-        addStamp: item.addStamp 
-      }))
+      items: [trayItem], 
+      trayTempId: this.trayTempId 
     };
-
+  
     this.menuService.insertData(data).subscribe(
       response => {
         console.log('Data inserted to tray successfully:', response);
         this.toastr.success('Item added to tray successfully');
+        this.fetchTrayItems();
       },
       error => {
         console.error('Error inserting data to tray:', error);
@@ -154,9 +148,48 @@ export class MenuComponent implements OnInit {
       }
     );
   }
+  
+  fetchTrayItems() {
+    if (typeof localStorage !== 'undefined') {
+      const storedTrayItems = localStorage.getItem('trayItems');
+      if (storedTrayItems) {
+        this.trayItems = JSON.parse(storedTrayItems);
+        this.fetchTrayItemDetails(); 
+        this.calculateTotal();
+      } else {
+        const trayTempId = this.trayTempId ? parseInt(this.trayTempId) : null;
+        if (trayTempId !== null) {
+          this.menuService.getItemsByTrayTempId(trayTempId).subscribe({
+            next: (response: any) => {
+              if (response && response.data) {
+                this.trayItems = response.data.filter((item: any) => item.trayTempId === trayTempId);
+                this.fetchTrayItemDetails(); 
+                this.calculateTotal();
+                console.log('Tray items loaded from server:', this.trayItems);
+              }
+            },
+            error: (error) => {
+              console.error('Error loading tray items:', error);
+            }
+          });
+        } 
+      }
+    }
+  }
+
+  fetchTrayItemDetails() {
+    this.trayItems.forEach(trayItem => {
+      const menuItem = this.menus.find(menu => menu.itemId === trayItem.item);
+      if (menuItem) {
+        trayItem.item = menuItem.item;
+        trayItem.foodImage = menuItem.foodImage;
+        trayItem.price = menuItem.price;
+      }
+    });
+  }
 
   calculateTotal() {
-    this.subTotal = this.trayItems.reduce((total, item) => total + item.price * item.quantity, 0);
+    this.subTotal = this.trayItems.reduce((total, item) => total + (item.price * item.quantity), 0);
     this.total = this.subTotal - this.discount;
   }
 
