@@ -206,8 +206,9 @@ body, html {
   }
   
   .tray-items-container {
-    overflow-y: hidden;
+    overflow-y: auto;
     overflow-x: hidden;
+    max-height: 700px;
     grid-row: 3 / span 23;
     grid-column: 1 / span 13;
   }
