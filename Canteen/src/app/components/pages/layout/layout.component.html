@@ -3,42 +3,48 @@
 </head>
 <nav class="nav__cont">
   <ul class="nav">
-    <li class="nav__items ">
-      <i class="fa-solid fa-house">
-      </i>
+    <li class="nav__items">
       <a href="#">
-        
+        <i class="fa-solid fa-house">
+          <use xlink:href="#home"></use>
+        </i>
         <span>Home</span>
       </a>
     </li>
-
-    <li class="nav__items ">
+    <li class="nav__items">
       <a href="layout/dashboard">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+        <i class="fa-solid fa-qrcode">
           <use xlink:href="#search"></use>
-        </svg>
+        </i>
         <span>Dashboard</span>
       </a>
     </li>
-
-    <li class="nav__items ">
+    <li class="nav__items">
       <a href="layout/menu">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+        <i class="fa-solid fa-mug-hot">
           <use xlink:href="#map"></use>
-        </svg>
+        </i>
         <span>Menu</span>
       </a>
     </li>
-
     <li class="nav__items ">
-      <a href="#">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 35.6">
-          <use xlink:href="#planner"></use>
-        </svg>
-        <span>Planner</span>
+      <a href="layout/transaction">
+        <i class="fa-solid fa-receipt">
+          <use xlink:href="#history"></use>
+        </i>
+        <span>History</span>
       </a>
     </li>
+    
   </ul>
+  <li class="nav__items "  id="logout-btn">
+    <a href="layout/transaction">
+      <i class="fa-solid fa-right-from-bracket">
+        <use xlink:href="#logout"></use>
+      </i>
+      <span> </span>
+    </a>
+  </li>
 </nav>
 <div class="main-content">
   <router-outlet></router-outlet>
