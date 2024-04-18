@@ -8,13 +8,16 @@
 <div class="status-container" *ngIf="transac && transac.orderId > 0">
     <p id="status-tag">Status</p>
 </div>
-<div class="transactions-container" *ngIf="transaction.length > 0">
-    <img src="https://www.allrecipes.com/thmb/SI6dn__pfJb9G5eBpYAqkyGCLxQ=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/50050-five-minute-ice-cream-DDMFS-4x3-076-fbf49ca6248e4dceb3f43a4f02823dd9.jpg" alt="Ice Cream">
-    <h1 id="order-id">{{ transac.orderId }}</h1>
-    <h5 id="timestamp">{{ transac.orderStamp }}</h5>
-    <h5 id="amount">{{ transac.cost }}</h5>
-    <h5 id="status">{{ transac.status }}</h5>
+<div *ngIf="transaction.length > 0">
+    <div class="transactions-container" *ngFor="let transacItem of transaction">
+      <img src="https://www.allrecipes.com/thmb/SI6dn__pfJb9G5eBpYAqkyGCLxQ=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/50050-five-minute-ice-cream-DDMFS-4x3-076-fbf49ca6248e4dceb3f43a4f02823dd9.jpg" alt="Ice Cream">
+      <h1 id="order-id">{{ transacItem.orderId }}</h1>
+      <h5 id="timestamp">{{ transacItem.orderStamp }}</h5>
+      <h5 id="amount">{{ transacItem.cost }}</h5>
+      <h5 id="status">{{ transacItem.status }}</h5>
+    </div>
 </div>
 <div class="test" *ngIf="transaction.length === 0">
     <p>No transaction history found.</p>
 </div>
+  

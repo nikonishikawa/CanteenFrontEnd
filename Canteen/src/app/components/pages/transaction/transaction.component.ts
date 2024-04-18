@@ -22,8 +22,11 @@ export class TransactionComponent implements OnInit{
   constructor(private route: ActivatedRoute, private router: Router, private transactionService: TransactionService, private customerService: CustomerService) { }
 
   ngOnInit() {
-    this.loadCustomerData();
+    this.loadCustomerData().then(() => {
+      this.getAllTransaction();
+    });
   }
+  
 
   statusTag() {
 
@@ -70,6 +73,7 @@ export class TransactionComponent implements OnInit{
         }
       },
       (error) => {
+        console.error('Error retrieving transaction history:', error.message);
       }
     );
   }

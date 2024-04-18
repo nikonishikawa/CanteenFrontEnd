@@ -13,7 +13,7 @@ export class TransactionService {
   constructor(private http: HttpClient) { }
 
   getAllTransaction(cusId: number): Observable<any>  {
-    const url = `${this.baseApiUrl}api/OrderStatus/GetAllOrderStatus/${cusId}`;
+    const url = `${this.baseApiUrl}api/OrderStatus/GetOrderStatusWithStatus/${cusId}`;
     return this.http.get<any[]>(url);
   }
 
