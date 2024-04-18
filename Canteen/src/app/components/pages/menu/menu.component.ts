@@ -177,6 +177,19 @@ export class MenuComponent implements OnInit {
     }
   }
 
+  updateTrayItemQuantity(trayItemId: number, newQuantity: number) {
+  // Call the method with both parameters
+  this.menuService.updateTrayItemQuantity(trayItemId, newQuantity).subscribe(
+    response => {
+      console.log('Tray item quantity updated successfully:', response);
+      // Handle success message or any other action if needed
+    },
+    error => {
+      console.error('Error updating tray item quantity:', error);
+      // Handle error message or any other action if needed
+    }
+  );
+}
   fetchTrayItemDetails() {
     this.trayItems.forEach(trayItem => {
       const menuItem = this.menus.find(menu => menu.itemId === trayItem.item);

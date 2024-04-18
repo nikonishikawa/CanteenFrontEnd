@@ -31,35 +31,6 @@ export class MenuService {
     return this.http.get<Menu[]>(`${this.baseApiUrl}api/Item/GetAllItem`, { headers });
   }
 
-  // getTrayTempIdByCustomerId(customerId: number): Observable<number> {
-  //   if (typeof localStorage === 'undefined') {
-  //     return throwError('');
-  //   }
-
-  //   const token = localStorage.getItem('loginToken');
-
-  //   if (!token) {
-  //     return throwError('Token not found');
-  //   }
-
-  //   const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-  //   const url = `${this.baseApiUrl}api/TrayItem/customer/${customerId}`;
-
-  //   return this.http.get<any>(url, { headers }).pipe(
-  //     map((response: any) => {
-  //       if (response && response.data && response.data.length > 0) {
-  //         return response.data[0].trayTempId;
-  //       } else {
-  //         throw new Error('No tray temp data found');
-  //       }
-  //     }),
-  //     catchError((error: any) => {
-  //       console.error('Error fetching tray temp id:', error);
-  //       return throwError('Error fetching tray temp id. Please try again later.');
-  //     })
-  //   );
-  // }
-
   getItemsByTrayTempId(trayTempId: number): Observable<any> {
     if (typeof localStorage === 'undefined') {
       return throwError('');
@@ -103,7 +74,6 @@ export class MenuService {
       })
     );
   }
-
 
   addMenu(addMenuRequest: Menu): Observable<Menu> {
     if (typeof localStorage === 'undefined') {
@@ -154,6 +124,15 @@ export class MenuService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
     return this.http.post<any>(`${this.baseApiUrl}api/TrayItem/AddToTrayTest`, data, { headers });
+  }
+
+  updateTrayItemQuantity(trayTempId: number, quantity: number): Observable<ApiResponseMessage<string>> {
+    const url = `${this.baseApiUrl}api/TrayItem//UpdateTrayItemQuantity`; 
+    const updateData = {
+      TrayItemTempId: trayTempId,
+      NewQuantity: quantity
+    };
+    return this.http.post<ApiResponseMessage<string>>(url, updateData);
   }
 
   generateTrayTempId(cusId: string): Observable<string> {
