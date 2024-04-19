@@ -27,7 +27,8 @@ export class MenuComponent implements OnInit {
   selectedCategory: number = 0;
   trayItems: TrayItemsDTO[] = [];
   order: OrderDTO = {}  as OrderDTO;
-  
+
+  // "test"
 
   constructor(
     private menuService: MenuService,
