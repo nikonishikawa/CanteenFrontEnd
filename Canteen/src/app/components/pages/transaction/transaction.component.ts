@@ -51,7 +51,7 @@ export class TransactionComponent implements OnInit{
     this.transactionService.getAllTransaction(this.customerId).subscribe(
       (response: any) => {
         if (response.isSuccess) {
-          this.transac = response.data;
+          this.transaction = response.data;
           console.log("Response", response);
   
           if (this.transaction && this.transaction.length > 0) {
@@ -69,6 +69,7 @@ export class TransactionComponent implements OnInit{
             console.error("Transaction array is empty or undefined");
           }
         } else {
+          this.transaction = response.data;
           console.error('Error retrieving transaction history:', response.message);
         }
       },
