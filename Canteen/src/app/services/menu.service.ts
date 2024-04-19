@@ -127,14 +127,28 @@ export class MenuService {
   }
 
   updateTrayItemQuantity(trayTempId: number, quantity: number): Observable<ApiResponseMessage<string>> {
-    const url = `${this.baseApiUrl}api/TrayItem//UpdateTrayItemQuantity`; 
+    if (typeof localStorage === 'undefined') {
+      return throwError('');
+    }
+  
+    const token = localStorage.getItem('loginToken');
+  
+    if (!token) {
+      console.error('Token not found');
+      return throwError('Token not found');
+    }
+  
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  
+    const url = `${this.baseApiUrl}api/TrayItem/UpdateTrayItemQuantity`; 
     const updateData = {
       TrayItemTempId: trayTempId,
       NewQuantity: quantity
     };
-    return this.http.post<ApiResponseMessage<string>>(url, updateData);
+  
+    return this.http.post<ApiResponseMessage<string>>(url, updateData, { headers });
   }
-
+  
   generateTrayTempId(cusId: string): Observable<string> {
     if (typeof localStorage === 'undefined') {
       return throwError('');

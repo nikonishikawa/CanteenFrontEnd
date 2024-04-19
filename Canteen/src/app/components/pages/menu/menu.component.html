@@ -48,9 +48,9 @@
         <h4 id="menu-item">{{ trayItem.item }}</h4>
         <h5 id="price">₱{{ trayItem.price }}</h5>
         <form class="quantity-container">
-          <input id="del" type="button" value="-">
+          <input id="del" type="button" value="-" (click)="updateTrayItemQuantity(trayItem.item, trayItem.quantity - 1)">
           <h6 id="quantity">{{ trayItem.quantity }}</h6>
-          <input id="add" type="button" value="+">
+          <input id="add" type="button" value="+" (click)="updateTrayItemQuantity(trayItem.item, trayItem.quantity + 1)">
         </form>
       </div>
     </div>
@@ -66,4 +66,5 @@
   <div *ngIf="filteredMenu.length === 0">
     <p>No menu items available.</p>
   </div>
+  
   

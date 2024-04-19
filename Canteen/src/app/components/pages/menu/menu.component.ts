@@ -7,7 +7,6 @@ import { ToastrService } from 'ngx-toastr';
 import { MenuService } from '../../../services/menu.service';
 import { CommonModule } from '@angular/common';
 import { CustomerService } from '../../../services/customer.service';
-import { Customer } from '../../../models/user.model';
 import { OrderDTO, Tray, TrayItemsDTO } from '../../../models/order.model';
 
 @Component({
@@ -19,16 +18,14 @@ import { OrderDTO, Tray, TrayItemsDTO } from '../../../models/order.model';
 })
 
 export class MenuComponent implements OnInit {
-  customer: Customer[] = [];
   customerId!: number;
   tray: Tray = {} as Tray;
   menus: Menu[] = [];
   filteredMenu: Menu[] = [];
   selectedCategory: number = 0;
   trayItems: TrayItemsDTO[] = [];
-  order: OrderDTO = {}  as OrderDTO;
-
-  // "test"
+  order: OrderDTO = {} as OrderDTO;
+  
 
   constructor(
     private menuService: MenuService,
@@ -46,7 +43,7 @@ export class MenuComponent implements OnInit {
     this.customerService.loadCustomerData().subscribe({
       next: (res) => {
         console.log('Received customer data:', res.data.customerId);
-        res.data.customerId = res.data.customerId;
+        this.customerId = res.data.customerId;
         this.generateTrayTempId();
       },
       error: (error) => {
@@ -116,7 +113,6 @@ export class MenuComponent implements OnInit {
     console.log('Filtered Menu:', this.filteredMenu);
   }
  
-
   addToTray(menuItem: Menu) {
     const trayItem = {
       item: menuItem.itemId,
@@ -149,33 +145,55 @@ export class MenuComponent implements OnInit {
   fetchTrayItems() {
     if (this.tray.trayTempId !== null) {
       const trayTempIdNum: number = +this.tray.trayTempId;
-      this.menuService.getItemsByTrayTempId(trayTempIdNum).subscribe({
-        next: (response: any) => {
-          if (response && response.data) {
-            this.trayItems = response.data.filter((item: any) => item.trayTempId === trayTempIdNum);
-            this.fetchTrayItemDetails(); 
-            this.calculateTotal();
-            console.log('Tray items loaded from server:', this.trayItems);
+      if (!isNaN(trayTempIdNum)) {
+        this.menuService.getItemsByTrayTempId(trayTempIdNum).subscribe({
+          next: (response: any) => {
+            if (response && response.data) {
+              this.trayItems = response.data.filter((item: any) => item.trayTempId === trayTempIdNum);
+              this.fetchTrayItemDetails(); 
+              this.calculateTotal();
+              console.log('Tray items loaded from server:', this.trayItems);
+            }
+          },
+          error: (error) => {
+            console.error('Error fetching tray items by trayTempId:', error);
           }
-        },
-        error: (error) => {
-        }
-      });
+        });
+      } else {
+        console.error('Invalid trayTempId:', this.tray.trayTempId);
+      }
     } 
   }
   
-  updateTrayItemQuantity(trayItemId: number, newQuantity: number) {
-  this.menuService.updateTrayItemQuantity(trayItemId, newQuantity).subscribe(
-    response => {
-      console.log('Tray item quantity updated successfully:', response);
-    },
-    error => {
-      console.error('Error updating tray item quantity:', error);
-    }
-  );
-}
+  
+  increaseQuantity(item: TrayItemsDTO): void {
+    item.quantity++;
+    this.updateTrayItemQuantity(item.item, item.quantity);
+  }
 
-fetchTrayItemDetails() {
+  decreaseQuantity(item: TrayItemsDTO): void {
+    if (item.quantity > 0) {
+      item.quantity--;
+      this.updateTrayItemQuantity(item.item, item.quantity);
+    }
+  }
+
+  updateTrayItemQuantity(trayItemId: any, newQuantity: number) {
+    const trayItemIdNum: number = typeof trayItemId === 'string' ? parseInt(trayItemId, 10) : trayItemId;
+    if (!isNaN(trayItemIdNum)) {
+      this.menuService.updateTrayItemQuantity(trayItemIdNum, newQuantity).subscribe(
+        response => {
+          console.log('Tray item quantity updated successfully:', response);
+        },
+        error => {
+          console.error('Error updating tray item quantity:', error);
+        }
+      );
+    } else {
+      console.error('Invalid trayItemId:', trayItemId);
+    }
+  }
+  fetchTrayItemDetails() {
   this.trayItems.forEach(trayItem => {
       const trayItemId = Number(trayItem.item);
       const menuItem = this.menus.find(menu => menu.itemId === trayItemId);
@@ -185,7 +203,7 @@ fetchTrayItemDetails() {
           trayItem.price = menuItem.price;
       }
   });
-}
+  }
 
   calculateTotal() {
     this.order.subTotal = this.trayItems.reduce((total, item) => total + (item.price * item.quantity), 0);
