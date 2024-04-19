@@ -18,7 +18,7 @@ import { Customer } from '../../../models/user.model';
 })
 
 export class MenuComponent implements OnInit {
-  customer: Customer = new Customer();
+  customer: Customer = {} as Customer;
   customerId!: number;
   menus: Menu[] = [];
   filteredMenu: Menu[] = [];

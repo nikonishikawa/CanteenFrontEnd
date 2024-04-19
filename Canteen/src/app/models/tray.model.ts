@@ -1,13 +1,11 @@
 export interface TrayItem {
-    item: number; 
-    quantity: number;
-    addStamp: Date;
-  }
-  
-  export interface TrayCombinedDto {
-    cusId: number;
-    status: number;
-    trayTempId: number;
-    items: TrayItem[];
-  }
-  
+  trayItemTempID: number;
+  trayTempID: number;
+  item: number;
+  quantity: number;
+  addStamp: string;
+}
+
+export interface TrayItemsDTO {
+  trayItems: TrayItem[];
+}

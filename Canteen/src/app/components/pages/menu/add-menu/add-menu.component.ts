@@ -14,7 +14,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './add-menu.component.css'
 })
 export class AddMenuComponent implements OnInit {
-  addMenuRequest: Menu = new Menu();
+  addMenuRequest: Menu = {} as Menu;
   menus: Menu[] = []; 
   filteredMenu: Menu[] = [];
   selectedCategory: number = 0;

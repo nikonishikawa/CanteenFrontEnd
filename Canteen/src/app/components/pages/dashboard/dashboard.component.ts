@@ -20,7 +20,7 @@ import { CustomerService } from '../../../services/customer.service';
 
 
 export class DashboardComponent implements OnInit {
-  customer: Customer = new Customer();
+  customer: Customer = {} as Customer;
 
   constructor(
     private customerService: CustomerService,
@@ -40,4 +40,4 @@ export class DashboardComponent implements OnInit {
       }
     });
   }
-}
+} 

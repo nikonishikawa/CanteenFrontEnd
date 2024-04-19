@@ -15,7 +15,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  loginUser: Login = new Login();
+  loginUser: Login = {} as Login;
   toaster=inject(ToastrService);
   
   constructor(private loginService: LoginService, private router: Router) {}

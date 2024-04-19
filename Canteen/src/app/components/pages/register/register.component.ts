@@ -15,7 +15,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class RegisterComponent {
   toaster=inject(ToastrService);
-  registernUser: Register = new Register();
+  registernUser: Register = {} as Register;
 
   constructor(private route: ActivatedRoute, private registerService: RegisterService, private router: Router) {}
 

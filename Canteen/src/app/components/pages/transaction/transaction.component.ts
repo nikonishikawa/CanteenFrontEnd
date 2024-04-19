@@ -14,9 +14,9 @@ import { Customer } from '../../../models/user.model';
   styleUrl: './transaction.component.css'
 })
 export class TransactionComponent implements OnInit{
-  transac: Transaction = new Transaction(); 
+  transac: Transaction = {} as Transaction; 
   transaction: Transaction[] = [];
-  customer: Customer = new Customer();
+  customer: Customer = {} as Customer;
   customerId!: number;
 
   constructor(private route: ActivatedRoute, private router: Router, private transactionService: TransactionService, private customerService: CustomerService) { }
