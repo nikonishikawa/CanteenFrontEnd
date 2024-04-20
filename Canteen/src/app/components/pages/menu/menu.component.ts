@@ -7,7 +7,8 @@ import { ToastrService } from 'ngx-toastr';
 import { MenuService } from '../../../services/menu.service';
 import { CommonModule } from '@angular/common';
 import { CustomerService } from '../../../services/customer.service';
-import { OrderDTO, Tray, TrayItemsDTO } from '../../../models/order.model';
+import { Customer } from '../../../models/user.model';
+import { CustomerDto, OrderDTO, Tray } from '../../../models/order.model';
 
 @Component({
   selector: 'app-menu',
@@ -18,13 +19,14 @@ import { OrderDTO, Tray, TrayItemsDTO } from '../../../models/order.model';
 })
 
 export class MenuComponent implements OnInit {
-  customerId!: number;
-  tray: Tray = {} as Tray;
+  customer: CustomerDto = {} as CustomerDto;
   menus: Menu[] = [];
   filteredMenu: Menu[] = [];
   selectedCategory: number = 0;
-  trayItems: TrayItemsDTO[] = [];
+  trayItems: any[] = [];
+  trayTempId: string | null = null; 
   order: OrderDTO = {} as OrderDTO;
+  tray: Tray = {} as Tray;
   
 
   constructor(
@@ -43,7 +45,7 @@ export class MenuComponent implements OnInit {
     this.customerService.loadCustomerData().subscribe({
       next: (res) => {
         console.log('Received customer data:', res.data.customerId);
-        this.customerId = res.data.customerId;
+        this.customer.customerId = res.data.customerId;
         this.generateTrayTempId();
       },
       error: (error) => {
@@ -52,11 +54,13 @@ export class MenuComponent implements OnInit {
     });
   }
   
-  generateTrayTempId() {  
-    if (!this.tray.trayTempId) {
-      this.menuService.generateTrayTempId(this.customerId.toString()).subscribe(
+  generateTrayTempId() {
+    this.trayTempId = localStorage.getItem('trayTempId');
+  
+    if (!this.trayTempId) {
+      this.menuService.generateTrayTempId(this.customer.customerId.toString()).subscribe(
         (trayTempId) => {
-          this.tray.trayTempId = trayTempId;
+          this.trayTempId = trayTempId;
           localStorage.setItem('trayTempId', JSON.stringify(trayTempId));
           this.getTrayTempId();
         },
@@ -70,15 +74,15 @@ export class MenuComponent implements OnInit {
   }
   
   getTrayTempId(): void {
-    if (!this.customerId) {
+    if (!this.customer.customerId) {
       console.error('Customer Id not found');
       return;
     }
   
-    this.menuService.GetTraytempId(this.customerId).subscribe({
+    this.menuService.GetTraytempId(this.customer.customerId).subscribe({
       next: (res) => {
         console.log('Received trayTempId:', res.data);
-        this.tray.trayTempId = res.data;
+        this.trayTempId = res.data;
         this.fetchTrayItems();
       },
       error: (error) => {
@@ -113,6 +117,7 @@ export class MenuComponent implements OnInit {
     console.log('Filtered Menu:', this.filteredMenu);
   }
  
+
   addToTray(menuItem: Menu) {
     const trayItem = {
       item: menuItem.itemId,
@@ -126,7 +131,7 @@ export class MenuComponent implements OnInit {
   insertDataToTray(trayItem: any) {
     const data = {
       items: [trayItem], 
-      trayTempId: this.tray.trayTempId 
+      trayTempId: this.trayTempId 
     };
   
     this.menuService.insertData(data).subscribe(
@@ -143,66 +148,52 @@ export class MenuComponent implements OnInit {
   }
   
   fetchTrayItems() {
-    if (this.tray.trayTempId !== null) {
-      const trayTempIdNum: number = +this.tray.trayTempId;
-      if (!isNaN(trayTempIdNum)) {
-        this.menuService.getItemsByTrayTempId(trayTempIdNum).subscribe({
-          next: (response: any) => {
-            if (response && response.data) {
-              this.trayItems = response.data.filter((item: any) => item.trayTempId === trayTempIdNum);
-              this.fetchTrayItemDetails(); 
-              this.calculateTotal();
-              console.log('Tray items loaded from server:', this.trayItems);
-            }
-          },
-          error: (error) => {
-            console.error('Error fetching tray items by trayTempId:', error);
-          }
-        });
+    if (typeof localStorage !== 'undefined') {
+      const storedTrayItems = localStorage.getItem('trayItems');
+      if (storedTrayItems) {
+        this.trayItems = JSON.parse(storedTrayItems);
+        this.fetchTrayItemDetails(); 
+        this.calculateTotal();
       } else {
-        console.error('Invalid trayTempId:', this.tray.trayTempId);
+        const trayTempId = this.trayTempId ? parseInt(this.trayTempId) : null;
+        if (trayTempId !== null) {
+          this.menuService.getItemsByTrayTempId(trayTempId).subscribe({
+            next: (response: any) => {
+              if (response && response.data) {
+                this.trayItems = response.data.filter((item: any) => item.trayTempId === trayTempId);
+                this.fetchTrayItemDetails(); 
+                this.calculateTotal();
+                console.log('Tray items loaded from server:', this.trayItems);
+              }
+            },
+            error: (error) => {
+              console.error('Error loading tray items:', error);
+            }
+          });
+        } 
       }
-    } 
-  }
-  
-  
-  increaseQuantity(item: TrayItemsDTO): void {
-    item.quantity++;
-    this.updateTrayItemQuantity(item.item, item.quantity);
-  }
-
-  decreaseQuantity(item: TrayItemsDTO): void {
-    if (item.quantity > 0) {
-      item.quantity--;
-      this.updateTrayItemQuantity(item.item, item.quantity);
     }
   }
 
-  updateTrayItemQuantity(trayItemId: any, newQuantity: number) {
-    const trayItemIdNum: number = typeof trayItemId === 'string' ? parseInt(trayItemId, 10) : trayItemId;
-    if (!isNaN(trayItemIdNum)) {
-      this.menuService.updateTrayItemQuantity(trayItemIdNum, newQuantity).subscribe(
-        response => {
-          console.log('Tray item quantity updated successfully:', response);
-        },
-        error => {
-          console.error('Error updating tray item quantity:', error);
-        }
-      );
-    } else {
-      console.error('Invalid trayItemId:', trayItemId);
+  updateTrayItemQuantity(trayItemId: number, newQuantity: number) {
+  this.menuService.updateTrayItemQuantity(trayItemId, newQuantity).subscribe(
+    response => {
+      console.log('Tray item quantity updated successfully:', response);
+    },
+    error => {
+      console.error('Error updating tray item quantity:', error);
     }
-  }
+  );
+}
   fetchTrayItemDetails() {
-  this.trayItems.forEach(trayItem => {
-      const trayItemId = Number(trayItem.item);
-      const menuItem = this.menus.find(menu => menu.itemId === trayItemId);
+    this.trayItems.forEach(trayItem => {
+      const menuItem = this.menus.find(menu => menu.itemId === trayItem.item);
       if (menuItem) {
-          trayItem.item = menuItem.item;
-          trayItem.foodImage = menuItem.foodImage;
-          trayItem.price = menuItem.price;
+        trayItem.item = menuItem.item;
+        trayItem.foodImage = menuItem.foodImage;
+        trayItem.price = menuItem.price;
       }
-  });
+    });
   }
 
   calculateTotal() {
