@@ -15,7 +15,7 @@ export class MenuService {
 
   constructor(private http: HttpClient) { }
 
-  getAllMenu(): Observable<Menu[]> {
+  getAllMenu(): Observable<ApiResponseMessage<Menu[]>> {
     if (typeof localStorage === 'undefined') {
       return throwError('');
     }
@@ -28,7 +28,7 @@ export class MenuService {
 
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    return this.http.get<Menu[]>(`${this.baseApiUrl}api/Item/GetAllItem`, { headers });
+    return this.http.get<ApiResponseMessage<Menu[]>>(`${this.baseApiUrl}api/Item/GetAllItem`, { headers });
   }
 
   getItemsByTrayTempId(trayTempId: number): Observable<any> {

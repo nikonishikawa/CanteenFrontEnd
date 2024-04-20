@@ -1,23 +1,27 @@
-<title>Transactions</title>
-<h1>Transaction History</h1>
-<hr>
-<div class="search-bar-container" *ngIf="transaction.length !== null">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <input type="text" placeholder="Search" (input)="onSearch($event)"/>
-</div>
-<div class="status-container" *ngIf="transac && transac.orderId > 0">
-    <p id="status-tag">Status</p>
-</div>
-<div *ngIf="transaction.length !== null">
-    <div class="transactions-container" *ngFor="let transacItem of transaction">
-      <img src="https://www.allrecipes.com/thmb/SI6dn__pfJb9G5eBpYAqkyGCLxQ=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/50050-five-minute-ice-cream-DDMFS-4x3-076-fbf49ca6248e4dceb3f43a4f02823dd9.jpg" alt="Ice Cream">
-      <h1 id="order-id">{{ transacItem.orderId }}</h1>
-      <h5 id="timestamp">{{ transacItem.orderStamp }}</h5>
-      <h5 id="amount">{{ transacItem.cost }}</h5>
-      <h5 id="status">{{ transacItem.status }}</h5>
+<body>
+    <div class="main">
+        <title>Transactions</title>
+        <h1>Transaction History</h1>
+        <hr>
+        <div class="search-bar-container" *ngIf="transaction.length !== null">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Search" (input)="onSearch($event)"/>
+        </div>
+        <div class="status-container" *ngIf="transac && transac.orderId > 0">
+            <p id="status-tag">Status</p>
+        </div>
+        <div *ngIf="transaction.length !== null">
+            <div class="transactions-container" *ngFor="let transacItem of transaction">
+            <img src="https://www.allrecipes.com/thmb/SI6dn__pfJb9G5eBpYAqkyGCLxQ=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/50050-five-minute-ice-cream-DDMFS-4x3-076-fbf49ca6248e4dceb3f43a4f02823dd9.jpg" alt="Ice Cream">
+            <h1 id="order-id">{{ transacItem.orderId }}</h1>
+            <h5 id="timestamp">{{ transacItem.orderStamp }}</h5>
+            <h5 id="amount">{{ transacItem.cost }}</h5>
+            <h5 id="status">{{ transacItem.status }}</h5>
+            </div>
+        </div>
+        <div class="test" *ngIf="transaction.length === null">
+            <p>No transaction history found.</p>
+        </div>
     </div>
-</div>
-<div class="test" *ngIf="transaction.length === null">
-    <p>No transaction history found.</p>
-</div>
+</body>
   

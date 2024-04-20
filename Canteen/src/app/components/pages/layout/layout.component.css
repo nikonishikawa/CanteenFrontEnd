@@ -1,4 +1,6 @@
 .nav__cont {
+  display: flex;
+  flex-direction: column;
     position: fixed;
     width: fit-content;
     top: 0;

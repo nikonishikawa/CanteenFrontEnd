@@ -150,9 +150,9 @@ export class MenuComponent implements OnInit {
     if (this.tray.trayTempId !== null) {
       const trayTempIdNum: number = +this.tray.trayTempId;
       this.menuService.getItemsByTrayTempId(trayTempIdNum).subscribe({
-        next: (response: any) => {
-          if (response && response.data) {
-            this.trayItems = response.data.filter((item: any) => item.trayTempId === trayTempIdNum);
+        next: (res) => {
+          if (res && res.data) {
+            this.trayItems = res.data.filter((item: any) => item.trayTempId === trayTempIdNum);
             this.fetchTrayItemDetails(); 
             this.calculateTotal();
             console.log('Tray items loaded from server:', this.trayItems);
@@ -194,10 +194,10 @@ fetchTrayItemDetails() {
 
   getAllMenus() {
     this.menuService.getAllMenu().subscribe(
-      (response: any) => {
-        if (response.isSuccess) {
-          this.menus = response.data;
-          console.log("Response", response);
+      (res) => {
+        if (res.isSuccess) {
+          this.menus = res.data;
+          console.log("Response", res);
 
           if (this.menus && this.menus.length > 0) {
             this.menus.forEach(menuItem => {
@@ -216,7 +216,7 @@ fetchTrayItemDetails() {
             console.error("Menus array is empty or undefined");
           }
         } else {
-          console.error('Error retrieving menus:', response.message);
+          console.error('Error retrieving menus:', res.message);
         }
       }
     );
