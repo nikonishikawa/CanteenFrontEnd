@@ -48,9 +48,9 @@
         <h4 id="menu-item">{{ trayItem.item }}</h4>
         <h5 id="price">₱{{ trayItem.price }}</h5>
         <form class="quantity-container">
-          <input id="del" type="button" value="-">
+          <input id="del" type="button" (click)="decreaseQuantity(trayItem)" value="-">
           <h6 id="quantity">{{ trayItem.quantity }}</h6>
-          <input id="add" type="button" value="+">
+          <input id="add" type="button" (click)="increaseQuantity(trayItem)" value="+">
         </form>
       </div>
     </div>

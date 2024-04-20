@@ -133,7 +133,7 @@ export class MenuComponent implements OnInit {
       items: [trayItem], 
       trayTempId: this.trayTempId 
     };
-  
+
     this.menuService.insertData(data).subscribe(
       response => {
         console.log('Data inserted to tray successfully:', response);
@@ -174,6 +174,20 @@ export class MenuComponent implements OnInit {
       }
     }
   }
+
+  
+  increaseQuantity(trayItem: any) {
+    trayItem.quantity++; 
+    this.updateTrayItemQuantity(trayItem.trayItemTempId, trayItem.quantity); 
+  }
+  
+  decreaseQuantity(trayItem: any) {
+    if (trayItem.quantity > 1) {
+      trayItem.quantity--; 
+      this.updateTrayItemQuantity(trayItem.trayItemTempId, trayItem.quantity); 
+    }
+  }
+
 
   updateTrayItemQuantity(trayItemId: number, newQuantity: number) {
   this.menuService.updateTrayItemQuantity(trayItemId, newQuantity).subscribe(

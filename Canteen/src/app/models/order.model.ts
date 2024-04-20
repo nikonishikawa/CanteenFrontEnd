@@ -32,3 +32,11 @@ export interface TrayItem {
   export interface CustomerDto {
     customerId: number;
   }
+
+  export interface TrayItemDTO {
+    trayItemTempId: number;
+    trayTempId: number;
+    item: number;
+    quantity: number;
+    addStamp: string; 
+  }
