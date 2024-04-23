@@ -148,6 +148,28 @@ export class MenuService {
   
     return this.http.post<ApiResponseMessage<string>>(url, updateData, { headers });
   }
+
+  deleteTrayItem(trayItemTempId: number): Observable<ApiResponseMessage<string>> {
+    if (typeof localStorage === 'undefined') {
+      return throwError('');
+    }
+  
+    const token = localStorage.getItem('loginToken');
+  
+    if (!token) {
+      console.error('Token not found');
+      return throwError('Token not found');
+    }
+  
+    const headers = new HttpHeaders()
+      .set('Authorization', `Bearer ${token}`)
+      .set('Content-Type', 'application/json');
+  
+    const url = `${this.baseApiUrl}api/TrayItem/RemoveTrayItemTemp/${trayItemTempId}`;
+  
+    return this.http.delete<ApiResponseMessage<string>>(url, { headers });
+  }
+  
   
   generateTrayTempId(cusId: string): Observable<string> {
     if (typeof localStorage === 'undefined') {

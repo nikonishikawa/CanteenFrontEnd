@@ -42,6 +42,7 @@
   
     <div class="tray-items-container">
       <div class="item-container" *ngFor="let trayItem of trayItems">
+        <button class="remove-button" (click)="removeItem(trayItem)">X</button> <
         <div class="item-image-container">
           <img [src]="trayItem.foodImage" alt="{{ trayItem.item }}">
         </div>

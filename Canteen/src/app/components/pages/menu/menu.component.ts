@@ -8,7 +8,7 @@ import { MenuService } from '../../../services/menu.service';
 import { CommonModule } from '@angular/common';
 import { CustomerService } from '../../../services/customer.service';
 import { Customer } from '../../../models/user.model';
-import { CustomerDto, OrderDTO, Tray } from '../../../models/order.model';
+import { CustomerDto, OrderDTO, Tray, TrayItem } from '../../../models/order.model';
 
 @Component({
   selector: 'app-menu',
@@ -179,16 +179,20 @@ export class MenuComponent implements OnInit {
   increaseQuantity(trayItem: any) {
     trayItem.quantity++; 
     this.updateTrayItemQuantity(trayItem.trayItemTempId, trayItem.quantity); 
+    this.calculateTotal();
+    this.toastr.success('Added item quantity successfully');
   }
   
   decreaseQuantity(trayItem: any) {
     if (trayItem.quantity > 1) {
       trayItem.quantity--; 
       this.updateTrayItemQuantity(trayItem.trayItemTempId, trayItem.quantity); 
+      this.calculateTotal();
+      this.toastr.success('Reduced item quantity successfully');
     }
   }
 
-
+ 
   updateTrayItemQuantity(trayItemId: number, newQuantity: number) {
   this.menuService.updateTrayItemQuantity(trayItemId, newQuantity).subscribe(
     response => {
@@ -199,6 +203,23 @@ export class MenuComponent implements OnInit {
     }
   );
 }
+
+removeItem(trayItem: TrayItem) {
+  const trayItemTempId = trayItem.trayItemTempId;
+  this.menuService.deleteTrayItem(trayItemTempId).subscribe(
+    response => {
+      if (response.isSuccess) {
+        console.log(response.message);
+      } else {
+        console.error(response.message);
+      }
+    },
+    error => {
+      console.error('Error occurred:', error);
+    }
+  );
+}
+
   fetchTrayItemDetails() {
     this.trayItems.forEach(trayItem => {
       const menuItem = this.menus.find(menu => menu.itemId === trayItem.item);
@@ -212,8 +233,8 @@ export class MenuComponent implements OnInit {
 
   calculateTotal() {
     this.order.subTotal = this.trayItems.reduce((total, item) => total + (item.price * item.quantity), 0);
-    this.order.total = this.order.subTotal - this.order.discount;
-  }
+    this.order.total = this.order.subTotal; 
+}
 
   getAllMenus() {
     this.menuService.getAllMenu().subscribe(

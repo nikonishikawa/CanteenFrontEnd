@@ -27,6 +27,7 @@ export interface TrayItemsResponse {
   
 export interface TrayItem {
     trayTempId: number;
+    trayItemTempId: number;
   }
   
   export interface CustomerDto {
