@@ -17,7 +17,8 @@
     <input type="button" [value]="getCategoryName(cat.categoryId)" (click)="filterMenu(cat.categoryId)">
 </div>
 
-<div class="category-container" *ngFor="let menuItem of filteredMenu">
+<div class="main-category-container">
+  <div class="category-container" *ngFor="let menuItem of filteredMenu">
     <h1>{{ getCategoryName(menuItem.category) }}</h1>
 
     <div class="main-container">
@@ -40,6 +41,7 @@
       </div>
     </div>
   </div>
+</div>
 
   <div class="tray-container">
     <div class="tray-main-container">
@@ -69,6 +71,32 @@
     <h5 id="total-label">Total</h5>
     <h5 id="total">{{ order.total }}</h5>
     <button class="add-button" (click)="orderNow()">Order Now!</button>
+  </div>
+
+  <div class="order-status pending">
+    <p>GIF Here</p>
+    <h1>Your order is currently being verified by the vendor. Thank you for your patience.</h1>
+  </div>
+
+  <div class="order-status in-progress">
+    <p>GIF Here</p>
+    <h1>Your order is currently being prepared. We're working hard to get it ready for you.</h1>
+  </div>
+
+  <div class="order-status on-going">
+    <p>GIF Here</p>
+    <h1>Your order is now on its way to you! It's out for delivery.</h1>
+  </div>
+
+  <div class="order-status delivered">
+    <p>GIF Here</p>
+    <h1>Your order has been successfully delivered. Enjoy your meal!</h1>
+  </div>
+
+  <div class="rating">
+    <p>Title Here</p>
+    <h1>We hope you enjoyed your meal! Your feedback helps us improve. Please take a moment to rate your experience with us. Thank you for choosing us!</h1>
+    <p>Stars Here</p>
   </div>
   
   <div *ngIf="filteredMenu.length === 0">
