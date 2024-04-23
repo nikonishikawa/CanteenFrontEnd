@@ -34,7 +34,8 @@ export class MenuComponent implements OnInit {
   constructor(
     private menuService: MenuService,
     private toastr: ToastrService,
-    private customerService: CustomerService
+    private customerService: CustomerService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -112,13 +113,15 @@ export class MenuComponent implements OnInit {
       next: (response: any) => {
         if (response && response.data) {
           this.category = response.data;
-          // this.filterMenu();
+          this.filterMenu(0);
         }
       },
       error: (error) => {
       }
     });
   }
+
+  
   
   filterMenu(categoryId: number) {
     const uniqueCategories = [...new Set(this.menus.map(menu => menu.category))];
@@ -131,16 +134,16 @@ export class MenuComponent implements OnInit {
       this.filteredMenu = this.menus.filter(menu => menu.category === this.selectedCategory);
     }
 
-    console.log('Filtered Menu:', this.filteredMenu);
-    console.log('All Menus:', this.menus);
-    console.log('Unique Categories:', uniqueCategories);
+    // console.log('Filtered Menu:', this.filteredMenu);
+    // console.log('All Menus:', this.menus);
+    // console.log('Unique Categories:', uniqueCategories);
 }
 
 
-getCategoryName(categoryId: number): string {
-  const correspondingCategory = this.category.find(cat => cat.categoryId === categoryId);
-  return correspondingCategory ? correspondingCategory.category : '';
-}
+  getCategoryName(categoryId: number): string {
+    const correspondingCategory = this.category.find(cat => cat.categoryId === categoryId);
+    return correspondingCategory ? correspondingCategory.category : '';
+  }
 
   addToTray(menuItem: Menu) {
     const trayItem = {
@@ -199,7 +202,28 @@ getCategoryName(categoryId: number): string {
     }
   }
 
+  orderNow() {
+    this.loadCustomerData();
+    this.getTrayTempId();
   
+    if (this.customer.customerId && this.trayTempId) {
+      this.menuService.insertTempToNotTemp(this.customer.customerId, this.trayTempId).subscribe(
+        (response) => {
+          this.toastr.success('Item transported to tray successfully');
+          localStorage.removeItem('trayTempId');
+          this.fetchTrayItems();
+          this.router.navigateByUrl('layout');
+        },
+        (error) => {
+          console.error('Error placing order', error);
+        }
+      );
+    } else {
+      console.error('Customer Id or Tray Temp Id is missing.');
+    }
+  }
+  
+
   increaseQuantity(trayItem: any) {
     trayItem.quantity++; 
     this.updateTrayItemQuantity(trayItem.trayItemTempId, trayItem.quantity); 
@@ -216,7 +240,6 @@ getCategoryName(categoryId: number): string {
     }
   }
 
- 
   updateTrayItemQuantity(trayItemId: number, newQuantity: number) {
   this.menuService.updateTrayItemQuantity(trayItemId, newQuantity).subscribe(
     response => {
@@ -226,9 +249,9 @@ getCategoryName(categoryId: number): string {
       console.error('Error updating tray item quantity:', error);
     }
   );
-}
+  }
 
-removeItem(trayItem: TrayItem) {
+  removeItem(trayItem: TrayItem) {
   const trayItemTempId = trayItem.trayItemTempId;
   this.menuService.deleteTrayItem(trayItemTempId).subscribe(
     response => {
@@ -257,19 +280,13 @@ removeItem(trayItem: TrayItem) {
     });
   }
 
-
-
-
-
-
-
   calculateTotal() {
     this.order.subTotal = this.trayItems.reduce((total, item) => total + (item.price * item.quantity), 0);
     this.order.total = this.order.subTotal; 
-}
+  }
 
 
-getAllCategories() {
+  getAllCategories() {
   this.menuService.getAllCaetegory().subscribe(
     (res) => {
       if (res.isSuccess) {
@@ -294,7 +311,7 @@ getAllCategories() {
       }
     }
   );
-}
+  }
 
 
   getAllMenus() {

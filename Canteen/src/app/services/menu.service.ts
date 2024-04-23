@@ -130,7 +130,7 @@ export class MenuService {
     return this.http.post<Menu>(`${this.baseApiUrl}api/Item/InsertItem`, addMenuRequest, { headers });
   }
 
-  insertTempToNotTemp(data: any): Observable<any> {
+  insertTempToNotTemp(cusId: number, trayTempId: string): Observable<any> {
     if (typeof localStorage === 'undefined') {
       return throwError('');
     }
@@ -144,7 +144,11 @@ export class MenuService {
 
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    return this.http.post<any>(`${this.baseApiUrl}api/TrayItem/InsertTrayTemp`, data, { headers });
+    const InsertToTray = { cusId: cusId,
+                           trayItemId: trayTempId
+    }
+
+    return this.http.post<any>(`${this.baseApiUrl}api/TrayItem/InsertTray?cusId=${cusId}&trayTempId=${trayTempId}`, { headers });
   }
 
   insertData(data: any): Observable<any> {

@@ -6,14 +6,16 @@
     <i class="fa-solid fa-magnifying-glass"></i>
     <input type="text" placeholder="Search">
   </div>
+  
   <h1>Menu</h1>
   <hr>
   <div class="filt">
     <input type="button" [value]="'All'" (click)="filterMenu(0)">
     </div>
+    
   <div class="filter-container" *ngFor="let cat of category">
     <input type="button" [value]="getCategoryName(cat.categoryId)" (click)="filterMenu(cat.categoryId)">
-  </div>
+</div>
 
 <div class="category-container" *ngFor="let menuItem of filteredMenu">
     <h1>{{ getCategoryName(menuItem.category) }}</h1>
@@ -66,7 +68,7 @@
     <h5 id="discount-label">Discount</h5>
     <h5 id="total-label">Total</h5>
     <h5 id="total">{{ order.total }}</h5>
-    <button id="tray-button" type="button">Order Now</button>
+    <button class="add-button" (click)="orderNow()">Order Now!</button>
   </div>
   
   <div *ngIf="filteredMenu.length === 0">
