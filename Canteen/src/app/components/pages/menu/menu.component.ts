@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { CustomerService } from '../../../services/customer.service';
 import { Customer } from '../../../models/user.model';
 import { CustomerDto, OrderDTO, Tray, TrayItem } from '../../../models/order.model';
+import { Category } from '../../../models/category.model';
 
 @Component({
   selector: 'app-menu',
@@ -21,6 +22,7 @@ import { CustomerDto, OrderDTO, Tray, TrayItem } from '../../../models/order.mod
 export class MenuComponent implements OnInit {
   customer: CustomerDto = {} as CustomerDto;
   menus: Menu[] = [];
+  category: Category[] = [];
   filteredMenu: Menu[] = [];
   selectedCategory: number = 0;
   trayItems: any[] = [];
@@ -39,6 +41,7 @@ export class MenuComponent implements OnInit {
     this.loadCustomerData();
     this.loadMenu(); 
     this.fetchTrayItems();
+    this.loadCategory();
   }
   
   loadCustomerData(): void {
@@ -96,7 +99,7 @@ export class MenuComponent implements OnInit {
       next: (response: any) => {
         if (response && response.data) {
           this.menus = response.data;
-          this.filterMenu();
+          this.filterMenu(0);
         }
       },
       error: (error) => {
@@ -104,9 +107,23 @@ export class MenuComponent implements OnInit {
     });
   }
 
-  filterMenu() {
-    console.log('Selected Category:', this.selectedCategory);
-    console.log('All Menus:', this.menus);
+  loadCategory() {
+    this.menuService.getAllCaetegory().subscribe({
+      next: (response: any) => {
+        if (response && response.data) {
+          this.category = response.data;
+          // this.filterMenu();
+        }
+      },
+      error: (error) => {
+      }
+    });
+  }
+  
+  filterMenu(categoryId: number) {
+    const uniqueCategories = [...new Set(this.menus.map(menu => menu.category))];
+    this.category = this.category.filter(cat => uniqueCategories.includes(cat.categoryId));
+    this.selectedCategory = categoryId; 
 
     if (this.selectedCategory === 0) {
       this.filteredMenu = [...this.menus];
@@ -115,8 +132,15 @@ export class MenuComponent implements OnInit {
     }
 
     console.log('Filtered Menu:', this.filteredMenu);
-  }
- 
+    console.log('All Menus:', this.menus);
+    console.log('Unique Categories:', uniqueCategories);
+}
+
+
+getCategoryName(categoryId: number): string {
+  const correspondingCategory = this.category.find(cat => cat.categoryId === categoryId);
+  return correspondingCategory ? correspondingCategory.category : '';
+}
 
   addToTray(menuItem: Menu) {
     const trayItem = {
@@ -233,10 +257,45 @@ removeItem(trayItem: TrayItem) {
     });
   }
 
+
+
+
+
+
+
   calculateTotal() {
     this.order.subTotal = this.trayItems.reduce((total, item) => total + (item.price * item.quantity), 0);
     this.order.total = this.order.subTotal; 
 }
+
+
+getAllCategories() {
+  this.menuService.getAllCaetegory().subscribe(
+    (res) => {
+      if (res.isSuccess) {
+        this.category = res.data;
+        console.log("Response", res);
+
+        if (this.category && this.category.length > 0) {
+          this.category.forEach(category => {
+            if (category && category) {
+              console.log("Item ID:", category.categoryId);
+              console.log("Item:", category.category);
+              console.log("Description:", category.description);
+            } else {
+              console.error("Menu item or its data is undefined:", category);
+            }
+          });
+        } else {
+          console.error("Menus array is empty or undefined");
+        }
+      } else {
+        console.error('Error retrieving menus:', res.message);
+      }
+    }
+  );
+}
+
 
   getAllMenus() {
     this.menuService.getAllMenu().subscribe(

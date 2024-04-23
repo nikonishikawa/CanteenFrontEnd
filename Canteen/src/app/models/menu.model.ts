@@ -6,4 +6,5 @@ export interface Menu {
   isHalal: number;
   price: number;
   category: number;
+  categoryName: string;
 }

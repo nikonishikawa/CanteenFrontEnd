@@ -41,14 +41,14 @@
 }
 
 .grid-container .image-container {
-    grid-column: 2 / span 4; /* Make the image span 3 columns */
+    grid-column: 2 / span 4;
     grid-row: 2 / span 6;
 }
 
 .image-container {
-    width: 100%; /* Ensure the container fills its parent element */
+    width: 100%; 
     height: 100%;
-    position: relative; /* Ensure absolute positioning of the image */
+    position: relative;
     overflow: hidden;
     border-radius: 22px;
     border: 1px solid #B9B9B9;
@@ -56,12 +56,18 @@
 
 .filter-container {
     width: 58.5vw;
+    margin: 0 auto; 
+}
+
+.filt {
+  width: 58.5vw;
+  margin: 0 auto; 
 }
 
 .image-container img {
-    max-height: 100%; /* Set the maximum height of the image to fill the container */
-    object-fit: contain; /* Fit the entire image within the container, maintaining its aspect ratio */
-    object-position: left; /* Position the image to the left side */
+    max-height: 100%;
+    object-fit: contain; 
+    object-position: left; 
 }
 
 .header-container {

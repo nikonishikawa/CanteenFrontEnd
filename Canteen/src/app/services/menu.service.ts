@@ -5,6 +5,7 @@ import { Observable, catchError, map, throwError } from 'rxjs';
 import { Menu } from '../models/menu.model';
 import { ApiResponseMessage } from '../models/apiresponsemessage.model';
 import { Customer } from '../models/user.model';
+import { Category } from '../models/category.model';
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +30,22 @@ export class MenuService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
     return this.http.get<ApiResponseMessage<Menu[]>>(`${this.baseApiUrl}api/Item/GetAllItem`, { headers });
+  }
+
+  getAllCaetegory(): Observable<ApiResponseMessage<Category[]>> {
+    if (typeof localStorage === 'undefined') {
+      return throwError('');
+    }
+
+    const token = localStorage.getItem('loginToken');
+
+    if (!token) {
+      return throwError('Token not found');
+    }
+
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    return this.http.get<ApiResponseMessage<Category[]>>(`${this.baseApiUrl}api/Category/GetAllCategory`, { headers });
   }
 
   getItemsByTrayTempId(trayTempId: number): Observable<any> {
@@ -73,6 +90,27 @@ export class MenuService {
         return throwError('Error fetching tray items by trayTempId. Please try again later.');
       })
     );
+  }
+
+  deleteTrayItem(trayItemTempId: number): Observable<ApiResponseMessage<string>> {
+    if (typeof localStorage === 'undefined') {
+      return throwError('');
+    }
+  
+    const token = localStorage.getItem('loginToken');
+  
+    if (!token) {
+      console.error('Token not found');
+      return throwError('Token not found');
+    }
+  
+    const headers = new HttpHeaders()
+      .set('Authorization', `Bearer ${token}`)
+      .set('Content-Type', 'application/json');
+  
+    const url = `${this.baseApiUrl}api/TrayItem/RemoveTrayItemTemp/${trayItemTempId}`;
+  
+    return this.http.delete<ApiResponseMessage<string>>(url, { headers });
   }
 
   addMenu(addMenuRequest: Menu): Observable<Menu> {
@@ -148,28 +186,6 @@ export class MenuService {
   
     return this.http.post<ApiResponseMessage<string>>(url, updateData, { headers });
   }
-
-  deleteTrayItem(trayItemTempId: number): Observable<ApiResponseMessage<string>> {
-    if (typeof localStorage === 'undefined') {
-      return throwError('');
-    }
-  
-    const token = localStorage.getItem('loginToken');
-  
-    if (!token) {
-      console.error('Token not found');
-      return throwError('Token not found');
-    }
-  
-    const headers = new HttpHeaders()
-      .set('Authorization', `Bearer ${token}`)
-      .set('Content-Type', 'application/json');
-  
-    const url = `${this.baseApiUrl}api/TrayItem/RemoveTrayItemTemp/${trayItemTempId}`;
-  
-    return this.http.delete<ApiResponseMessage<string>>(url, { headers });
-  }
-  
   
   generateTrayTempId(cusId: string): Observable<string> {
     if (typeof localStorage === 'undefined') {
