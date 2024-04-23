@@ -42,7 +42,6 @@
   
     <div class="tray-items-container">
       <div class="item-container" *ngFor="let trayItem of trayItems">
-        <button class="remove-button" (click)="removeItem(trayItem)">X</button> <
         <div class="item-image-container">
           <img [src]="trayItem.foodImage" alt="{{ trayItem.item }}">
         </div>
@@ -53,6 +52,8 @@
           <h6 id="quantity">{{ trayItem.quantity }}</h6>
           <input id="add" type="button" (click)="increaseQuantity(trayItem)" value="+">
         </form>
+        
+        <button class="remove-button" (click)="removeItem(trayItem)"><i class="fa-solid fa-trash-can"></i></button> 
       </div>
     </div>
   

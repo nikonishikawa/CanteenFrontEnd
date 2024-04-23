@@ -209,7 +209,9 @@ removeItem(trayItem: TrayItem) {
   this.menuService.deleteTrayItem(trayItemTempId).subscribe(
     response => {
       if (response.isSuccess) {
+        this.toastr.success('Removed item successfully');
         console.log(response.message);
+        this.fetchTrayItems();
       } else {
         console.error(response.message);
       }

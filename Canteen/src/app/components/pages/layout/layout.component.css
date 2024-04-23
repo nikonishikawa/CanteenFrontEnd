@@ -61,11 +61,11 @@
   .nav__items span {
     font-size: 1.35em;
     padding: 2rem 0 2rem 0;
-    margin-right: 84px;
-  }
-  
-  /* .main-content {
-  } */
+      margin-right: 84px;
+    }
+    
+    /* .main-content {
+    } */
 
   body {
     height: 100vh;
