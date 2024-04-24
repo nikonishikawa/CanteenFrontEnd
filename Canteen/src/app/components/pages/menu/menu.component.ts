@@ -8,8 +8,10 @@ import { MenuService } from '../../../services/menu.service';
 import { CommonModule } from '@angular/common';
 import { CustomerService } from '../../../services/customer.service';
 import { Customer } from '../../../models/user.model';
-import { CustomerDto, OrderDTO, Tray, TrayItem } from '../../../models/order.model';
 import { Category } from '../../../models/category.model';
+import { CustomerDto, OrderDTO, Tray, TrayItem } from '../../../models/tray.model';
+import { MOP, trayItemTest } from '../../../models/orders.model';
+import { switchMap, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-menu',
@@ -24,12 +26,15 @@ export class MenuComponent implements OnInit {
   menus: Menu[] = [];
   category: Category[] = [];
   filteredMenu: Menu[] = [];
+  trayitemtest: trayItemTest[] = [];
   selectedCategory: number = 0;
   trayItems: any[] = [];
   trayTempId: string | null = null; 
   order: OrderDTO = {} as OrderDTO;
   tray: Tray = {} as Tray;
-  
+  mop: MOP[] = [];
+  modeOfPaymentId: number = 0;
+  OrderID: number = 0;
 
   constructor(
     private menuService: MenuService,
@@ -43,6 +48,7 @@ export class MenuComponent implements OnInit {
     this.loadMenu(); 
     this.fetchTrayItems();
     this.loadCategory();
+    this.loadMOP();
   }
   
   loadCustomerData(): void {
@@ -97,9 +103,9 @@ export class MenuComponent implements OnInit {
   
   loadMenu() {
     this.menuService.getAllMenu().subscribe({
-      next: (response: any) => {
-        if (response && response.data) {
-          this.menus = response.data;
+      next: (res) => {
+        if (res && res.data) {
+          this.menus = res.data;
           this.filterMenu(0);
         }
       },
@@ -110,9 +116,9 @@ export class MenuComponent implements OnInit {
 
   loadCategory() {
     this.menuService.getAllCaetegory().subscribe({
-      next: (response: any) => {
-        if (response && response.data) {
-          this.category = response.data;
+      next: (res) => {
+        if (res && res.data) {
+          this.category = res.data;
           this.filterMenu(0);
         }
       },
@@ -121,7 +127,24 @@ export class MenuComponent implements OnInit {
     });
   }
 
-  
+  loadMOP(): void {
+    this.menuService.getAllMOP().subscribe({
+      next: (res) => {
+        if (res && res.data) {
+          this.mop = res.data;
+          console.log('Received MOP data:', res.data);
+        }
+      },
+      error: (err) => {
+        console.error('Error fetching MOP data:', err);
+      }
+    });
+  }
+
+  onMOPSelectionChange(event: any): void {
+    this.modeOfPaymentId = event.target.value;
+    console.log('Selected MOP:', this.modeOfPaymentId);
+  }
   
   filterMenu(categoryId: number) {
     const uniqueCategories = [...new Set(this.menus.map(menu => menu.category))];
@@ -185,9 +208,9 @@ export class MenuComponent implements OnInit {
         const trayTempId = this.trayTempId ? parseInt(this.trayTempId) : null;
         if (trayTempId !== null) {
           this.menuService.getItemsByTrayTempId(trayTempId).subscribe({
-            next: (response: any) => {
-              if (response && response.data) {
-                this.trayItems = response.data.filter((item: any) => item.trayTempId === trayTempId);
+            next: (res) => {
+              if (res && res.data) {
+                this.trayItems = res.data.filter((item: trayItemTest) => item.trayTempId === trayTempId);
                 this.fetchTrayItemDetails(); 
                 this.calculateTotal();
                 console.log('Tray items loaded from server:', this.trayItems);
@@ -201,37 +224,42 @@ export class MenuComponent implements OnInit {
       }
     }
   }
-
-  orderNow() {
-    this.loadCustomerData();
-    this.getTrayTempId();
   
-    if (this.customer.customerId && this.trayTempId) {
-      this.menuService.insertTempToNotTemp(this.customer.customerId, this.trayTempId).subscribe(
-        (response) => {
-          this.toastr.success('Item transported to tray successfully');
+  orderNow() {
+    if (this.modeOfPaymentId) {
+      const orderStamp = new Date().toISOString();
+      this.menuService.insertOrderStatus(this.customer.customerId, orderStamp, this.order.Cost, this.modeOfPaymentId).pipe(
+        switchMap((response) => {
+          if (this.trayTempId) { 
+            return this.menuService.insertTempToNotTemp(this.customer.customerId, this.trayTempId);
+          } else {
+            return throwError('Tray Temp Id is null');
+          }
+        })
+      ).subscribe(
+        (orderStatusResponse) => {
+          this.toastr.success('Order placed successfully');
           localStorage.removeItem('trayTempId');
-          this.fetchTrayItems();
           this.router.navigateByUrl('layout');
         },
-        (error) => {
-          console.error('Error placing order', error);
+        (orderStatusError) => {
+          console.error('Error placing order', orderStatusError);
         }
       );
     } else {
-      console.error('Customer Id or Tray Temp Id is missing.');
+      console.error('Customer Id, Tray Temp Id, or Mode of Payment is missing.');
     }
   }
   
 
-  increaseQuantity(trayItem: any) {
+  increaseQuantity(trayItem: trayItemTest) {
     trayItem.quantity++; 
     this.updateTrayItemQuantity(trayItem.trayItemTempId, trayItem.quantity); 
     this.calculateTotal();
     this.toastr.success('Added item quantity successfully');
   }
   
-  decreaseQuantity(trayItem: any) {
+  decreaseQuantity(trayItem: trayItemTest) {
     if (trayItem.quantity > 1) {
       trayItem.quantity--; 
       this.updateTrayItemQuantity(trayItem.trayItemTempId, trayItem.quantity); 
@@ -282,7 +310,7 @@ export class MenuComponent implements OnInit {
 
   calculateTotal() {
     this.order.subTotal = this.trayItems.reduce((total, item) => total + (item.price * item.quantity), 0);
-    this.order.total = this.order.subTotal; 
+    this.order.Cost = this.order.subTotal; 
   }
 
 
@@ -312,6 +340,32 @@ export class MenuComponent implements OnInit {
     }
   );
   }
+
+  getAllMOP() {
+    this.menuService.getAllMOP().subscribe(
+      (res) => {
+        if (res.isSuccess) {
+          this.mop = res.data;
+          console.log("Response", res);
+  
+          if (this.mop && this.mop.length > 0) {
+            this.mop.forEach(mop => {
+              if (mop && mop) {
+                console.log("Item:", mop.modeOfPaymentId);
+                console.log("Item ID:", mop.modeOfPayment);
+              } else {
+                console.error("Menu item or its data is undefined:", mop);
+              }
+            });
+          } else {
+            console.error("Menus array is empty or undefined");
+          }
+        } else {
+          console.error('Error retrieving menus:', res.message);
+        }
+      }
+    );
+    }
 
 
   getAllMenus() {

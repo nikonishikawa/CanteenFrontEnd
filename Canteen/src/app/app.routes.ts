@@ -30,7 +30,6 @@ export const routes: Routes = [
         component: DashboardComponent
       },
       {
-        
           path: 'menu',
           component: MenuComponent,
           children: [ 

@@ -9,14 +9,14 @@
   
   <h1>Menu</h1>
   <hr>
-  <div class="filt">
-    <input type="button" [value]="'All'" (click)="filterMenu(0)">
-    </div>
+  
     
   <div class="filter-container" *ngFor="let cat of category">
     <input type="button" [value]="getCategoryName(cat.categoryId)" (click)="filterMenu(cat.categoryId)">
 </div>
-
+<div class="filt">
+  <input type="button" [value]="'All'" (click)="filterMenu(0)">
+  </div>
 <div class="category-container" *ngFor="let menuItem of filteredMenu">
     <h1>{{ getCategoryName(menuItem.category) }}</h1>
 
@@ -67,7 +67,14 @@
     <h5 id="sub-total">{{ order.subTotal }}</h5>
     <h5 id="discount-label">Discount</h5>
     <h5 id="total-label">Total</h5>
-    <h5 id="total">{{ order.total }}</h5>
+    <h5 id="total">{{ order.Cost }}</h5>
+    
+    <select (change)="onMOPSelectionChange($event)">
+      <option *ngFor="let mode of mop" [value]="mode.modeOfPaymentId">{{ mode.modeOfPayment }}</option>
+    </select>
+    
+    
+    
     <button class="add-button" (click)="orderNow()">Order Now!</button>
   </div>
   

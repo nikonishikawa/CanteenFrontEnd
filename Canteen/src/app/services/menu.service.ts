@@ -4,8 +4,8 @@ import { environment } from '../environments/environment';
 import { Observable, catchError, map, throwError } from 'rxjs';
 import { Menu } from '../models/menu.model';
 import { ApiResponseMessage } from '../models/apiresponsemessage.model';
-import { Customer } from '../models/user.model';
 import { Category } from '../models/category.model';
+import { MOP } from '../models/orders.model';
 
 @Injectable({
   providedIn: 'root'
@@ -130,6 +130,32 @@ export class MenuService {
     return this.http.post<Menu>(`${this.baseApiUrl}api/Item/InsertItem`, addMenuRequest, { headers });
   }
 
+  insertOrderStatus(CusId: number, OrderStamp: string, Cost: number, ModeOfPayment: number): Observable<ApiResponseMessage<string>>  {
+    if (typeof localStorage === 'undefined') {
+      return throwError('');
+    }
+
+    const token = localStorage.getItem('loginToken');
+
+    if (!token) {
+      console.error('Token not found');
+      return throwError('Token not found');
+    }
+
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+
+    const InsertToOrder = {CusId: CusId,
+                           OrderStamp: OrderStamp,
+                           Cost: Cost,
+                           ModeOfPayment: ModeOfPayment
+    }
+
+    return this.http.post<ApiResponseMessage<string>>(`${this.baseApiUrl}api/OrderStatus/InsertOrderStatus`, InsertToOrder, { headers });
+
+  }
+
+
   insertTempToNotTemp(cusId: number, trayTempId: string): Observable<any> {
     if (typeof localStorage === 'undefined') {
       return throwError('');
@@ -189,6 +215,22 @@ export class MenuService {
     };
   
     return this.http.post<ApiResponseMessage<string>>(url, updateData, { headers });
+  }
+
+  getAllMOP(): Observable<ApiResponseMessage<MOP[]>> {
+    if (typeof localStorage === 'undefined') {
+      return throwError('');
+    }
+
+    const token = localStorage.getItem('loginToken');
+
+    if (!token) {
+      return throwError('Token not found');
+    }
+
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    return this.http.get<ApiResponseMessage<MOP[]>>(`${this.baseApiUrl}api/ModeOfPayment/GetAllMOP`, { headers });
   }
   
   generateTrayTempId(cusId: string): Observable<string> {
