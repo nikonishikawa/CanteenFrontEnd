@@ -227,12 +227,12 @@ export class MenuComponent implements OnInit {
   
   //     this.menuService.insertOrderStatus(this.customer.customerId, orderStamp, this.order.Cost, this.modeOfPaymentId)
  orderNow() {
-  this.fetchTrayItemDetails();
+  this.trayItems
   const orderStamp = new Date().toISOString();
 
-  if (this.customer.customerId && this.trayTempId && this.modeOfPaymentId && this.trayitemtest) {
+  if (this.customer.customerId && this.trayTempId && this.modeOfPaymentId && this.trayItems) {
     
-    const items = this.trayitemtest.map(item => ({ price: item.price }));
+    const items = this.trayItems.map(item => ({ price: item.price }));
    
     this.menuService.insertTempToNotTemp(this.customer.customerId, this.trayTempId, orderStamp, this.order.Cost, this.modeOfPaymentId, items).subscribe(
       (response) => {
