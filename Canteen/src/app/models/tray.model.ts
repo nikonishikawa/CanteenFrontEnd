@@ -16,6 +16,7 @@ export interface TrayItem {
     subTotal: number;
     discount: number;
     Cost: number;
+    total: number;
   }
   
   
