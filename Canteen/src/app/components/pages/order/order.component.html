@@ -1,0 +1,9 @@
+<div class = "dashboard">
+    <body>
+        <h1>Customer Details</h1>
+        <div id="customerDetails" *ngIf="customer">
+            <p><strong>Customer ID:</strong> {{ customer.customerId }}</p>
+        </div>
+        <div *ngIf="!customer">Loading...</div>
+      <div *ngIf="!customer">Loading...</div>
+    

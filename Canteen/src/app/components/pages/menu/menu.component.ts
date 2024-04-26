@@ -27,7 +27,6 @@ export class MenuComponent implements OnInit {
   category: Category[] = [];
   filteredMenu: Menu[] = [];
   trayitemtest: trayItemTest[] = [];
-  selectedCategory: number = 0;
   trayItems: any[] = [];
   trayTempId: string | null = null; 
   order: OrderDTO = {} as OrderDTO;
@@ -35,6 +34,7 @@ export class MenuComponent implements OnInit {
   mop: MOP[] = [];
   modeOfPaymentId: number = 0;
   OrderID: number = 0;
+  selectedCategory: number = 0;
 
   constructor(
     private menuService: MenuService,
@@ -225,31 +225,30 @@ export class MenuComponent implements OnInit {
     }
   }
   
-  orderNow() {
-    if (this.modeOfPaymentId) {
-      const orderStamp = new Date().toISOString();
-      this.menuService.insertOrderStatus(this.customer.customerId, orderStamp, this.order.Cost, this.modeOfPaymentId).pipe(
-        switchMap((response) => {
-          if (this.trayTempId) { 
-            return this.menuService.insertTempToNotTemp(this.customer.customerId, this.trayTempId);
-          } else {
-            return throwError('Tray Temp Id is null');
-          }
-        })
-      ).subscribe(
-        (orderStatusResponse) => {
-          this.toastr.success('Order placed successfully');
-          localStorage.removeItem('trayTempId');
-          this.router.navigateByUrl('layout');
-        },
-        (orderStatusError) => {
-          console.error('Error placing order', orderStatusError);
-        }
-      );
-    } else {
-      console.error('Customer Id, Tray Temp Id, or Mode of Payment is missing.');
-    }
+  //     this.menuService.insertOrderStatus(this.customer.customerId, orderStamp, this.order.Cost, this.modeOfPaymentId)
+ orderNow() {
+  this.fetchTrayItemDetails();
+  const orderStamp = new Date().toISOString();
+
+  if (this.customer.customerId && this.trayTempId && this.modeOfPaymentId && this.trayitemtest) {
+    
+    const items = this.trayitemtest.map(item => ({ price: item.price }));
+   
+    this.menuService.insertTempToNotTemp(this.customer.customerId, this.trayTempId, orderStamp, this.order.Cost, this.modeOfPaymentId, items).subscribe(
+      (response) => {
+        this.toastr.success('Item transported to tray successfully');
+        localStorage.removeItem('trayTempId');
+        this.fetchTrayItems();
+        this.router.navigateByUrl('layout');
+      },
+      (error) => {
+        console.error('Error placing order', error);
+      }
+    );
+  } else {
+    console.error('Customer Id or Tray Temp Id is missing.');
   }
+}
   
 
   increaseQuantity(trayItem: trayItemTest) {

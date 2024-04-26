@@ -156,7 +156,7 @@ export class MenuService {
   }
 
 
-  insertTempToNotTemp(cusId: number, trayTempId: string): Observable<any> {
+  insertTempToNotTemp(cusId: number, trayTempId: string, orderStamp: string, cost: number, modeOfPayment: number, items: any[]): Observable<any> {
     if (typeof localStorage === 'undefined') {
       return throwError('');
     }
@@ -170,11 +170,14 @@ export class MenuService {
 
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    const InsertToTray = { cusId: cusId,
-                           trayItemId: trayTempId
+    const InsertData = {   
+                           orderStamp: orderStamp,
+                           cost: cost,
+                           modeOfPayment: modeOfPayment,
+                           items: items
     }
 
-    return this.http.post<any>(`${this.baseApiUrl}api/TrayItem/InsertTray?cusId=${cusId}&trayTempId=${trayTempId}`, { headers });
+    return this.http.post<any>(`${this.baseApiUrl}api/TrayItem/InsertTray?cusId=${cusId}&trayTempId=${trayTempId}`, InsertData, { headers });
   }
 
   insertData(data: any): Observable<any> {
