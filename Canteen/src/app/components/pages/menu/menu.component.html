@@ -17,7 +17,6 @@
   <div class="main-category-container">
     <div class="category-container" *ngFor="let menuItem of filteredMenu">
       <h1 class="category-name">{{ getCategoryName(menuItem.category) }}</h1>
-
       <div class="main-container">
           <div class="image-container">
             <img [src]="menuItem.foodImage" alt="Food image">
@@ -65,9 +64,16 @@
     <h5 id="discount-label">Discount</h5>
     <h5 id="total-label">Total</h5>
     <h5 id="total">{{ order.total }}</h5>
+
+    <select (change)="onMOPSelectionChange($event)">
+      <option *ngFor="let mode of mop" [value]="mode.modeOfPaymentId">{{ mode.modeOfPayment }}</option>
+    </select>
+    
     <button class="add-button" (click)="orderNow()">Order Now!</button>
   </div>
 
+ 
+  
   <div class="order-status pending">
     <p>GIF Here</p>
     <h1>Your order is currently being verified by the vendor. Thank you for your patience.</h1>
