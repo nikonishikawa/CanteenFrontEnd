@@ -44,10 +44,10 @@ export class MenuComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.loadCategory();
     this.loadCustomerData();
     this.loadMenu(); 
     this.fetchTrayItems();
-    this.loadCategory();
     this.loadMOP();
   }
   
@@ -311,7 +311,6 @@ export class MenuComponent implements OnInit {
     this.order.subTotal = this.trayItems.reduce((total, item) => total + (item.price * item.quantity), 0);
     this.order.Cost = this.order.subTotal; 
   }
-
 
   getAllCategories() {
   this.menuService.getAllCaetegory().subscribe(

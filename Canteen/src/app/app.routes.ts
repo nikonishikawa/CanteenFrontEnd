@@ -6,6 +6,7 @@ import { MenuComponent } from './components/pages/menu/menu.component';
 import { DashboardComponent } from './components/pages/dashboard/dashboard.component';
 import { AddMenuComponent } from './components/pages/menu/add-menu/add-menu.component';
 import { TransactionComponent } from './components/pages/transaction/transaction.component';
+import { OrderComponent } from './components/pages/order/order.component';
 
 export const routes: Routes = [
   {
@@ -47,6 +48,10 @@ export const routes: Routes = [
       {
         path: 'transaction',
         component: TransactionComponent
+      },
+      {
+        path: 'order',
+        component: OrderComponent
       }
     ]
   },
