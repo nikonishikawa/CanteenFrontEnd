@@ -1,3 +1,59 @@
+.menu {
+  margin: 30px 0 0 50px;
+  display: flex;
+  flex-direction: column;
+}
+
+h1#title {
+  font-size: 60px;
+  font-weight: 600;
+}
+
+.search-bar-container {
+  width: 65%;
+  border: 1px solid #b6b6b6;
+  border-radius: 25px;
+  margin: 12px 0 24px 0 ;
+}
+
+.search-bar-container i {
+  margin: 0 0 0 33px;
+}
+
+.search-bar-container input {
+  width: 90%;
+  border: none;
+  padding: 15px 0 15px 0;
+  margin: 0 0 0 33px;
+}
+
+.search-bar-container input:focus {
+  outline: none;
+}
+
+.filter-container {
+  display: flex;
+}
+
+.filt input {
+  margin: 0 15px 0 0;
+  padding: 8px 24px 8px 24px;
+  border-radius: 20px;
+  border: solid 2px #DA062E;
+  background-color: #fff;
+  font-weight: 600;
+  color: #DA062E;
+}
+
+.filter-items input {
+  margin: 0 15px 0 0;
+  padding: 8px 24px 8px 24px;
+  border-radius: 20px;
+  border: solid 2px #DA062E;
+  background-color: #fff;
+  font-weight: 600;
+  color: #DA062E;
+}
 
 .main .category {
     font-size: 36px;
@@ -14,77 +70,63 @@
 
   .main-category-container {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
+    max-width: 75%;
+    width: fit-content;
   }
 
 .category-container {
   width: fit-content;
   height: fit-content;
-    margin: 32px 0 20px 80px;
+    margin: 32px 0 20px 0px;
 }
 
-.category-container h1 {
+.category-container h1.category-name {
     font-size: 42px;
+    color: #DA062E;
+    font-weight: bold;
 }
 .main-container {
+    display: flex;
     margin: 22px;
     border-radius: 10px;
-    width: fit-content;
-    height: auto;
+    width: 400px;
+    height: 200px;
     background-color: #f0f0f0;
     padding: 15px;
     box-shadow: 0 10px 5.4px rgba(0, 0, 0, 0.15);
 }
 
-.menu-item-container {
+/* .menu-item-container {
     width: 58.5vw;
-}
-
-.grid-container {
-    width: 100%;
-    height: 100%;
-    display: grid;
-    grid-template-columns: repeat(14, 33px); /* Each grid item is 33px wide */
-    grid-template-rows: repeat(10, 33px); /* Each grid item is 33px high */
-}
-
-.grid-container .image-container {
-    grid-column: 2 / span 4;
-    grid-row: 2 / span 6;
-}
+} */
 
 .image-container {
-    width: 100%; 
-    height: 100%;
-    position: relative;
-    overflow: hidden;
-    border-radius: 22px;
-    border: 1px solid #B9B9B9;
-}
-
-.filter-container {
-    width: 58.5vw;
-    margin: 0 auto; 
-}
-
-.filt {
-  width: 58.5vw;
-  margin: 0 auto; 
+  min-width: 150px;
+  min-height: 150px;
+  max-width: 150px;
+  max-height: 150px;
+  overflow: hidden;
+  border-radius: 22px;
+  align-self: center;
 }
 
 .image-container img {
-    max-height: 100%;
-    object-fit: contain; 
-    object-position: left; 
+    min-width: 150px;
+    min-height: 150px;
+    max-width: 150px;
+    max-height: 150px;
+    object-fit: fill; 
+    object-position: center;
 }
 
 .header-container {
-    grid-column: 7 / span 7; /* Adjust column span */
-    grid-row: 2; /* Keep in the same row */
-    display: grid;
-    grid-template-columns: repeat(2, auto); /* Define 2 columns with auto width */
-    grid-template-rows: repeat(1, 33px);
-    word-wrap: break-word;
+    display: flex;
+    flex-direction: column;
+    margin-left: 23px;
+    width: 100%;
+    
+  justify-content: space-around;
 }
 
 .header-container h1 { /* Center the text horizontally */
@@ -95,6 +137,7 @@
 .header-container .item {
     text-align: left; /* Align text to the left */
     margin: 0;
+    top: 0;
 }
 
 .header-container .item #long-item {
@@ -102,13 +145,12 @@
 }
 
 .header-container .item #short-item {
-    font-size: 30px;
+    font-size: 35px;
 }
 
-#price {
-    text-align: right; /* Align text to the right */
-    margin: 0;
-    color: #FEA800;
+.header-container #price {
+  font-size: 24px;
+  color: #DA062E;
 }
 
 .body-container {
@@ -122,16 +164,14 @@
     font-size: 12px;
 }
 
-.grid-container .action-container {
-    grid-column: 2 / span 12;
-    grid-row: 9;
-    margin: 0;
-    padding: 0;
+.action-container {
+  width: 100%;
 }
 
 .action-container button {
     width: 100%;
     height: 100%;
+    bottom: 0;
     border-radius: 40px;
     border: 1px solid #C62626;
     background-color: #C62626;
@@ -196,20 +236,15 @@ form button {
   .header-container #short-item:after {
     font-size: 30px; /* Adjust this size as needed */
   }
-
- /* Add this CSS to your separate CSS file */
-body, html {
-    margin: 0;
-    padding: 0;
-  }
   
   .tray-container {
     position: fixed;
     top: 0;
     right: 0;
-    width: 46.25vh; /* Adjusted width to accommodate the grid */
-    height: 100vh; /* Set the height to 70% of the viewport height */
+    width: 46.25vh; /* Adjustead width to accommodate the grid */
+    height: 95%; /* Set the height ri 70% of the viewport height */
     padding: 20px;
+    margin: 15px 15px 15px 0;
     background-color: #fff;
     border: 0.5px solid #DADADA;
     border-radius: 10px;
@@ -308,11 +343,6 @@ body, html {
     color: #fff;
     grid-column: 5;
     grid-row: 1;
-}
-
-#price {
-    grid-column: 11;
-    grid-row: 2;
 }
 
  .tray-container #tray-button {

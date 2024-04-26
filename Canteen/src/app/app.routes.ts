@@ -22,6 +22,10 @@ export const routes: Routes = [
     component: RegisterComponent
   },
   {
+    path: 'menu',
+    component: MenuComponent
+  },
+  {
     path: 'layout', 
     component: LayoutComponent,
     children: [
@@ -43,7 +47,7 @@ export const routes: Routes = [
       {
         path: 'transaction',
         component: TransactionComponent
-      },
+      }
     ]
   },
   {

@@ -1,53 +1,48 @@
-<head>
-  <title>Menu</title>
-</head>
-<body>
+<div class="menu">
+  <h1 id="title" >Menu</h1>
+  <hr>
   <div class="search-bar-container">
     <i class="fa-solid fa-magnifying-glass"></i>
-    <input type="text" placeholder="Search">
+    <input type="text" placeholder="Search"/>
   </div>
-  
-  <h1>Menu</h1>
-  <hr>
-  <div class="filt">
-    <input type="button" [value]="'All'" (click)="filterMenu(0)">
+  <div class="filter-container">
+    <div class="filt">
+      <input type="button" [value]="'All'" (click)="filterMenu(0)">
     </div>
-    
-  <div class="filter-container" *ngFor="let cat of category">
-    <input type="button" [value]="getCategoryName(cat.categoryId)" (click)="filterMenu(cat.categoryId)">
-</div>
+    <div class="filter-items" *ngFor="let cat of category">
+        <input type="button" [value]="getCategoryName(cat.categoryId)" (click)="filterMenu(cat.categoryId)">
+    </div>
+  </div>
 
-<div class="main-category-container">
-  <div class="category-container" *ngFor="let menuItem of filteredMenu">
-    <h1>{{ getCategoryName(menuItem.category) }}</h1>
+  <div class="main-category-container">
+    <div class="category-container" *ngFor="let menuItem of filteredMenu">
+      <h1 class="category-name">{{ getCategoryName(menuItem.category) }}</h1>
 
-    <div class="main-container">
-      <div class="grid-container">
-        <div class="image-container">
-          <img [src]="menuItem.foodImage" alt="Food image">
-        </div>
-        <div class="header-container">
-          <h1 class="item" [ngStyle]="{'font-size.px': menuItem.item.length > 8 ? 26 : 32}">{{ menuItem.item }}</h1>
-          <h1 id="price">₱{{ menuItem.price }}</h1>
-        </div>
-        <div class="body-container">
-          <p *ngIf="menuItem.isHalal > 0">Halal Certified</p>
-          <p *ngIf="menuItem.isHalal === 0"></p>
-          <p id="description">{{ menuItem.description }}</p>
-        </div>
-        <div class="action-container">
-          <button type="button" (click)="addToTray(menuItem)">Add to Tray</button>
-        </div>
+      <div class="main-container">
+          <div class="image-container">
+            <img [src]="menuItem.foodImage" alt="Food image">
+          </div>
+          <div class="header-container">
+            <h1 class="item" [ngStyle]="{'font-size.px': menuItem.item.length > 8 ? 26 : 32}">{{ menuItem.item }}</h1>
+            <h1 id="price">₱{{ menuItem.price }}</h1>
+            <div class="action-container">
+              <button type="button" (click)="addToTray(menuItem)">Add to Tray</button>
+            </div>
+          </div>
+          <!-- <div class="body-container">
+            <p *ngIf="menuItem.isHalal > 0">Halal Certified</p>
+            <p *ngIf="menuItem.isHalal === 0"></p>
+            <p id="description">{{ menuItem.description }}</p>
+          </div> -->
       </div>
     </div>
   </div>
-</div>
 
   <div class="tray-container">
     <div class="tray-main-container">
       <h1>Tray</h1>
     </div>
-  
+
     <div class="tray-items-container">
       <div class="item-container" *ngFor="let trayItem of trayItems">
         <div class="item-image-container">
@@ -64,7 +59,7 @@
         <button class="remove-button" (click)="removeItem(trayItem)"><i class="fa-solid fa-trash-can"></i></button> 
       </div>
     </div>
-  
+
     <h5 id="sub-total-label">Sub-total</h5>
     <h5 id="sub-total">{{ order.subTotal }}</h5>
     <h5 id="discount-label">Discount</h5>
@@ -97,10 +92,11 @@
     <p>Title Here</p>
     <h1>We hope you enjoyed your meal! Your feedback helps us improve. Please take a moment to rate your experience with us. Thank you for choosing us!</h1>
     <p>Stars Here</p>
-  </div>
-  
+  </div>  
+    
   <div *ngIf="filteredMenu.length === 0">
     <p>No menu items available.</p>
-  </div>
+  </div>  
+</div>
   
   

@@ -30,6 +30,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.loadCustomerData();
+    console.log("hello")
   }
 
   loadCustomerData() {

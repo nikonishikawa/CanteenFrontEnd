@@ -1,51 +1,49 @@
-<head>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-</head>
-<nav class="nav__cont">
-  <ul class="nav">
-    <li class="nav__items">
-      <a href="#">
-        <i class="fa-solid fa-house">
-          <use xlink:href="#home"></use>
+<div class="canteen-body">
+  <nav class="nav_cont">
+    <ul class="nav">
+      <li [routerLink]="['/']" [ngClass]="{'nav_items': isActive === 0}" (click)="toggleActive(0)">
+        <a >
+          <i class="fa-solid fa-house">
+            <use xlink:href="#home"></use>
+          </i>
+          <span>Home</span>
+        </a>
+      </li>
+      <li [routerLink]="['dashboard']" [ngClass]="{'nav_items': isActive === 1}" (click)="toggleActive(1)">
+        <a>
+          <i class="fa-solid fa-qrcode">
+            <use xlink:href="#search"></use>
+          </i>
+          <span>Dashboard</span>
+        </a>
+      </li>
+      <li [routerLink]="['menu']" [ngClass]="{'nav_items': isActive === 2}" (click)="toggleActive(2)">
+        <a>
+          <i class="fa-solid fa-mug-hot">
+            <use xlink:href="#map"></use>
+          </i>
+          <span>Menu</span>
+        </a>
+      </li>
+      <li [routerLink]="['transaction']" [ngClass]="{'nav_items': isActive === 3}" (click)="toggleActive(3)">
+        <a>
+          <i class="fa-solid fa-receipt">
+            <use xlink:href="#history"></use>
+          </i>
+          <span>History</span>
+        </a>
+      </li>
+    </ul>
+    <li class="nav_items "  id="logout-btn">
+      <a [routerLink]="['/layout/transaction']">
+        <i class="fa-solid fa-right-from-bracket">
+          <use xlink:href="#logout"></use>
         </i>
-        <span>Home</span>
+        <span> </span>
       </a>
     </li>
-    <li class="nav__items">
-      <a href="layout/dashboard">
-        <i class="fa-solid fa-qrcode">
-          <use xlink:href="#search"></use>
-        </i>
-        <span>Dashboard</span>
-      </a>
-    </li>
-    <li class="nav__items">
-      <a href="layout/menu">
-        <i class="fa-solid fa-mug-hot">
-          <use xlink:href="#map"></use>
-        </i>
-        <span>Menu</span>
-      </a>
-    </li>
-    <li class="nav__items ">
-      <a href="layout/transaction">
-        <i class="fa-solid fa-receipt">
-          <use xlink:href="#history"></use>
-        </i>
-        <span>History</span>
-      </a>
-    </li>
-    
-  </ul>
-  <li class="nav__items "  id="logout-btn">
-    <a href="layout/transaction">
-      <i class="fa-solid fa-right-from-bracket">
-        <use xlink:href="#logout"></use>
-      </i>
-      <span> </span>
-    </a>
-  </li>
-</nav>
-<div class="main-content">
+  </nav>
+  
   <router-outlet></router-outlet>
+  
 </div>

@@ -1,16 +1,32 @@
-import { Component, OnInit, NO_ERRORS_SCHEMA } from '@angular/core';
-import { Customer } from '../../../models/user.model';
-import { HttpClient } from '@angular/common/http';
-import { DashboardService } from '../../../services/dashboard.service';
+import { Component, NO_ERRORS_SCHEMA, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { LayoutService } from '../../../services/layout.service';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-layout',
-  standalone: true,
   imports: [CommonModule, RouterModule],
-  schemas: [NO_ERRORS_SCHEMA],
+  standalone: true,
+  schemas: [NO_ERRORS_SCHEMA], // Add NO_ERRORS_SCHEMA to schemas
   templateUrl: './layout.component.html',
-  styleUrl: './layout.component.css'
+  styleUrls: ['./layout.component.css']
 })
-export class LayoutComponent {}
+export class LayoutComponent implements OnInit {
+  isActive!: number | 0;
+
+  constructor(private layoutService: LayoutService, private router: Router) {}
+
+  ngOnInit() {
+    this.isActive = this.layoutService.getActiveIndex();
+  }
+
+  toggleActive(index: number) {
+    this.isActive = index === this.isActive ? 0 : index;
+    this.layoutService.setActiveIndex(this.isActive);
+  }
+
+  navigateTo(route: string, index: number) {
+    this.router.navigate([route]);
+    this.toggleActive(index);
+  }
+}
