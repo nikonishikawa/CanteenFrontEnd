@@ -34,4 +34,26 @@ export class OrderService {
       })
     );
   }
+
+  loadItems(): Observable<any> {
+    if (typeof localStorage === 'undefined') {
+      return throwError('');
+    }
+
+    const token = localStorage.getItem('loginToken');
+
+    if (!token) {
+      console.error('Token not found');
+      return throwError('Token not found');
+    }
+
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    return this.http.get<any>(`${this.baseApiUrl}api/Item/GetAllItem`, { headers }).pipe(
+      catchError((error: any) => {
+        console.error('Error fetching items:', error);
+        return throwError('Error fetching items. Please try again later.');
+      })
+    );
+  }
 }

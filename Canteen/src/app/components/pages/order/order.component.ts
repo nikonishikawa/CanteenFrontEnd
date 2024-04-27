@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { CustomerService } from '../../../services/customer.service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { CustomerDto } from '../../../models/tray.model';
+import { CustomerDto, TrayItemsDTO } from '../../../models/tray.model';
 import { CommonModule } from '@angular/common';
 import { OrderService } from '../../../services/order.service';
 import { Customer } from '../../../models/user.model';
@@ -18,7 +18,9 @@ import { orderItems } from '../../../models/orders.model';
 
 export class OrderComponent {
   customer: Customer = {} as Customer;
+  tray: TrayItemsDTO = {} as TrayItemsDTO;
   orderItems: orderItems[] =  [];
+ 
 
   constructor(
     private route: ActivatedRoute,
@@ -30,6 +32,7 @@ export class OrderComponent {
 
   ngOnInit(): void {
     this.loadCustomerData();
+    this.loadItems();
   }
 
   loadCustomerData() {
@@ -75,7 +78,14 @@ export class OrderComponent {
             console.error('Error retrieving orders:', err);
         }
     });
-}
+  }
 
-
+  loadItems() {
+    this.orderService.loadItems().subscribe({
+      next: (res) => {
+        this.orderItems
+        console.log('Received order data:', res.data);
+      }
+    });
+  }
 }
