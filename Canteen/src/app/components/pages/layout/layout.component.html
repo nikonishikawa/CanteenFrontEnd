@@ -33,7 +33,7 @@
           <span>History</span>
         </a>
       </li>
-      <li [routerLink]="['order']" [ngClass]="{'nav_items': isActive === 3}" (click)="toggleActive(4)">
+      <li [routerLink]="['order']" [ngClass]="{'nav_items': isActive === 4}" (click)="toggleActive(4)">
         <a>
           <i class="fa-solid fa-receipt">
             <use xlink:href="#history"></use>
@@ -52,6 +52,7 @@
     </li>
   </nav>
   
-  <router-outlet></router-outlet>
-  
+  <div class="body-container">
+    <router-outlet></router-outlet>
+  </div>
 </div>

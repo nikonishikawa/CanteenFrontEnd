@@ -1,7 +1,7 @@
-.menu {
-  margin: 30px 0 0 50px;
+div.menu {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
 h1#title {
@@ -10,14 +10,17 @@ h1#title {
 }
 
 .search-bar-container {
-  width: 65%;
+  width: 70%;
   border: 1px solid #b6b6b6;
   border-radius: 25px;
   margin: 12px 0 24px 0 ;
+  padding: 12px 20px 12px 15px;
+  font-size: 30px;
 }
 
 .search-bar-container i {
   margin: 0 0 0 33px;
+  color: #2C2C2C;
 }
 
 .search-bar-container input {
@@ -242,7 +245,7 @@ form button {
     top: 0;
     right: 0;
     width: 46.25vh; /* Adjustead width to accommodate the grid */
-    height: 95%; /* Set the height ri 70% of the viewport height */
+    height: 100%; /* Set the height ri 70% of the viewport height */
     padding: 20px;
     margin: 15px 15px 15px 0;
     background-color: #fff;
@@ -252,19 +255,63 @@ form button {
     display: flex;
     flex-direction: column;
   }
+
+  .tray-main-container {
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    margin-bottom: 10px;
+  }
   
   .tray-items-container {
     overflow-y: auto;
     overflow-x: hidden;
     width: 100%;
-    max-height: 700px;
-    grid-row: 3 / span 23;
-    grid-column: 1 / span 13;
+    height: 75%;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+  }
+
+  .tray-total-container {
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+  }
+
+  .subtotal-container {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .total-container {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .tray-total-container select {
+    width: 100%;
+    font-size: 20px;
+    padding: 15px 20px 15px 20px;
+    margin: 15px 0 15px 0;
+    height: fit-content;
+    border-radius: 20px;
+  }
+
+  .tray-total-container button {
+    font-size: 20px;
+    border-radius: 20px;
+    border: 1px solid #DA062E;
+    background-color: #DA062E;
+    color: #fff;
+    font-weight: bold;
+    width: 100%;
+    padding: 15px 20px 15px 20px;
   }
 
   .item-image-container {
     width: 132px;
-    height: 132px;
+    height: auto;
     grid-row: 2 / span 4;
     grid-column: 2 / span 5;
     position: relative; /* Ensure proper positioning for absolutely positioned children */
@@ -289,8 +336,10 @@ form button {
     width: 100%; /* Adjusted width to accommodate the grid */
     height: fit-content;
     display: flex;
+    justify-content: space-between;
     border-radius: 10px;
-    border: 2px solid #999999;
+    border: 2px solid #e7e7e7;
+    box-shadow: 0 10px 5.4px rgba(0, 0, 0, 0.15);
     margin-top: 33px;
   }
 
@@ -305,15 +354,24 @@ form button {
   .item-container h6 {
     font-size: 15px;
   }
+
+  .item-container button {
+    width: 15%;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border: 2px solid #DA062E;
+    color: #DA062E;
+  }
   
   .item-info-container {
     display: flex;
     flex-direction: column;
     justify-self: center;
+    width: 60%;
   }
+
 #menu-item {
-    grid-column: 7;
-    grid-row: 2 / span 3;
+  line-height: 28px;
 }
 
 .quantity-container {
