@@ -1,9 +1,20 @@
-<div class = "dashboard">
-    <body>
-        <h1>Customer Details</h1>
-        <div id="customerDetails" *ngIf="customer">
-            <p><strong>Customer ID:</strong> {{ customer.customerId }}</p>
+<div class="dashboard">
+    <h1>Customer Details</h1>
+    <div id="customerDetails" *ngIf="customer">
+        <p><strong>Customer ID:</strong> {{ customer.customerId }}</p>
+    </div>
+    <div *ngIf="!customer">Loading...</div>
+  
+    <div class="orders-container">
+        <div class="order-item" *ngFor="let orderItem of orderItems">
+            <p><strong>Order Item ID:</strong> {{ orderItem.orderItemId }}</p>
+            <p><strong>Order ID:</strong> {{ orderItem.orderId }}</p>
+            <p><strong>Item:</strong> {{ orderItem.item }}</p>
+            <p><strong>Quantity:</strong> {{ orderItem.quantity }}</p>
+            <p><strong>Price:</strong> {{ orderItem.price}}</p>
+            <p><strong>Order Stamp:</strong> {{ orderItem.orderStamp }}</p>
+            <p><strong>Cost:</strong> {{ orderItem.cost }}</p>
+            <p><strong>Mode of Payment:</strong> {{ orderItem.modeOfPayment }}</p>
         </div>
-        <div *ngIf="!customer">Loading...</div>
-      <div *ngIf="!customer">Loading...</div>
-    
+    </div>
+</div>

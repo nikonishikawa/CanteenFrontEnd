@@ -18,7 +18,7 @@ import { orderItems } from '../../../models/orders.model';
 
 export class OrderComponent {
   customer: Customer = {} as Customer;
-  orderItems: orderItems = {} as orderItems;
+  orderItems: orderItems[] =  [];
 
   constructor(
     private route: ActivatedRoute,
@@ -30,7 +30,6 @@ export class OrderComponent {
 
   ngOnInit(): void {
     this.loadCustomerData();
-    // this.getOrders();
   }
 
   loadCustomerData() {
@@ -45,14 +44,38 @@ export class OrderComponent {
   
   getOrders() {
     if (!this.customer.customerId) {
-      console.error('Customer ID not found');
-      return;
+        console.error('Customer ID not found');
+        return;
     }
-  
+
     this.orderService.getOrders(this.customer.customerId).subscribe({
-      next: (res) => {
-        console.log('Received order data:', res);
-      }
+        next: (res: { isSuccess: boolean, data: orderItems[], message: string }) => {
+            if (res.isSuccess) {
+                this.orderItems = res.data;
+                console.log("Response", res);
+                if (this.orderItems && this.orderItems.length > 0) {
+                    this.orderItems.forEach(orderItem => {
+                         orderItem.orderItemId
+                         orderItem.orderId
+                         orderItem.item
+                         orderItem.quantity
+                         orderItem.price
+                         orderItem.orderStamp
+                         orderItem.cost
+                         orderItem.modeOfPayment
+                    });
+                } else {
+                    console.error("Order items array is empty or undefined");
+                }
+            } else {
+                console.error('Error retrieving orders:', res.message);
+            }
+        },
+        error: (err) => {
+            console.error('Error retrieving orders:', err);
+        }
     });
-  }
+}
+
+
 }
