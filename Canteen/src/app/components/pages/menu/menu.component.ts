@@ -162,7 +162,6 @@ export class MenuComponent implements OnInit {
     // console.log('Unique Categories:', uniqueCategories);
 }
 
-
   getCategoryName(categoryId: number): string {
     const correspondingCategory = this.category.find(cat => cat.categoryId === categoryId);
     return correspondingCategory ? correspondingCategory.category : '';
@@ -226,7 +225,7 @@ export class MenuComponent implements OnInit {
   }
   
   //     this.menuService.insertOrderStatus(this.customer.customerId, orderStamp, this.order.Cost, this.modeOfPaymentId)
- orderNow() {
+  orderNow() {
   this.trayItems
   const orderStamp = new Date().toISOString();
 
@@ -248,9 +247,8 @@ export class MenuComponent implements OnInit {
   } else {
     console.error('Customer Id or Tray Temp Id is missing.');
   }
-}
+  }
   
-
   increaseQuantity(trayItem: trayItemTest) {
     trayItem.quantity++; 
     this.updateTrayItemQuantity(trayItem.trayItemTempId, trayItem.quantity); 
@@ -364,7 +362,6 @@ export class MenuComponent implements OnInit {
       }
     );
     }
-
 
   getAllMenus() {
     this.menuService.getAllMenu().subscribe(

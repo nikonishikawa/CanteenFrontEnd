@@ -13,14 +13,15 @@ export interface MOP {
   }
 
 export interface orderItems {
-  OrderItem: number;
-  OrderID: number;
-  Item: number;
-  Quantity: number;
-  Price: number;
-  CusID: number;
-  OrderStamp: string;
-  Cost: number;
-  ModeOfPayment: number;
-  Status: number;
+  orderItemId: number;
+  orderId: number;
+  item: number;
+  quantity: number;
+  price: number;
+  orderStamp: string;
+  cost: number;
+  modeOfPayment: number;
 }
+
+// this.orderItems.Item
+// this.orderItems.Quantity
