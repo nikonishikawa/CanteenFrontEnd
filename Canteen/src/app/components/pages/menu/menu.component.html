@@ -47,16 +47,17 @@
         <div class="item-image-container">
           <img [src]="trayItem.foodImage" alt="{{ trayItem.item }}">
         </div>
-        <h4 id="menu-item">{{ trayItem.item }}</h4>
-        <h5 id="price">₱{{ trayItem.price }}</h5>
-        <form class="quantity-container">
-          <input id="del" type="button" (click)="decreaseQuantity(trayItem)" value="-">
-          <h6 id="quantity">{{ trayItem.quantity }}</h6>
-          <input id="add" type="button" (click)="increaseQuantity(trayItem)" value="+">
-        </form>
-        
+        <div class="item-info-container">
+          <h4 id="menu-item">{{ trayItem.item }}</h4>
+          <h5 id="price">₱{{ trayItem.price }}</h5>
+          <form class="quantity-container">
+            <input id="del" type="button" (click)="decreaseQuantity(trayItem)" value="-">
+            <h6 id="quantity">{{ trayItem.quantity }}</h6>
+            <input id="add" type="button" (click)="increaseQuantity(trayItem)" value="+">
+          </form>
+        </div>
         <button class="remove-button" (click)="removeItem(trayItem)"><i class="fa-solid fa-trash-can"></i></button> 
-      </div>
+        </div>
     </div>
 
     <h5 id="sub-total-label">Sub-total</h5>
