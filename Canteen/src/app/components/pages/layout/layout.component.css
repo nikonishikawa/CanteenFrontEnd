@@ -49,11 +49,23 @@ nav.nav_cont {
     padding: 25px 25px 25px 45px;
   }
 
+  .nav_cont ul li:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #fdbd32;
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+    font-weight: 400;
+  }
+
+  .nav_cont ul li a:hover {
+    background-color: transparent;
+  }
+
   .nav_cont ul li.nav_items {
     background: #fff;
     color: #DA062E;
     padding: 25px;
-    font-weight: bold;
+    font-weight: 800;
     border-top-left-radius: 50px;
     border-bottom-left-radius: 50px;
   }
@@ -138,5 +150,10 @@ nav.nav_cont {
     display: flex;
     flex-direction: row;
     height: 100%;
+  }
+
+  .body-container {
+    width: 100%;
+    margin: 30px 0 0 50px;
   }
   

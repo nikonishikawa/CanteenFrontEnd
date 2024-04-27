@@ -1,9 +1,27 @@
-<div class = "dashboard">
-    <body>
-        <h1>Customer Details</h1>
-        <div id="customerDetails" *ngIf="customer">
-            <p><strong>Customer ID:</strong> {{ customer.customerId }}</p>
-        </div>
-        <div *ngIf="!customer">Loading...</div>
-      <div *ngIf="!customer">Loading...</div>
-    
+<div class="dashboard">
+        <div class="order-status pending">
+            <p>GIF Here</p>
+            <h1>Your order is currently being verified by the vendor. Thank you for your patience.</h1>
+          </div>
+        
+          <div class="order-status in-progress">
+            <p>GIF Here</p>
+            <h1>Your order is currently being prepared. We're working hard to get it ready for you.</h1>
+          </div>
+        
+          <div class="order-status on-going">
+            <p>GIF Here</p>
+            <h1>Your order is now on its way to you! It's out for delivery.</h1>
+          </div>
+        
+          <div class="order-status delivered">
+            <p>GIF Here</p>
+            <h1>Your order has been successfully delivered. Enjoy your meal!</h1>
+          </div>
+        
+          <div class="rating">
+            <p>Title Here</p>
+            <h1>We hope you enjoyed your meal! Your feedback helps us improve. Please take a moment to rate your experience with us. Thank you for choosing us!</h1>
+            <p>Stars Here</p>
+          </div>  
+</div>    
