@@ -33,6 +33,14 @@
           <span>History</span>
         </a>
       </li>
+      <li [routerLink]="['order']" [ngClass]="{'nav_items': isActive === 3}" (click)="toggleActive(4)">
+        <a>
+          <i class="fa-solid fa-receipt">
+            <use xlink:href="#history"></use>
+          </i>
+          <span>Order</span>
+        </a>
+      </li>
     </ul>
     <li class="nav_items "  id="logout-btn">
       <a [routerLink]="['/layout/transaction']">
