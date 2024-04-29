@@ -44,7 +44,6 @@ export class MenuComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.loadCategory();
     this.loadCustomerData();
     this.loadMenu(); 
     this.fetchTrayItems();
@@ -57,6 +56,7 @@ export class MenuComponent implements OnInit {
         console.log('Received customer data:', res.data.customerId);
         this.customer.customerId = res.data.customerId;
         this.generateTrayTempId();
+        this.loadCategory();
       },
       error: (error) => {
         console.error('Error loading customer data:', error);
@@ -118,6 +118,7 @@ export class MenuComponent implements OnInit {
     this.menuService.getAllCaetegory().subscribe({
       next: (res) => {
         if (res && res.data) {
+          console.log(res.data);
           this.category = res.data;
           this.filterMenu(0);
         }

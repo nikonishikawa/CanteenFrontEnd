@@ -41,15 +41,15 @@
           <span>Order</span>
         </a>
       </li>
-    </ul>
-    <li class="nav_items "  id="logout-btn">
-      <a [routerLink]="['/layout/transaction']">
-        <i class="fa-solid fa-right-from-bracket">
-          <use xlink:href="#logout"></use>
+    <li [routerLink]="['logout']" [ngClass]="{'nav_items': isActive === 5}" (click)="toggleActive(5)">
+      <a>
+        <i class="fa-solid fa-receipt">
+          <use xlink:href="#history"></use>
         </i>
-        <span> </span>
+        <span>Logout</span>
       </a>
     </li>
+    </ul>
   </nav>
   
   <div class="body-container">

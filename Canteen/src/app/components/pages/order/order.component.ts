@@ -32,7 +32,7 @@ export class OrderComponent {
 
   ngOnInit(): void {
     this.loadCustomerData();
-    this.loadItems();
+  
   }
 
   loadCustomerData() {
@@ -41,6 +41,7 @@ export class OrderComponent {
         this.customer.customerId = res.data.customerId;
         console.log('Received customer data:', res.data.customerId);
         this.getOrders();
+        this.loadItems();
       }
     });
   }
