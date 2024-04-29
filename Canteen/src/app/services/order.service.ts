@@ -8,25 +8,26 @@ import { Observable, catchError, throwError } from 'rxjs';
 })
 export class OrderService {
 
-  baseApiUrl: string = environment.baseApiUrl;
+  private baseApiUrl: string = environment.baseApiUrl;
 
   constructor(private http: HttpClient) { }
   
-  getOrders(cusId: number): Observable<any> {
+  private getHeaders(): HttpHeaders {
     if (typeof localStorage === 'undefined') {
-      return throwError('');
+      throw new Error('Local storage not available');
     }
-
-
+    
     const token = localStorage.getItem('loginToken');
 
     if (!token) {
-      console.error('Token not found');
-      return throwError('Token not found');
+      throw new Error('Token not found');
     }
 
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  }
 
+  getOrders(cusId: number): Observable<any> {
+    const headers = this.getHeaders();
     return this.http.get<any>(`${this.baseApiUrl}api/OrderStatus/GetOrderStatus/${cusId}`, { headers }).pipe(
       catchError((error: any) => {
         console.error('Error fetching orders by customer ID:', error);
@@ -36,19 +37,7 @@ export class OrderService {
   }
 
   loadItems(): Observable<any> {
-    if (typeof localStorage === 'undefined') {
-      return throwError('');
-    }
-
-    const token = localStorage.getItem('loginToken');
-
-    if (!token) {
-      console.error('Token not found');
-      return throwError('Token not found');
-    }
-
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-
+    const headers = this.getHeaders();
     return this.http.get<any>(`${this.baseApiUrl}api/Item/GetAllItem`, { headers }).pipe(
       catchError((error: any) => {
         console.error('Error fetching items:', error);
@@ -57,3 +46,13 @@ export class OrderService {
     );
   }
 }
+
+
+// loadItems() {
+//   this.orderService.loadItems().subscribe({
+//     next: (res) => {
+//       this.orderItems
+//       console.log('Received order data:', res.data);
+//     }
+//   });
+// }
