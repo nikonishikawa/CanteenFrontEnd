@@ -17,4 +17,6 @@ export class LoginService {
   SignIn(LoginUser: Login): Observable<ApiResponseMessage<Login>> {
     return this.http.post<ApiResponseMessage<Login>>(this.baseApiUrl + 'api/UserCredential/LoginAccount', LoginUser);
   }
+
+  
 }

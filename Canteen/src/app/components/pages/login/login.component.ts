@@ -25,7 +25,7 @@ export class LoginComponent {
       if (res.isSuccess) {
         localStorage.setItem('loginToken', res.data.userToken); 
         this.toaster.success('Login successful'); 
-        this.router.navigateByUrl('layout');
+        this.router.navigateByUrl('/layout/dashboard');
       } else {
         this.toaster.error(res.message);
       }
