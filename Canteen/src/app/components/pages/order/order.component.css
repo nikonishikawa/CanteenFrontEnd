@@ -1,10 +1,36 @@
 /* CSS for Customer Details */
 .dashboard {
     font-family: Arial, sans-serif;
-    max-width: 800px;
+    max-width: 100%;
     margin: 0 auto;
     padding: 20px;
 }
+
+
+.search-bar-container {
+    width: 70%;
+    border: 1px solid #b6b6b6;
+    border-radius: 25px;
+    margin: 12px 0 24px 0 ;
+    padding: 12px 20px 12px 15px;
+    font-size: 30px;
+  }
+  
+  .search-bar-container i {
+    margin: 0 0 0 33px;
+    color: #2C2C2C;
+  }
+  
+  .search-bar-container input {
+    width: 90%;
+    border: none;
+    padding: 15px 0 15px 0;
+    margin: 0 0 0 33px;
+  }
+  
+  .search-bar-container input:focus {
+    outline: none;
+  }
 
 h1 {
     font-size: 28px;
@@ -27,6 +53,10 @@ h1 {
 /* CSS for Orders Container */
 .orders-container {
     padding-top: 20px;
+    display: flex;
+    flex-direction: column; 
+    flex-wrap: wrap;
+    width: 100%;
 }
 
 .order-item {

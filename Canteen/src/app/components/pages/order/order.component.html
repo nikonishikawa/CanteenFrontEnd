@@ -1,7 +1,8 @@
 <div class="dashboard">
     <h1>Customer Details</h1>
-    <div id="customerDetails" *ngIf="customer">
-        <p><strong>Customer ID:</strong> {{ customer.customerId }}</p>
+    <div class="search-bar-container">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" placeholder="Search"/>
     </div>
     <div *ngIf="!customer">Loading...</div>
   

@@ -75,29 +75,43 @@ h1#title {
     display: flex;
     flex-direction: column;
     max-width: 75%;
-    width: fit-content;
+    width: 70%;
   }
 
 .category-container {
-  width: fit-content;
+  width: 100%;
   height: fit-content;
-    margin: 32px 0 20px 0px;
+  margin: 32px 0 20px 0px;
 }
 
 .category-container h1.category-name {
-    font-size: 42px;
-    color: #e4a92a;
-    font-weight: bold;
+  font-size: 42px;
+  color: #e4a92a;
+  font-weight: bold;
 }
-.main-container {
-    display: flex;
-    margin: 22px;
-    border-radius: 10px;
-    width: 400px;
-    height: 200px;
-    background-color: #f0f0f0;
-    padding: 15px;
-    box-shadow: 0 10px 5.4px rgba(0, 0, 0, 0.15);
+
+.main-container { /* Enable horizontal scrolling */
+  margin: 22px;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 100%;
+  height: fit-content; /* Fixed height */
+  background-color: #f0f0f0;
+  padding: 15px;
+  overflow-y: hidden;
+}
+
+.grid-wrapper {
+  display: grid;
+  grid-template-rows: minmax(auto, auto) auto; /* Minimum of two rows */
+  grid-template-columns: repeat(2, auto); /* Two columns */
+  grid-auto-flow: row;
+  max-height: 450px; /* Maximum height */
+  grid-gap: 30px; /* Gap between rows and columns */
+  overflow-y: auto; /* Enable vertical scrolling if content exceeds height */
+  max-width: 100%; /* Adjust width based on content */
+  overflow-x: hidden; /* Ensure no horizontal overflow */
+  padding-bottom: 40px;
 }
 
 /* .menu-item-container {
@@ -173,8 +187,7 @@ h1#title {
 
 .action-container button {
     width: 100%;
-    height: 100%;
-    bottom: 0;
+    min-width: 100%;
     border-radius: 40px;
     border: 1px solid #C62626;
     background-color: #C62626;
@@ -336,11 +349,12 @@ form button {
     width: 100%; /* Adjusted width to accommodate the grid */
     height: fit-content;
     display: flex;
+    align-self: left;
     justify-content: space-between;
     border-radius: 10px;
     border: 2px solid #e7e7e7;
+    padding: 20px;
     box-shadow: 0 10px 5.4px rgba(0, 0, 0, 0.15);
-    margin-top: 33px;
   }
 
   .item-container h5 {
@@ -356,11 +370,12 @@ form button {
   }
 
   .item-container button {
-    width: 15%;
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
+    width: 20%;
+    height: auto;
+    border-radius: 15px;
     border: 2px solid #DA062E;
-    color: #DA062E;
+    padding: 10px 0 10px 0;
+    color: #fff;
   }
   
   .item-info-container {

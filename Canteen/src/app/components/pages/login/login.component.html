@@ -1,8 +1,16 @@
+<div class="background-container">
+    <iframe src="https://www.youtube.com/watch?v=H0zA6C-kGEs?autoplay=1&mute=1&loop=1" frameborder="0" loading="lazy"></iframe>
+</div>
 <form class="login">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-ylzKmn_cLqx4Ec6rctJsxa3GvHavh8VAsHo_NbLqRe0s_U1E7irwF9f-D2TnPuA6Aso&usqp=CAU"/>
+    <h1>Login</h1>
     <input type="text" name="username" [(ngModel)]="loginUser.username" placeholder="username" required autocomplete="username">
-    <input type="password" name="password" [(ngModel)]="loginUser.password" placeholder="password" required autocomplete="new-password">
-    <button (click)="onLogin()">Login</button>
-    <a class="signup-txt">Don't have an account yet?</a>
-    <a href="register" class="signup-link">Join Now</a>
+    <input type="password" name="password" id="password" [(ngModel)]="loginUser.password" placeholder="password" required autocomplete="new-password">
+    <div class="sign-up-container">
+        <button (click)="onLogin()">Login</button>
+        <a class="signup-txt">Don't have an account yet?</a>
+        <a href="register" class="signup-link">Join Now</a>
+    </div>
     <input type="text" name="username-hidden" style="display: none;">
 </form>
+

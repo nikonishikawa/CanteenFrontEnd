@@ -12,11 +12,12 @@ import { Category } from '../../../models/category.model';
 import { CustomerDto, OrderDTO, Tray, TrayItem } from '../../../models/tray.model';
 import { MOP, trayItemTest } from '../../../models/orders.model';
 import { switchMap, throwError } from 'rxjs';
+import { NgPipesModule } from 'ngx-pipes';
 
 @Component({
   selector: 'app-menu',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, NgPipesModule],
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.css'] 
 })
@@ -25,7 +26,7 @@ export class MenuComponent implements OnInit {
   customer: CustomerDto = {} as CustomerDto;
   menus: Menu[] = [];
   category: Category[] = [];
-  filteredMenu: Menu[] = [];
+  filteredMenu: { [key: number]: Menu[] } = {};
   trayitemtest: trayItemTest[] = [];
   trayItems: any[] = [];
   trayTempId: string | null = null; 
@@ -35,6 +36,8 @@ export class MenuComponent implements OnInit {
   modeOfPaymentId: number = 0;
   OrderID: number = 0;
   selectedCategory: number = 0;
+  groupedMenu: { [key: string]: Menu[] } = {};
+
 
   constructor(
     private menuService: MenuService,
@@ -106,13 +109,15 @@ export class MenuComponent implements OnInit {
       next: (res) => {
         if (res && res.data) {
           this.menus = res.data;
-          this.filterMenu(0);
+          this.groupedMenu = this.groupByCategory(this.menus);
         }
       },
       error: (error) => {
+        console.error('Error fetching menu:', error);
       }
     });
   }
+  
 
   loadCategory() {
     this.menuService.getAllCaetegory().subscribe({
@@ -153,9 +158,10 @@ export class MenuComponent implements OnInit {
     this.selectedCategory = categoryId; 
 
     if (this.selectedCategory === 0) {
-      this.filteredMenu = [...this.menus];
+      this.filteredMenu = this.groupByCategory(this.menus); // Use the groupedMenu instead of menus
     } else {
-      this.filteredMenu = this.menus.filter(menu => menu.category === this.selectedCategory);
+      const filteredMenus = this.menus.filter(menu => menu.category === this.selectedCategory);
+      this.filteredMenu = this.groupByCategory(filteredMenus);
     }
 
     // console.log('Filtered Menu:', this.filteredMenu);
@@ -163,10 +169,18 @@ export class MenuComponent implements OnInit {
     // console.log('Unique Categories:', uniqueCategories);
 }
 
-  getCategoryName(categoryId: number): string {
-    const correspondingCategory = this.category.find(cat => cat.categoryId === categoryId);
-    return correspondingCategory ? correspondingCategory.category : '';
-  }
+
+getCategoryName(categoryId: any): any {
+  console.log(categoryId);
+  const categoryIdNumber = parseInt(categoryId, 10);
+  const correspondingCategory = this.category.find(cat => cat.categoryId === categoryIdNumber);
+  
+  console.log("bingbong");
+  console.log(categoryIdNumber, correspondingCategory);
+  return correspondingCategory ? correspondingCategory.category : categoryId;
+}
+
+
 
   addToTray(menuItem: Menu) {
     const trayItem = {
@@ -393,4 +407,13 @@ export class MenuComponent implements OnInit {
       }
     );
   }
+
+  groupByCategory(menuItems: Menu[]): { [key: string]: Menu[] } {
+    return menuItems.reduce((result: { [key: string]: Menu[] }, menuItem) => {
+      const categoryName = this.getCategoryName(menuItem.category);
+      (result[categoryName] = result[categoryName] || []).push(menuItem);
+      return result;
+    }, {});
+  }
+  
 }

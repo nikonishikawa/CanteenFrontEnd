@@ -18,33 +18,36 @@
   </div>
 
   <div class="main-category-container">
-    <div class="category-container" *ngFor="let menuItem of filteredMenu">
-      <h1 class="category-name">{{ getCategoryName(menuItem.category) }}</h1>
-      <div class="main-container">
-          <div class="image-container">
-            <img [src]="menuItem.foodImage" alt="Food image">
-          </div>
-          <div class="header-container">
-            <h1 class="item" [ngStyle]="{'font-size.px': menuItem.item.length > 8 ? 26 : 32}">{{ menuItem.item }}</h1>
-            <h1 id="price">₱{{ menuItem.price }}</h1>
-            <div class="action-container">
-              <button type="button" (click)="addToTray(menuItem)">Add to Tray</button>
+    <ng-container *ngFor="let category of filteredMenu | keyvalue">
+      <div class="category-container">
+        <h1 class="category-name">{{ getCategoryName(category.key) }}</h1>
+        <div class="main-container">
+          <div class="grid-wrapper">
+            <div class="item-container" *ngFor="let menuItem of category.value">
+              <div class="image-container">
+                <img [src]="menuItem.foodImage" alt="Food image">
+              </div>
+              <div class="header-container">
+                <h1 class="item" [ngStyle]="{'font-size.px': menuItem.item.length > 8 ? 26 : 32}">
+                  {{ menuItem.item }}
+                </h1>
+                <h1 id="price">₱{{ menuItem.price }}</h1>
+                <div class="action-container">
+                  <button type="button" (click)="addToTray(menuItem)">Add to Tray</button>
+                </div>
+              </div>
             </div>
           </div>
-          <!-- <div class="body-container">
-            <p *ngIf="menuItem.isHalal > 0">Halal Certified</p>
-            <p *ngIf="menuItem.isHalal === 0"></p>
-            <p id="description">{{ menuItem.description }}</p>
-          </div> -->
+        </div>
       </div>
-    </div>
+    </ng-container>
   </div>
+  
 
   <div class="tray-container">
     <div class="tray-main-container">
       <h1>Tray</h1>
     </div>
-
     <div class="tray-items-container">
       <div class="item-container" *ngFor="let trayItem of trayItems">
         <div class="item-image-container">
@@ -79,7 +82,7 @@
       <button class="add-button" (click)="orderNow()">Order Now!</button>
     </div>
   </div>
-  <div *ngIf="filteredMenu.length === 0">
+  <div *ngIf="menus.length === 0">
     <p>No menu items available.</p>
   </div>  
 </div>

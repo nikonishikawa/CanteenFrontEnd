@@ -12,7 +12,7 @@ import { Router, RouterModule } from '@angular/router';
   styleUrls: ['./layout.component.css']
 })
 export class LayoutComponent implements OnInit {
-  isActive!: number | 0;
+  isActive!: number | 1;
 
   constructor(private layoutService: LayoutService, private router: Router) {}
 
@@ -21,9 +21,9 @@ export class LayoutComponent implements OnInit {
   }
 
   toggleActive(index: number) {
-    this.isActive = index === this.isActive ? 0 : index;
+    this.isActive = index === 5 ? 1 : (index === this.isActive ? 1 : index);
     this.layoutService.setActiveIndex(this.isActive);
-  }
+  }  
 
   navigateTo(route: string, index: number) {
     this.router.navigate([route]);
