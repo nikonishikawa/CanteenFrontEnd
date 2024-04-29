@@ -15,6 +15,7 @@ export class ErrorInterceptor implements HttpInterceptor {
         return next.handle(request).pipe(
             catchError((error: any) => {
                 if (error instanceof HttpErrorResponse && error.status === 401) {
+                    localStorage.removeItem('loginToken');
                     this.toaster.error('Your session has expired. Please login again to continue using the app', 'Session Expired');
                     this.router.navigate(['/login']);
                 }

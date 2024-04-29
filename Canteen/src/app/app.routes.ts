@@ -7,6 +7,8 @@ import { DashboardComponent } from './components/pages/dashboard/dashboard.compo
 import { AddMenuComponent } from './components/pages/menu/add-menu/add-menu.component';
 import { TransactionComponent } from './components/pages/transaction/transaction.component';
 import { OrderComponent } from './components/pages/order/order.component';
+import { AuthGuard } from './AuthInterceptor/authGuard';
+import { ProfileComponent } from './components/pages/profile/profile.component';
 
 export const routes: Routes = [
   {
@@ -22,36 +24,36 @@ export const routes: Routes = [
     path: 'register',
     component: RegisterComponent
   },
-  {
-    path: 'menu',
-    component: MenuComponent
-  },
+  
   {
     path: 'layout', 
     component: LayoutComponent,
+    canActivate: [AuthGuard],
     children: [
       {
         path: 'dashboard',
-        component: DashboardComponent
-      },
-      {
-        
-          path: 'menu',
-          component: MenuComponent,
-          children: [ 
-          {
-            path: 'add-menu',
-            component: AddMenuComponent
-          }
-        ]
+        component: DashboardComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: 'transaction',
-        component: TransactionComponent
+        component: TransactionComponent,
+        canActivate: [AuthGuard] 
       },
       {
         path: 'order',
-        component: OrderComponent
+        component: OrderComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'menu',
+        component: MenuComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'profile',
+        component: ProfileComponent,
+        canActivate: [AuthGuard]
       }
     ]
   },

@@ -1,17 +1,31 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ApiResponseMessage } from '../models/apiresponsemessage.model';
-import { Customer } from '../models/user.model';
+import { Customer, CustomerName, address, customerGeneralAddress } from '../models/user.model';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CustomerService {
-  baseApiUrl: string = environment.baseApiUrl;
-
+  
+  private baseApiUrl: string = environment.baseApiUrl;
   constructor(private http: HttpClient) { }
+  
+  private getHeaders(): HttpHeaders {
+    if (typeof localStorage === 'undefined') {
+      throw new Error('Local storage not available');
+    }
+    
+    const token = localStorage.getItem('loginToken');
+
+    if (!token) {
+      throw new Error('Token not found');
+    }
+
+    return new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  }
 
   getUserIdFromToken(): string {
     if (typeof localStorage !== 'undefined') {
@@ -42,16 +56,51 @@ export class CustomerService {
   }
 
   loadCustomerData(): Observable<ApiResponseMessage<Customer>> {
+    const headers = this.getHeaders();
     const userId = this.getUserIdFromToken();
     if (!userId) {
       return new Observable<ApiResponseMessage<Customer>>(observer => {
       });
     }
-
-    const loginToken = localStorage.getItem('loginToken');
-    const headers = { 'Authorization': `Bearer ${loginToken}` };
     const url = `${this.baseApiUrl}api/Customer/GetCustomer?cusCredential=${userId}`;
 
     return this.http.get<ApiResponseMessage<Customer>>(url, { headers });
   }
+
+   getCustomerName(nameId: number): Observable<ApiResponseMessage<CustomerName>> {
+    const headers = this.getHeaders();
+
+    const url = `${this.baseApiUrl}api/Name/GetName/${nameId}`;
+
+    return this.http.get<ApiResponseMessage<CustomerName>>(url, { headers });
+   }
+
+   getCustomerAddress(genAddressId: number): Observable<ApiResponseMessage<customerGeneralAddress>> {
+    const headers = this.getHeaders();
+
+    const url = `${this.baseApiUrl}api/GeneralAddress/GetGeneralAddress/${genAddressId}`;
+
+    return this.http.get<ApiResponseMessage<customerGeneralAddress>>(url, { headers });
+   }
+
+   getAddress(addressId: number): Observable<ApiResponseMessage<address>> {
+    const headers = this.getHeaders();
+
+    const url = `${this.baseApiUrl}api/Address/GetAddressById/${addressId}`;
+
+    return this.http.get<ApiResponseMessage<address>>(url, { headers });
+   }
+
+   editName(CustomerName: CustomerName): Observable<ApiResponseMessage<CustomerName>> {
+    const headers = this.getHeaders();
+    // const updateName = {
+    //   nameId: nameId,
+    //   firstName: firstName,
+    //   middleName: middleName,
+    //   lastName: lastName 
+    // }
+    const url = `${this.baseApiUrl}api/Name/UpdateName`;
+
+    return this.http.put<ApiResponseMessage<CustomerName>>(url, CustomerName, { headers });
+   }
 }

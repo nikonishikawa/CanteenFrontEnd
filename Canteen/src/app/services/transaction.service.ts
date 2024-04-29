@@ -18,14 +18,12 @@ export class TransactionService {
   }
 
   FilterTransaction(status: string): Observable<any> {
-    // Assuming you have an API endpoint like '/api/transactions/filter'
     const url = `${this.baseApiUrl}api/transactions/filter?status=${status}`;
     return this.http.get<any>(url);
   }
   
 
   SearchTransactionId(id: string): Observable<any> {
-    // Assuming you have an API endpoint like '/api/transactions/search'
     const url = `${this.baseApiUrl}api/transactions/search?id=${id}`;
     return this.http.get<any>(url);
   }
