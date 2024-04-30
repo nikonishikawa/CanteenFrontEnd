@@ -1,22 +1,46 @@
-<div class="profile">
-  
-<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOU7eL2lJZuZ0UJ4qR3GOWJkRax352OB6WaGUC-xh18Q&s">
-<div class="name">
-  <h1>Customer Name</h1>
-  <div id="customerName" *ngIf="customerName">
-    <p>
-      <strong>Last Name:</strong>
-      <input class="editable-input" id="lastName" [attr.contenteditable]="enableEditing" [(ngModel)]="customerName.lastName">
-    </p>
+<div class="container">
+  <div class="name">
+    <h1>Customer Name</h1>
+    <div id="customerName" *ngIf="customerName">
       <p>
-        <strong>First Name:</strong>
-        <span class="editable-input" id="firstName" [attr.contenteditable]="enableEditing">{{ customerName.firstName }}</span>
+        <strong>Last Name:</strong>
+        <input class="editable-input" id="lastName" [attr.contenteditable]="enableEditing" [(ngModel)]="customerName.lastName">
       </p>
-      <p>
-        <strong>M.I. (Optional):</strong>
-        <span class="editable-input" id="middleName" [attr.contenteditable]="enableEditing">{{ customerName.middleName }}</span>
-      </p>
+      <div class="name-parts">
+        <p>
+          <strong>First Name:</strong>
+          <input class="editable-input" id="firstName" [attr.contenteditable]="enableEditing" [(ngModel)]="customerName.firstName">
+        </p>
+        <p>
+          <strong>M.I. (Optional):</strong>
+          <input class="editable-input" id="middleName" [attr.contenteditable]="enableEditing" [(ngModel)]="customerName.middleName">
+        </p>
+      </div>
+    </div>
   </div>
+
+  <div class="customerAddress">
+    <h1>Customer Address</h1>
+    <div id="customerAddress" *ngIf="customerAddress">
+      <p>
+        <strong>Contact Number:</strong>
+        <input class="editable-input" id="contactNumber" [attr.contenteditable]="enableEditing" [(ngModel)]="customerAddress.contactNumber">
+      </p>
+      <p>
+        <strong>Email:</strong>
+        <input class="editable-input" id="email" [attr.contenteditable]="enableEditing" [(ngModel)]="customerAddress.email">
+      </p>
+      <p>
+        <strong>Address:</strong>
+        <input class="editable-input" id="addressId" [attr.contenteditable]="enableEditing" [(ngModel)]="customerAddress.addressId">
+      </p>
+    </div>
+  </div>
+  
+  
+  <button (click)="toggleEditing()">Enable Editing</button>
+  <button (click)="updateName()" [disabled]="!enableEditing">Update Name</button>
+  <button (click)="updateAddress()" [disabled]="!enableEditing">Update Address</button>
 </div>
 
 <div class="customerAddress">
