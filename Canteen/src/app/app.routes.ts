@@ -13,6 +13,8 @@ import { AdminDashboardComponent } from './components/admin/admin-dashboard/admi
 import { AdminLayoutComponent } from './components/admin/admin-layout/admin-layout.component';
 import { AdminProfileComponent } from './components/admin/admin-profile/admin-profile.component';
 import { ManageUserComponent } from './components/admin/manage-user/manage-user.component';
+import { ManageMenuComponent } from './components/admin/manage-menu/manage-menu.component';
+import { ManageOrderComponent } from './components/admin/manage-order/manage-order.component';
 
 export const routes: Routes = [
   {
@@ -84,6 +86,16 @@ export const routes: Routes = [
       {
         path: 'manage-user',
         component: ManageUserComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'manage-menu',
+        component: ManageMenuComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'manage-order',
+        component: ManageOrderComponent,
         canActivate: [AuthGuard]
       },
       {
