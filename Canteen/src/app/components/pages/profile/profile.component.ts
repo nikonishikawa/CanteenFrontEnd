@@ -89,9 +89,10 @@ export class ProfileComponent implements OnInit {
     this.customerService.editName(this.customerName).subscribe({
       next: (res) => {
         if (res.isSuccess) {
-          console.log('Name updated successfully:', res.data);
+          this.toggleEditing();
+          this.toaster.success('Updated User Info Data Successfully!');
         } else {
-          console.error('Failed to update name:', res.message);
+          this.toaster.error('Error Updating User Info Data!');
         }
       },
       error: (error) => {
@@ -100,4 +101,19 @@ export class ProfileComponent implements OnInit {
     });
   }
 
+  updateAddress() {
+    this.customerService.editAddress(this.customerAddress).subscribe({
+      next: (res) => {
+        if (res.isSuccess) {
+          this.toggleEditing();
+          this.toaster.success('Updated User Info Data Successfully!');
+        } else {
+          this.toaster.error('Error Updating User Info Data!');
+        }
+      },
+      error: (error) => {
+        console.error('Error updating name:', error);
+      }
+    });
+  }
 }

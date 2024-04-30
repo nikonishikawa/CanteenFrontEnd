@@ -9,11 +9,11 @@
       <div class="name-parts">
         <p>
           <strong>First Name:</strong>
-          <span class="editable-input" id="firstName" [attr.contenteditable]="enableEditing">{{ customerName.firstName }}</span>
+          <input class="editable-input" id="firstName" [attr.contenteditable]="enableEditing" [(ngModel)]="customerName.firstName">
         </p>
         <p>
           <strong>M.I. (Optional):</strong>
-          <span class="editable-input" id="middleName" [attr.contenteditable]="enableEditing">{{ customerName.middleName }}</span>
+          <input class="editable-input" id="middleName" [attr.contenteditable]="enableEditing" [(ngModel)]="customerName.middleName">
         </p>
       </div>
     </div>
@@ -24,19 +24,21 @@
     <div id="customerAddress" *ngIf="customerAddress">
       <p>
         <strong>Contact Number:</strong>
-        <span class="editable-input" id="contactNumber" [attr.contenteditable]="enableEditing">{{ customerAddress.contactNumber }}</span>
+        <input class="editable-input" id="contactNumber" [attr.contenteditable]="enableEditing" [(ngModel)]="customerAddress.contactNumber">
       </p>
       <p>
         <strong>Email:</strong>
-        <span class="editable-input" id="email" [attr.contenteditable]="enableEditing">{{ customerAddress.email }}</span>
+        <input class="editable-input" id="email" [attr.contenteditable]="enableEditing" [(ngModel)]="customerAddress.email">
       </p>
       <p>
         <strong>Address:</strong>
-        <span class="editable-input" id="addressId" [attr.contenteditable]="enableEditing">{{ customerAddress.addressId }}</span>
+        <input class="editable-input" id="addressId" [attr.contenteditable]="enableEditing" [(ngModel)]="customerAddress.addressId">
       </p>
     </div>
   </div>
   
+  
   <button (click)="toggleEditing()">Enable Editing</button>
   <button (click)="updateName()" [disabled]="!enableEditing">Update Name</button>
+  <button (click)="updateAddress()" [disabled]="!enableEditing">Update Address</button>
 </div>

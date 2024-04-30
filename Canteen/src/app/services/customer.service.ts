@@ -93,14 +93,15 @@ export class CustomerService {
 
    editName(CustomerName: CustomerName): Observable<ApiResponseMessage<CustomerName>> {
     const headers = this.getHeaders();
-    // const updateName = {
-    //   nameId: nameId,
-    //   firstName: firstName,
-    //   middleName: middleName,
-    //   lastName: lastName 
-    // }
     const url = `${this.baseApiUrl}api/Name/UpdateName`;
 
     return this.http.put<ApiResponseMessage<CustomerName>>(url, CustomerName, { headers });
+   }
+
+   editAddress(generalAddress: customerGeneralAddress): Observable<ApiResponseMessage<customerGeneralAddress>> {
+    const headers = this.getHeaders();
+    const url = `${this.baseApiUrl}api/GeneralAddress/UpdateGeneralAddress`;
+
+    return this.http.put<ApiResponseMessage<customerGeneralAddress>>(url, generalAddress, { headers });
    }
 }
