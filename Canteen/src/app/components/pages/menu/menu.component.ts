@@ -139,6 +139,8 @@ export class MenuComponent implements OnInit {
         if (res && res.data) {
           this.mop = res.data;
           console.log('Received MOP data:', res.data);
+
+          this.modeOfPaymentId = 1;
         }
       },
       error: (err) => {
@@ -253,7 +255,7 @@ getCategoryName(categoryId: any): any {
         this.toastr.success('Item transported to tray successfully');
         localStorage.removeItem('trayTempId');
         this.fetchTrayItems();
-        this.router.navigateByUrl('layout');
+        this.router.navigateByUrl('layout/order');
       },
       (error) => {
         console.error('Error placing order', error);

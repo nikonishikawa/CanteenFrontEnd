@@ -39,7 +39,7 @@ export class ProfileComponent implements OnInit {
         console.log('Received customer data:', res);
         this.customer = res.data;
         this.loadCustomerName();
-        this.loadCustomerAddress();
+        
       }
     });
   }
@@ -49,6 +49,7 @@ export class ProfileComponent implements OnInit {
       next: (res) => {
         this.customerName = res.data;
         console.log('Received customer name:', res);
+        this.loadCustomerAddress();
       },
       error: (error) => {
         console.error('Error loading customer name:', error);

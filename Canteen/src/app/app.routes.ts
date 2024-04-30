@@ -9,6 +9,10 @@ import { TransactionComponent } from './components/pages/transaction/transaction
 import { OrderComponent } from './components/pages/order/order.component';
 import { AuthGuard } from './AuthInterceptor/authGuard';
 import { ProfileComponent } from './components/pages/profile/profile.component';
+import { AdminDashboardComponent } from './components/admin/admin-dashboard/admin-dashboard.component';
+import { AdminLayoutComponent } from './components/admin/admin-layout/admin-layout.component';
+import { AdminProfileComponent } from './components/admin/admin-profile/admin-profile.component';
+import { ManageUserComponent } from './components/admin/manage-user/manage-user.component';
 
 export const routes: Routes = [
   {
@@ -54,7 +58,44 @@ export const routes: Routes = [
         path: 'profile',
         component: ProfileComponent,
         canActivate: [AuthGuard]
-      }
+      },
+      {
+        path: 'admin-dashboard',
+        component: AdminDashboardComponent,
+        canActivate: [AuthGuard]
+      },
+    ]
+  },
+  {
+    path: '', 
+    component: AdminLayoutComponent,
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: 'dashboard',
+        component: AdminDashboardComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'transaction',
+        component: TransactionComponent,
+        canActivate: [AuthGuard] 
+      },
+      {
+        path: 'manage-user',
+        component: ManageUserComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'menu',
+        component: MenuComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'profile',
+        component: AdminProfileComponent,
+        canActivate: [AuthGuard]
+      },
     ]
   },
   {

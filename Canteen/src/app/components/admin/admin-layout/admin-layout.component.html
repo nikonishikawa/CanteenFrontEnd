@@ -1,0 +1,49 @@
+<div class="canteen-body">
+    <nav class="nav_cont">
+      <ul class="nav">
+        <li [routerLink]="['dashboard']" [ngClass]="{'nav_items': isActive === 1}" (click)="toggleActive(1)">
+          <a>
+            <i class="fa-solid fa-qrcode">
+              <use xlink:href="#search"></use>
+            </i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li [routerLink]="['manage-user']" [ngClass]="{'nav_items': isActive === 1}" (click)="toggleActive(2)">
+          <a>
+            <i class="fa-solid fa-qrcode">
+              <use xlink:href="#search"></use>
+            </i>
+            <span>Manage User</span>
+          </a>
+        </li>
+        <li [routerLink]="['order']" [ngClass]="{'nav_items': isActive === 2}" (click)="toggleActive(4)">
+          <a>
+            <i class="fa-solid fa-receipt">
+              <use xlink:href="#history"></use>
+            </i>
+            <span>Order</span>
+          </a>
+        </li>
+      <li [routerLink]="['logout']" [ngClass]="{'nav_items': isActive === 3}" (click)="logout()">
+        <a>
+          <i class="fa-solid fa-receipt">
+            <use xlink:href="#history"></use>
+          </i>
+          <span>Logout</span>
+        </a>
+      </li>
+      <li [routerLink]="['profile']" [ngClass]="{'nav_items': isActive === 4}" (click)="toggleActive(6)">
+        <a >
+          <i class="fa-solid fa-house">
+            <use xlink:href="#home"></use>
+          </i>
+          <span>Profile</span>
+        </a>
+      </li>
+      </ul>
+    </nav>
+    <div class="body-container">
+      <router-outlet></router-outlet>
+    </div>
+  </div>

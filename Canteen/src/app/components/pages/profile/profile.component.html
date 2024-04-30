@@ -36,32 +36,11 @@
       </p>
     </div>
   </div>
-  
-  
-  <button (click)="toggleEditing()">Enable Editing</button>
-  <button (click)="updateName()" [disabled]="!enableEditing">Update Name</button>
-  <button (click)="updateAddress()" [disabled]="!enableEditing">Update Address</button>
 </div>
 
-<div class="customerAddress">
-  <h1>Customer Address</h1>
-  <div id="customerAddress" *ngIf="customerAddress">
-    <p>
-      <strong>Contact Number:</strong>
-      <span class="editable-input" id="contactNumber" [attr.contenteditable]="enableEditing">{{ customerAddress.contactNumber }}</span>
-    </p>
-    <p>
-      <strong>Email:</strong>
-      <span class="editable-input" id="email" [attr.contenteditable]="enableEditing">{{ customerAddress.email }}</span>
-    </p>
-    <p>
-      <strong>Address:</strong>
-      <span class="editable-input" id="addressId" [attr.contenteditable]="enableEditing">{{ customerAddress.addressId }}</span>
-    </p>
-  </div>
-</div>
 
+
+  
 <button (click)="toggleEditing()">Enable Editing</button>
 <button (click)="updateName()" [disabled]="!enableEditing">Update Name</button>
-
-</div>
+<button (click)="updateAddress()" [disabled]="!enableEditing">Update Address</button>
