@@ -1,8 +1,28 @@
 /* Container style */
-.container {
-    border: 2px solid #ccc;
+.profile  {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 20px 50px 20px 0;
+}
+
+img {
+    border: 3px solid #616161;
     padding: 20px;
-    border-radius: 10px;
+    border-radius: 100%;
+    width: 180px;
+  }
+
+  .name h1 {
+    text-align: center;
+  }
+
+  #customerName {
+    display: flex;
+    width: 100%;
   }
   
   /* Style for sections */

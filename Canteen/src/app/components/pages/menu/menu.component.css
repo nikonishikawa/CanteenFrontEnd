@@ -10,7 +10,7 @@ h1#title {
 }
 
 .search-bar-container {
-  width: 70%;
+  width: 65%;
   border: 1px solid #b6b6b6;
   border-radius: 25px;
   margin: 12px 0 24px 0 ;
@@ -75,7 +75,7 @@ h1#title {
     display: flex;
     flex-direction: column;
     max-width: 75%;
-    width: 70%;
+    width: 65%;
   }
 
 .category-container {
@@ -104,7 +104,7 @@ h1#title {
 .grid-wrapper {
   display: grid;
   grid-template-rows: minmax(auto, auto) auto; /* Minimum of two rows */
-  grid-template-columns: repeat(2, auto); /* Two columns */
+  grid-template-columns: repeat(2, 1fr); /* Two columns */
   grid-auto-flow: row;
   max-height: 450px; /* Maximum height */
   grid-gap: 30px; /* Gap between rows and columns */
