@@ -87,14 +87,6 @@ img {
     padding: 0px 6px 0 6px;
     font-weight: 200;
   } 
-
-  #customerName div p {
-    position: absolute;
-    margin-left: 0;
-    background-color: #fff;
-    padding: 0;
-    font-weight: 200;
-  }
   
   #firstname, #lastname, #middleinitial {
     margin: 10px 0 30px 0;

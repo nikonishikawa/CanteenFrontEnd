@@ -1,20 +1,21 @@
 <div class="container">
     <div class="name">
+      <img src="https://static.vecteezy.com/system/resources/previews/000/422/799/original/avatar-icon-vector-illustration.jpg"/>
       <h1>Admin Name</h1>
       <div id="customerName" *ngIf="adminName">
-        <p>
-          <strong>Last Name:</strong>
-          <input class="editable-input" id="lastName" [attr.contenteditable]="enableEditing" [(ngModel)]="adminName.lastName">
-        </p>
-        <div class="name-parts">
-          <p>
-            <strong>First Name:</strong>
-            <input class="editable-input" id="firstName" [attr.contenteditable]="enableEditing" [(ngModel)]="adminName.firstName">
-          </p>
-          <p>
-            <strong>M.I. (Optional):</strong>
-            <input class="editable-input" id="middleName" [attr.contenteditable]="enableEditing" [(ngModel)]="adminName.middleName">
-          </p>
+        <div>
+          <p>First Name</p>
+          <input class="editable-input" id="firstname" [attr.contenteditable]="enableEditing" [(ngModel)]="adminName.firstName">
+        </div>
+        <div>
+          <p>M.I.</p>
+          <input class="editable-input" id="middlename" [attr.contenteditable]="enableEditing" [(ngModel)]="adminName.middleName">
+        </div>
+        <div>
+          <p>Last Name</p>
+          <input class="editable-input" id="lastname" [attr.contenteditable]="enableEditing" [(ngModel)]="adminName.lastName">
         </div>
       </div>
     </div>
+</div>
+

@@ -25,8 +25,10 @@ export class OrderComponent {
   orderItems: orderItems[] =  [];
   menus: Menu[] = [];
   orderItemsMap: { [orderId: number]: orderItems[] } = {};
-  orderGroups: { orderId: number; modeOfPayment: string; status: string; orderStamp: string; cost:number; orderItems: orderItems[] }[] = [];
-
+  // orderGroups: { orderId: number; modeOfPayment: string; status: string; orderStamp: string; cost:number; orderItems: orderItems[] }[] = [];
+  orderGroups: any[] = [];
+  openOrderItem: any = null;
+  showFirstContent: boolean = false;
  
 
   constructor(
@@ -80,6 +82,10 @@ export class OrderComponent {
     });
   }
   
+  openModal(orderId: any) {
+    // Toggle openOrderItem based on the clicked group orderId
+    this.openOrderItem = this.openOrderItem === orderId ? null : orderId;
+  }
   
   loadItems() {
     this.orderService.loadItems().subscribe({
@@ -120,10 +126,10 @@ export class OrderComponent {
     );
   }
 
-  getMenuName(item: string): string {
-    const menuItem = this.menus.find(menu => menu.itemId.toString() === item);
-    return menuItem ? menuItem.item : 'Item Not Found';
-}
+  getMenuName(item: any) {
+    // Implement your getMenuName function logic here
+    return item.name; // Placeholder logic, replace with actual logic
+  }
 
   preprocessOrderItems(orderItems: orderItems[]): void {
     const orderGroupsMap: { [orderId: number]: orderItems[] } = {};
