@@ -1,1 +1,14 @@
-<p>manage-user works!</p>
+<div class="users-container">
+    <div class="user-list">
+        <div class="user-item" *ngFor="let user of users">
+            <div class="user-details">
+                <p><strong>Customer ID:</strong> {{ user.customerId }}</p>
+                <p><strong>Credentials:</strong> {{ user.cusCredentials }}</p>
+                <p><strong>Name:</strong> {{ user.cusName }}</p>
+                <p><strong>Membership:</strong> {{ user.membership }}</p>
+                <p><strong>Address:</strong> {{ user.cusAddress }}</p>
+                <p><strong>Status:</strong> {{ user.status }}</p>
+            </div>
+        </div>
+    </div>
+</div>

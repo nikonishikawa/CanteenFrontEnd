@@ -1,0 +1,33 @@
+.users-container {
+    max-width: 800px;
+    margin: 0 auto;
+    white-space: nowrap; /* Prevent wrapping to next line */
+    overflow-x: auto; /* Add horizontal scroll if needed */
+}
+
+.user-list {
+    display: flex;
+    flex-wrap: nowrap; /* Prevent wrapping to next line */
+}
+
+.user-item {
+    flex: 0 0 auto; /* Prevent flex items from growing */
+    margin-right: 10px; /* Add margin between user items */
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column; /* Stack user details vertically */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.user-details p {
+    margin: 5px 0; /* Add margin between user details */
+}
+
+.user-details p strong {
+    font-weight: bold;
+}

@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { ManageUserService } from '../../../services/manage-user.service';
 import { ToastrService } from 'ngx-toastr';
 import { getAllUser } from '../../../models/manage-user.model';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-manage-user',
   standalone: true,
-  imports: [],
+  imports: [FormsModule, CommonModule],
   templateUrl: './manage-user.component.html',
   styleUrl: './manage-user.component.css'
 })
