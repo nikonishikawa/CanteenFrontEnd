@@ -1,0 +1,20 @@
+<div class="container">
+    <div class="name">
+      <h1>Admin Name</h1>
+      <div id="customerName" *ngIf="adminName">
+        <p>
+          <strong>Last Name:</strong>
+          <input class="editable-input" id="lastName" [attr.contenteditable]="enableEditing" [(ngModel)]="adminName.lastName">
+        </p>
+        <div class="name-parts">
+          <p>
+            <strong>First Name:</strong>
+            <input class="editable-input" id="firstName" [attr.contenteditable]="enableEditing" [(ngModel)]="adminName.firstName">
+          </p>
+          <p>
+            <strong>M.I. (Optional):</strong>
+            <input class="editable-input" id="middleName" [attr.contenteditable]="enableEditing" [(ngModel)]="adminName.middleName">
+          </p>
+        </div>
+      </div>
+    </div>
