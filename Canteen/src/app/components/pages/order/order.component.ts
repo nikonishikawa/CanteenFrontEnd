@@ -8,6 +8,8 @@ import { OrderService } from '../../../services/order.service';
 import { Customer } from '../../../models/user.model';
 import { orderItems } from '../../../models/orders.model';
 import { constants } from 'buffer';
+import { Menu } from '../../../models/menu.model';
+import { MenuService } from '../../../services/menu.service';
 
 @Component({
   selector: 'app-order',
@@ -21,14 +23,16 @@ export class OrderComponent {
   customer: Customer = {} as Customer;
   tray: TrayItemsDTO = {} as TrayItemsDTO;
   orderItems: orderItems[] =  [];
+  menus: Menu[] = [];
   orderItemsMap: { [orderId: number]: orderItems[] } = {};
-  orderGroups: { orderId: number; modeOfPayment: string; status: string; orderStamp: string; orderItems: orderItems[] }[] = [];
+  orderGroups: { orderId: number; modeOfPayment: string; status: string; orderStamp: string; cost:number; orderItems: orderItems[] }[] = [];
 
  
 
   constructor(
     private route: ActivatedRoute,
     private toastr: ToastrService,
+    private menuService: MenuService,
     private customerService: CustomerService,
     private router: Router,
     private orderService: OrderService
@@ -76,15 +80,50 @@ export class OrderComponent {
     });
   }
   
-
+  
   loadItems() {
     this.orderService.loadItems().subscribe({
       next: (res) => {
         this.orderItems
-        console.log('Received order data:', res.data);
+        console.log('Received menu data:', res.data);
       }
     });
   }
+
+  getAllMenus() {
+    this.menuService.getAllMenu().subscribe(
+      (res) => {
+        if (res.isSuccess) {
+          this.menus = res.data;
+          console.log("Response", res);
+
+          if (this.menus && this.menus.length > 0) {
+            this.menus.forEach(menuItem => {
+              if (menuItem && menuItem) {
+                console.log("Item ID:", menuItem.itemId);
+                console.log("Item:", menuItem.item);
+                console.log("Description:", menuItem.description);
+                console.log("Is Halal:", menuItem.isHalal);
+                console.log("Price:", menuItem.price);
+                console.log("Category:", menuItem.category);
+              } else {
+                console.error("Menu item or its data is undefined:", menuItem);
+              }
+            });
+          } else {
+            console.error("Menus array is empty or undefined");
+          }
+        } else {
+          console.error('Error retrieving menus:', res.message);
+        }
+      }
+    );
+  }
+
+  getMenuName(item: string): string {
+    const menuItem = this.menus.find(menu => menu.itemId.toString() === item);
+    return menuItem ? menuItem.item : 'Item Not Found';
+}
 
   preprocessOrderItems(orderItems: orderItems[]): void {
     const orderGroupsMap: { [orderId: number]: orderItems[] } = {};
@@ -101,6 +140,7 @@ export class OrderComponent {
       modeOfPayment: this.getUniqueModeOfPayment(orderGroupsMap[Number(orderId)]),
       status: this.getUniqueStatus(orderGroupsMap[Number(orderId)]),
       orderStamp: this.getUniqueOrderStamp(orderGroupsMap[Number(orderId)]),
+      cost: this.getUniqueCost(orderGroupsMap[Number(orderId)]),
       orderItems: orderGroupsMap[Number(orderId)]
     }));
   }
@@ -119,5 +159,11 @@ export class OrderComponent {
     const uniqueorderStamp = Array.from(new Set(orderItems.map(item => item.orderStamp)));
     return uniqueorderStamp.length === 1? uniqueorderStamp[0] : 'Multiple';
   }
+
+  getUniqueCost(orderItems: orderItems[]): number {
+    const uniqueCosts = Array.from(new Set(orderItems.map(item => item.cost)));
+    return uniqueCosts.length === 1 ? uniqueCosts[0] : NaN;
+}
+
   
 }

@@ -17,6 +17,7 @@ export class ManageUserComponent implements OnInit {
 
   users: getAllUser[] = [];
   userName: userName = {}  as userName;
+  userNames: { cusName: string; firstName: string }[] = [];
 
 
   constructor(
