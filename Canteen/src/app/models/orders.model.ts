@@ -22,8 +22,17 @@ export interface MOP {
     cost: number;
     modeOfPayment: string; 
     status:  string; 
-  }
-  
+    foodImage: string;
+}
 
+export interface orders {
+  category: number;
+  description: string;
+  foodImage: string;
+  isHalal: number; 
+  item: string;
+  itemId: number; 
+  price: number; 
+}
 // this.orderItems.Item
 // this.orderItems.Quantity

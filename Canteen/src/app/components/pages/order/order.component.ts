@@ -6,7 +6,7 @@ import { CustomerDto, TrayItemsDTO } from '../../../models/tray.model';
 import { CommonModule } from '@angular/common';
 import { OrderService } from '../../../services/order.service';
 import { Customer } from '../../../models/user.model';
-import { orderItems } from '../../../models/orders.model';
+import { orderItems, orders } from '../../../models/orders.model';
 import { constants } from 'buffer';
 import { Menu } from '../../../models/menu.model';
 import { MenuService } from '../../../services/menu.service';
@@ -23,11 +23,10 @@ export class OrderComponent {
   customer: Customer = {} as Customer;
   tray: TrayItemsDTO = {} as TrayItemsDTO;
   orderItems: orderItems[] =  [];
+  order: orders = {} as orders;
   menus: Menu[] = [];
-  orderItemsMap: { [orderId: number]: orderItems[] } = {};
+  orderItemsMap: { [orderId: number | string]: orderItems[] } = {};
   orderGroups: { orderId: number; modeOfPayment: string; status: string; orderStamp: string; cost:number; orderItems: orderItems[] }[] = [];
-
- 
 
   constructor(
     private route: ActivatedRoute,
@@ -48,8 +47,7 @@ export class OrderComponent {
       next: (res) => {
         this.customer.customerId = res.data.customerId;
         console.log('Received customer data:', res.data.customerId);
-        this.getOrders();
-        this.loadItems();
+        this.getOrders()
       }
     });
   }
@@ -62,9 +60,10 @@ export class OrderComponent {
   
     this.orderService.getOrders(this.customer.customerId).subscribe({
       next: (res: { isSuccess: boolean, data: orderItems[], message: string }) => {
-        if (res.isSuccess) {
+        if (res.isSuccess) {  
           this.orderItems = res.data;
           console.log("Response", res);
+          this.loadItemsById();
           if (this.orderItems && this.orderItems.length > 0) {
             this.preprocessOrderItems(this.orderItems); 
           } else {
@@ -79,52 +78,17 @@ export class OrderComponent {
       }
     });
   }
-  
-  
-  loadItems() {
-    this.orderService.loadItems().subscribe({
+
+  loadItemsById(){
+    this.orderService.loadItemsById().subscribe({
       next: (res) => {
-        this.orderItems
-        console.log('Received menu data:', res.data);
-      }
-    });
+        this.order.item = res.data.item;
+        this.order.foodImage = res.data.foodImage;
+        console.log('Received ORDER data:', res);
+      } 
+    })
   }
-
-  getAllMenus() {
-    this.menuService.getAllMenu().subscribe(
-      (res) => {
-        if (res.isSuccess) {
-          this.menus = res.data;
-          console.log("Response", res);
-
-          if (this.menus && this.menus.length > 0) {
-            this.menus.forEach(menuItem => {
-              if (menuItem && menuItem) {
-                console.log("Item ID:", menuItem.itemId);
-                console.log("Item:", menuItem.item);
-                console.log("Description:", menuItem.description);
-                console.log("Is Halal:", menuItem.isHalal);
-                console.log("Price:", menuItem.price);
-                console.log("Category:", menuItem.category);
-              } else {
-                console.error("Menu item or its data is undefined:", menuItem);
-              }
-            });
-          } else {
-            console.error("Menus array is empty or undefined");
-          }
-        } else {
-          console.error('Error retrieving menus:', res.message);
-        }
-      }
-    );
-  }
-
-  getMenuName(item: string): string {
-    const menuItem = this.menus.find(menu => menu.itemId.toString() === item);
-    return menuItem ? menuItem.item : 'Item Not Found';
-}
-
+  
   preprocessOrderItems(orderItems: orderItems[]): void {
     const orderGroupsMap: { [orderId: number]: orderItems[] } = {};
     orderItems.forEach(orderItem => {
@@ -165,5 +129,16 @@ export class OrderComponent {
     return uniqueCosts.length === 1 ? uniqueCosts[0] : NaN;
 }
 
-  
+  getOrderFoodImage(foodImage: string): string {
+    const orderItem = this.orderItems.find(item => item.item === foodImage);
+    return orderItem ? this.order.foodImage : '';
+  }
+
+  getOrderItem(itemName: string): string {
+    const orderItem = this.orderItems.find(item => item.item === itemName);
+    return orderItem ? this.order.item : '';
+  }
+
+
+
 }

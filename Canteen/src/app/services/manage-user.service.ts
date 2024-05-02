@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, catchError, throwError } from 'rxjs';
 import { ApiResponseMessage } from '../models/apiresponsemessage.model';
 import { getAllUser } from '../models/manage-user.model';
+import { Menu } from '../models/menu.model';
 
 @Injectable({
   providedIn: 'root'
@@ -38,4 +39,9 @@ export class ManageUserService {
       .pipe(catchError(this.handleError));
   }
 
+  getItemById(itemID: number): Observable<ApiResponseMessage<Menu>> {
+    const headers = this.getHeaders();
+    return this.http.get<ApiResponseMessage<Menu>>(`${this.baseApiUrl}api/Item/GetItem?itemId=/${itemID}`, { headers })
+      .pipe(catchError(this.handleError));
+  }
 }

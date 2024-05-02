@@ -1,26 +1,28 @@
 <div class="dashboard">
-  <h1>Customer Details</h1>
-  <div class="search-bar-container">
-      <i class="fa-solid fa-magnifying-glass"></i>
-      <input type="text" placeholder="Search" />
-  </div>
-  <div *ngIf="!customer">Loading...</div>
-
-  <div class="orders-container">
-      <ng-container *ngFor="let group of orderGroups">
+    <h1>Customer Details</h1>
+    <div class="search-bar-container">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" placeholder="Search" />
+    </div>
+    <div *ngIf="!customer">Loading...</div>
+    <div class="orders-container">
+        <ng-container *ngFor="let group of orderGroups">
           <div class="order-group">
-              <h2>Order ID: {{ group.orderId }}</h2>
-              <p><strong>Mode of Payment:</strong> {{ group.modeOfPayment }}</p>
-              <p><strong>Status:</strong> {{ group.status }}</p>
-              <p><strong>OrderStamp:</strong> {{ group.orderStamp }}</p>
-              <p><strong>Cost:</strong> {{ group.cost }}</p>
-              <div class="order-item" *ngFor="let orderItem of group.orderItems">
-                <p><strong>Item:</strong> {{ getMenuName(orderItem.item) }}</p>
-                  <p><strong>Quantity:</strong> {{ orderItem.quantity }}</p>
-                  <p><strong>Price:</strong> {{ orderItem.price }}</p>
-                 
-              </div>
+            <h2>Order ID: {{ group.orderId }}</h2>
+            <p><strong>Mode of Payment:</strong> {{ group.modeOfPayment }}</p>
+            <p><strong>Status:</strong> {{ group.status }}</p>
+            <p><strong>OrderStamp:</strong> {{ group.orderStamp }}</p>
+            <p><strong>Cost:</strong> {{ group.cost }}</p>
+            <div class="order-item" *ngFor="let orderItem of group.orderItems">
+              <p><strong>Item:</strong> {{ orderItem.item }}</p>
+              <p><strong>Quantity:</strong> {{ orderItem.quantity }}</p>
+              <p><strong>Price:</strong> {{ orderItem.price }}</p>
+              <!-- Add the following to display correlated data -->
+              <p><strong>Food Image:</strong> {{ getOrderFoodImage(orderItem.item) }}</p>
+              <p><strong>Order Item:</strong> {{ getOrderItem(orderItem.item) }}</p>
+              
+            </div>
           </div>
-      </ng-container>
-  </div>
-</div>
+        </ng-container> 
+      </div>
+      
