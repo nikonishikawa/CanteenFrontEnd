@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Customer, CustomerName, address, customerGeneralAddress } from '../../../models/user.model';
 import { FormsModule } from '@angular/forms';
+import { forkJoin } from 'rxjs';
+
 
 @Component({
   selector: 'app-profile',
@@ -20,8 +22,10 @@ export class ProfileComponent implements OnInit {
   customerAddress: customerGeneralAddress = {} as customerGeneralAddress;
   address: address = {} as address;
   enableEditing: boolean = false;
-  inputNameActive: boolean = false;
+  inputNameActive: number = 0;
+  activeIndex: number = 0;
   btnActive: boolean = false;
+  updateSuccess: boolean = false;
 
   constructor(
     private customerService: CustomerService,
@@ -29,15 +33,9 @@ export class ProfileComponent implements OnInit {
     private toaster: ToastrService
   ) { }
 
-  onInputClick() {
-    if (this.enableEditing) {
-      this.inputNameActive = true;
-    }
-  }
-
   ngOnInit(): void {
     this.loadCustomerData();
-  
+    this.inputNameActive = this.getActiveIndex();
   }
 
   loadCustomerData() {
@@ -91,29 +89,32 @@ export class ProfileComponent implements OnInit {
 
   toggleEditing() {
     this.enableEditing = !this.enableEditing;
+    this.inputNameActive = 0;
     this.btnActive = !this.btnActive;
   }
 
-  updateName() {
-    this.customerService.editName(this.customerName).subscribe({
-      next: (res) => {
-        if (res.isSuccess) {
-          this.toggleEditing();
-          this.toaster.success('Updated User Info Data Successfully!');
-        } else {
-          this.toaster.error('Error Updating User Info Data!');
-        }
-      },
-      error: (error) => {
-        console.error('Error updating name:', error);
-      }
-    });
+  toggleActive(index: number) {
+    if (this.enableEditing) {
+      this.inputNameActive = index;
+      this.setActiveIndex(this.inputNameActive);
+    }
   }
 
-  updateAddress() {
-    this.customerService.editAddress(this.customerAddress).subscribe({
-      next: (res) => {
-        if (res.isSuccess) {
+  getActiveIndex() {
+    return this.activeIndex;
+  }
+
+  setActiveIndex(index: number | 0) {
+    this.activeIndex = index;
+  }
+
+  updateName() {
+    const nameUpdate$ = this.customerService.editName(this.customerName);
+    const addressUpdate$ = this.customerService.editAddress(this.customerAddress);
+  
+    forkJoin([nameUpdate$, addressUpdate$]).subscribe({
+      next: ([nameRes, addressRes]) => {
+        if (nameRes.isSuccess && addressRes.isSuccess) {
           this.toggleEditing();
           this.toaster.success('Updated User Info Data Successfully!');
         } else {
@@ -121,7 +122,7 @@ export class ProfileComponent implements OnInit {
         }
       },
       error: (error) => {
-        console.error('Error updating name:', error);
+        console.error('Error updating name or address:', error);
       }
     });
   }
