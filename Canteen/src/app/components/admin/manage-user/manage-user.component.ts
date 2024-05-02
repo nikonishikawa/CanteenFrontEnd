@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ManageUserService } from '../../../services/manage-user.service';
 import { ToastrService } from 'ngx-toastr';
-import { getAllUser } from '../../../models/manage-user.model';
+import { getAllUser, userName } from '../../../models/manage-user.model';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { CustomerService } from '../../../services/customer.service';
 
 @Component({
   selector: 'app-manage-user',
@@ -15,11 +16,12 @@ import { CommonModule } from '@angular/common';
 export class ManageUserComponent implements OnInit {
 
   users: getAllUser[] = [];
-
+  userName: userName = {}  as userName;
 
 
   constructor(
     private manageUserService: ManageUserService,
+    private customerService : CustomerService,
     private toastr: ToastrService,
   ) { }
 
@@ -33,6 +35,8 @@ export class ManageUserComponent implements OnInit {
         if (res.isSuccess) {
           this.users = res.data;
           console.log("Response", res);
+
+          this.loadCustomerName();
 
           if (this.users && this.users.length > 0) {
             this.users.forEach(usersList => {
@@ -55,5 +59,19 @@ export class ManageUserComponent implements OnInit {
         }
       }
     );
+  }
+
+  loadCustomerName() {
+    this.users.forEach(user => {
+      this.customerService.getCustomerName(user.cusName).subscribe({
+        next: (res) => {
+          this.userName = res.data; 
+          console.log('Received Customer Name:', res);
+        },
+        error: (error) => {
+          console.error('Error loading Customer Name:', error);
+        }
+      });
+    });
   }
 }

@@ -5,4 +5,11 @@ export interface getAllUser {
     cusAddress: number;
     membership: number;
     status: number;
+    customerName?: string;
+  }
+
+  export interface userName {
+    firstName: string;
+    middleName: string;
+    lastName: string;
   }

@@ -12,17 +12,18 @@ export interface MOP {
     trayTempId: number;
   }
 
-export interface orderItems {
-  orderItemId: number;
-  orderId: number;
-  item: number;
-  quantity: number;
-  price: number;
-  orderStamp: string;
-  cost: number;
-  modeOfPayment: number;
-  status: number;
-}
+  export interface orderItems {
+    orderId: number;
+    orderItemId: number;
+    item: string;
+    quantity: number;
+    price: number;
+    orderStamp: string; 
+    cost: number;
+    modeOfPayment: string; 
+    status:  string; 
+  }
+  
 
 // this.orderItems.Item
 // this.orderItems.Quantity

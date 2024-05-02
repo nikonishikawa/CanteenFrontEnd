@@ -1,22 +1,27 @@
 <div class="dashboard">
     <h1>Customer Details</h1>
     <div class="search-bar-container">
-        <i class="fa-solid fa-magnifying-glass"></i>
-        <input type="text" placeholder="Search"/>
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" placeholder="Search" />
     </div>
     <div *ngIf="!customer">Loading...</div>
   
     <div class="orders-container">
-        <div class="order-item" *ngFor="let orderItem of orderItems">
+      <ng-container *ngFor="let group of orderGroups">
+        <div class="order-group">
+          <h2>Order ID: {{ group.orderId }}</h2>
+          <p><strong>Mode of Payment:</strong> {{ group.modeOfPayment }}</p>
+          <p><strong>Status:</strong> {{ group.status }}</p>
+          <p><strong>OrderStamp:</strong> {{ group.orderStamp }}</p>
+          <div class="order-item" *ngFor="let orderItem of group.orderItems">
             <p><strong>Order Item ID:</strong> {{ orderItem.orderItemId }}</p>
-            <p><strong>Order ID:</strong> {{ orderItem.orderId }}</p>
             <p><strong>Item:</strong> {{ orderItem.item }}</p>
             <p><strong>Quantity:</strong> {{ orderItem.quantity }}</p>
-            <p><strong>Price:</strong> {{ orderItem.price}}</p>
-            <p><strong>Order Stamp:</strong> {{ orderItem.orderStamp }}</p>
+            <p><strong>Price:</strong> {{ orderItem.price }}</p>
             <p><strong>Cost:</strong> {{ orderItem.cost }}</p>
-            <p><strong>Mode of Payment:</strong> {{ orderItem.modeOfPayment }}</p>
-            <p><strong>Status:</strong> {{ orderItem.status }}</p>
+          </div>
         </div>
+      </ng-container>
     </div>
-</div>
+  </div>
+  
