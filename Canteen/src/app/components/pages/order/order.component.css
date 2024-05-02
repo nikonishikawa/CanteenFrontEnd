@@ -32,6 +32,30 @@
     outline: none;
   }
 
+  .filter-container {
+    display: flex;
+  }
+  
+  .filt input {
+    margin: 0 15px 0 0;
+    padding: 8px 24px 8px 24px;
+    border-radius: 20px;
+    border: solid 2px #DA062E;
+    background-color: #fff;
+    font-weight: 600;
+    color: #DA062E;
+  }
+  
+  .filter-items input {
+    margin: 0 15px 0 0;
+    padding: 8px 24px 8px 24px;
+    border-radius: 20px;
+    border: solid 2px #DA062E;
+    background-color: #fff;
+    font-weight: 600;
+    color: #DA062E;
+  }
+
 h1 {
     font-size: 28px;
     color: #333;

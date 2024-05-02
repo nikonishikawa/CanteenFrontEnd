@@ -104,6 +104,12 @@ export class OrderComponent {
       orderItems: orderGroupsMap[Number(orderId)]
     }));
   }
+
+  getTotalCost(orderItems: orderItems[]): any {
+    return orderItems.reduce((cost, orderItems) => cost + orderItems.cost, 0);
+}
+
+
   
   getUniqueModeOfPayment(orderItems: orderItems[]): string {
     const uniqueModeOfPayments = Array.from(new Set(orderItems.map(item => item.modeOfPayment)));
@@ -119,5 +125,4 @@ export class OrderComponent {
     const uniqueorderStamp = Array.from(new Set(orderItems.map(item => item.orderStamp)));
     return uniqueorderStamp.length === 1? uniqueorderStamp[0] : 'Multiple';
   }
-  
 }

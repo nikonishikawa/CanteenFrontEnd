@@ -4,8 +4,15 @@
       <i class="fa-solid fa-magnifying-glass"></i>
       <input type="text" placeholder="Search" />
     </div>
+    <div class="filter-container">
+        <div class="filt">
+          <input type="button" [value]="'Pending'">
+        </div>
+        <!-- <div class="filter-items" *ngFor="let cat of category">
+            <input type="button" [value]="getCategoryName(cat.categoryId)" (click)="filterMenu(cat.categoryId)">
+        </div> -->
+      </div>
     <div *ngIf="!customer">Loading...</div>
-  
     <div class="orders-container">
       <ng-container *ngFor="let group of orderGroups">
         <div class="order-group">
