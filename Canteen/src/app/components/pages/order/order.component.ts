@@ -6,7 +6,7 @@ import { CustomerDto, TrayItemsDTO } from '../../../models/tray.model';
 import { CommonModule } from '@angular/common';
 import { OrderService } from '../../../services/order.service';
 import { Customer } from '../../../models/user.model';
-import { orderItems } from '../../../models/orders.model';
+import { orderItems, orders } from '../../../models/orders.model';
 import { constants } from 'buffer';
 import { Menu } from '../../../models/menu.model';
 import { MenuService } from '../../../services/menu.service';
@@ -23,6 +23,7 @@ export class OrderComponent {
   customer: Customer = {} as Customer;
   tray: TrayItemsDTO = {} as TrayItemsDTO;
   orderItems: orderItems[] =  [];
+  order: orders = {} as orders;
   menus: Menu[] = [];
   orderItemsMap: { [orderId: number]: orderItems[] } = {};
   // orderGroups: { orderId: number; modeOfPayment: string; status: string; orderStamp: string; cost:number; orderItems: orderItems[] }[] = [];
@@ -50,8 +51,7 @@ export class OrderComponent {
       next: (res) => {
         this.customer.customerId = res.data.customerId;
         console.log('Received customer data:', res.data.customerId);
-        this.getOrders();
-        this.loadItems();
+        this.getOrders()
       }
     });
   }
@@ -64,9 +64,10 @@ export class OrderComponent {
   
     this.orderService.getOrders(this.customer.customerId).subscribe({
       next: (res: { isSuccess: boolean, data: orderItems[], message: string }) => {
-        if (res.isSuccess) {
+        if (res.isSuccess) {  
           this.orderItems = res.data;
           console.log("Response", res);
+          this.loadItemsById();
           if (this.orderItems && this.orderItems.length > 0) {
             this.preprocessOrderItems(this.orderItems); 
           } else {
@@ -171,5 +172,16 @@ export class OrderComponent {
     return uniqueCosts.length === 1 ? uniqueCosts[0] : NaN;
 }
 
-  
+  getOrderFoodImage(foodImage: string): string {
+    const orderItem = this.orderItems.find(item => item.item === foodImage);
+    return orderItem ? this.order.foodImage : '';
+  }
+
+  getOrderItem(itemName: string): string {
+    const orderItem = this.orderItems.find(item => item.item === itemName);
+    return orderItem ? this.order.item : '';
+  }
+
+
+
 }
