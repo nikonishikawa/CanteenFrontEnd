@@ -39,7 +39,7 @@ button {
   margin-right: 8px;
 }
 
-#edit-btn.active {
+#edit-btn.active, #save-btn:active {
   padding: 10px 20px 10px 20px;
   border-radius: 20px;
   font-weight: 400;
@@ -57,16 +57,17 @@ button {
 }
 
 img {
-    border: 3px solid #DA062E;
+    border: 1px solid rgba(0, 0, 0, 0.20);
     padding: 20px;
     border-radius: 100%;
     width: 180px;
+    box-shadow: 0 10px 5.4px rgba(0, 0, 0, 0.20);
   }
 
   .main-container h1 {
     text-align: center;
-    margin: 15px 0 30px 0;
-    color: #fdbd32;
+    margin: 15px 0 50px 0;
+    color: #2e2e2e;
   }
 
   #customerName {
@@ -127,18 +128,19 @@ img {
     outline: transparent;
   } */
 
-  #customerName .active p {
+  #customerName .active p, .contacts-container .active p, .address-container .active p {
     cursor: default;
     color: #DA062E;
     font-size: 12px;
   }
 
-  #customerName .active input{
+  #customerName .active input, .contacts-container .active input, .address-container .active input, #customerName .active input:active, .contacts-container .active input:active, .address-container .active input:active{
     border-width: 0 0px 3px 0; 
     border-style: solid;
     border-color: #DA062E;
     border-radius: 0;
     outline: transparent;
+    color:#2e2e2e;
   }
   
   #middleinitial {
@@ -199,25 +201,23 @@ img {
     font-size: 20px;
   }
 
-  .contacts-container div input:focus {
+  /* .contacts-container div input:focus {
     border-width: 0 0px 3px 0; 
     border-style: solid;
     border-color: #DA062E;
     border-radius: 0;
     outline: transparent;
-  }
+  } */
 
   .email-container {
     width: 400px
   }
 
   .address-container {
-    display: flex;
-    align-items: center;
     width: 890px;
   }
 
-  #customerAddress p {
+  .address-container div p {
     position: absolute;
     margin-left: 12px;
     background-color: #fff;
@@ -225,11 +225,7 @@ img {
     font-weight: 200;
   }
 
-  #customerAddress {
-    width: 100%;
-  }
-  
-  #customerAddress input {
+  .address-container div input {
     border-radius: 20px;
     width: 100%;
     margin: 10px 0 30px 0;
@@ -238,13 +234,13 @@ img {
     font-size: 20px;
   }
 
-  #customerAddress input:focus {
+  /* #customerAddress input:focus {
     border-width: 0 0px 3px 0; 
     border-style: solid;
     border-color: #DA062E;
     border-radius: 0;
     outline: transparent;
-  }
+  } */
 
   .button-container {
     margin-left: auto;
