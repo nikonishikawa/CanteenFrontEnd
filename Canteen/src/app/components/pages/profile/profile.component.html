@@ -1,67 +1,41 @@
-<div class="container">
-  <div class="name">
-    <h1>Customer Name</h1>
-    <div id="customerName" *ngIf="customerName">
-      <p>
-        <strong>Last Name:</strong>
-        <input class="editable-input" id="lastName" [attr.contenteditable]="enableEditing" [(ngModel)]="customerName.lastName">
-      </p>
-      <div class="name-parts">
-        <p>
-          <strong>First Name:</strong>
-          <input class="editable-input" id="firstName" [attr.contenteditable]="enableEditing" [(ngModel)]="customerName.firstName">
-        </p>
-        <p>
-          <strong>M.I. (Optional):</strong>
-          <input class="editable-input" id="middleName" [attr.contenteditable]="enableEditing" [(ngModel)]="customerName.middleName">
-        </p>
-      </div>
+<div class="profile">
+  <div class="button-container">
+    <button id="edit-btn" [class.active]="btnActive" (click)="toggleEditing()">Edit</button>
+    <button id="save-btn" (click)="updateName()" [disabled]="!enableEditing">Save Changes</button>
+    <!-- <button (click)="updateAddress()" [disabled]="!enableEditing">Update Address</button> -->
+  </div>
+  <div class="main-container">
+    <img src="https://static.vecteezy.com/system/resources/previews/000/422/799/original/avatar-icon-vector-illustration.jpg"/>
+  <h1>Customer Name</h1>
+  <div id="customerName" *ngIf="customerName">
+    <div [class.active]="inputNameActive" (click)="onInputClick()">
+      <p>First Name:</p>
+      <input id="firstname" class="editable-input" [attr.contenteditable]="enableEditing" [(ngModel)]="customerName.firstName">
+    </div>
+    <div [class.active]="inputNameActive">
+      <p>M.I.:</p>
+      <input class="editable-input" id="middleinitial" [attr.contenteditable]="enableEditing" [(ngModel)]="customerName.middleName">
+    </div>
+    <div [class.active]="inputNameActive" (click)="onInputClick()">
+      <p>Last Name:</p>
+      <input class="editable-input" id="lastname" [attr.contenteditable]="enableEditing" [(ngModel)]="customerName.lastName">
+    </div>
+  </div>  
+  <div class="contacts-container" (click)="onInputClick()">
+    <div class="contactnumber-container">
+      <p>Contact Number:</p>
+      <input class="editable-input" id="contactNumber" [attr.contenteditable]="enableEditing" [(ngModel)]="customerAddress.contactNumber">
+    </div>
+    <div class="email-container">
+      <p>Email:</p>
+      <input class="editable-input" id="email" [attr.contenteditable]="enableEditing" [(ngModel)]="customerAddress.email">
     </div>
   </div>
-
-  <div class="customerAddress">
-    <h1>Customer Address</h1>
+  <div class="address-container">
     <div id="customerAddress" *ngIf="customerAddress">
-      <p>
-        <strong>Contact Number:</strong>
-        <input class="editable-input" id="contactNumber" [attr.contenteditable]="enableEditing" [(ngModel)]="customerAddress.contactNumber">
-      </p>
-      <p>
-        <strong>Email:</strong>
-        <input class="editable-input" id="email" [attr.contenteditable]="enableEditing" [(ngModel)]="customerAddress.email">
-      </p>
-      <p>
-        <strong>Address:</strong>
-        <input class="editable-input" id="addressId" [attr.contenteditable]="enableEditing" [(ngModel)]="customerAddress.addressId">
-      </p>
-    </div>
+      <p>Address:</p>
+      <input class="editable-input" id="addressId" [attr.contenteditable]="enableEditing" [(ngModel)]="customerAddress.addressId">
+    </div>  
   </div>
-  
-  
-  <button (click)="toggleEditing()">Enable Editing</button>
-  <button (click)="updateName()" [disabled]="!enableEditing">Update Name</button>
-  <button (click)="updateAddress()" [disabled]="!enableEditing">Update Address</button>
-</div>
-
-<div class="customerAddress">
-  <h1>Customer Address</h1>
-  <div id="customerAddress" *ngIf="customerAddress">
-    <p>
-      <strong>Contact Number:</strong>
-      <span class="editable-input" id="contactNumber" [attr.contenteditable]="enableEditing">{{ customerAddress.contactNumber }}</span>
-    </p>
-    <p>
-      <strong>Email:</strong>
-      <span class="editable-input" id="email" [attr.contenteditable]="enableEditing">{{ customerAddress.email }}</span>
-    </p>
-    <p>
-      <strong>Address:</strong>
-      <span class="editable-input" id="addressId" [attr.contenteditable]="enableEditing">{{ customerAddress.addressId }}</span>
-    </p>
   </div>
-</div>
-
-<button (click)="toggleEditing()">Enable Editing</button>
-<button (click)="updateName()" [disabled]="!enableEditing">Update Name</button>
-
 </div>

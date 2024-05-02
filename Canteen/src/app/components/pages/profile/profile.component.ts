@@ -20,6 +20,8 @@ export class ProfileComponent implements OnInit {
   customerAddress: customerGeneralAddress = {} as customerGeneralAddress;
   address: address = {} as address;
   enableEditing: boolean = false;
+  inputNameActive: boolean = false;
+  btnActive: boolean = false;
 
   constructor(
     private customerService: CustomerService,
@@ -27,6 +29,11 @@ export class ProfileComponent implements OnInit {
     private toaster: ToastrService
   ) { }
 
+  onInputClick() {
+    if (this.enableEditing) {
+      this.inputNameActive = true;
+    }
+  }
 
   ngOnInit(): void {
     this.loadCustomerData();
@@ -83,6 +90,7 @@ export class ProfileComponent implements OnInit {
 
   toggleEditing() {
     this.enableEditing = !this.enableEditing;
+    this.btnActive = !this.btnActive;
   }
 
   updateName() {

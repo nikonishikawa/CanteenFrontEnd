@@ -2,72 +2,252 @@
 .profile  {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
   width: 100%;
   height: 100%;
   padding: 20px 50px 20px 0;
 }
 
+input {
+  pointer-events: none;
+  font-weight: 600;
+  color: #b9b9b9;
+}
+
+input:focus {
+  color: #DA062E;
+}
+
+p {
+  cursor: default;
+  color: #2e2e2e;
+  font-size: 12px;
+}
+
+p.active {
+  cursor: default;
+  color: #DA062E;
+  font-size: 12px;
+}
+
+button {
+  padding: 10px 20px 10px 20px;
+  border-radius: 20px;
+  font-weight: 400;
+  border: 1px solid #DA062E;
+  background-color: #fff;
+  color: #DA062E;
+  margin-right: 8px;
+}
+
+#edit-btn.active {
+  padding: 10px 20px 10px 20px;
+  border-radius: 20px;
+  font-weight: 400;
+  border: 1px solid #DA062E;
+  background-color: #DA062E;
+  color: #fff;
+  margin-right: 8px;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 30px 0 50px 0;
+}
+
 img {
-    border: 3px solid #616161;
+    border: 3px solid #DA062E;
     padding: 20px;
     border-radius: 100%;
     width: 180px;
   }
 
-  .name h1 {
+  .main-container h1 {
     text-align: center;
+    margin: 15px 0 30px 0;
+    color: #fdbd32;
   }
 
   #customerName {
     display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  #customerName div {
+     padding: 0%;
+  }
+
+  #customerName div p {
+    position: absolute;
+    margin-left: 12px;
+    background-color: #fff;
+    padding: 0px 6px 0 6px;
+    font-weight: 200;
+  } 
+
+  #customerName div p {
+    position: absolute;
+    margin-left: 0;
+    background-color: #fff;
+    padding: 0;
+    font-weight: 200;
+  }
+  
+  #firstname, #lastname, #middleinitial {
+    margin: 10px 0 30px 0;
+    padding: 20px 10px 10px 20px;
+    font-size: 20px;
+  }
+
+  #customerName div #firstname, #customerName div #lastname{
+    width: 400px;
+  }
+
+  #customerName div #middleinitial{
+    width: 90px;
+  }
+
+  #firstname {
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-right: none;
+    width: 100%;
+    border-width: 1px 0px 1px 1px;
+    border-style: solid;
+    border-color: #2e2e2e;
+  }
+
+  /* #firstname:focus {
+    border-width: 0 0px 3px 0; 
+    border-style: solid;
+    border-color: #DA062E;
+    border-bottom-left-radius: 0;
+    outline: transparent;
+  } */
+
+  #customerName .active p {
+    cursor: default;
+    color: #DA062E;
+    font-size: 12px;
+  }
+
+  #customerName .active input{
+    border-width: 0 0px 3px 0; 
+    border-style: solid;
+    border-color: #DA062E;
+    border-radius: 0;
+    outline: transparent;
+  }
+  
+  #middleinitial {
+    border-left: none;
+    border-right: none;
+    width: 100%;
+    border-width: 1px 0 1px 0;
+    border-style: solid;
+    border-color: #2e2e2e;
+  }
+
+  /* #middleinitial:focus {
+    border-width: 0 0 3px 0; 
+    border-style: solid;
+    border-color: #DA062E;
+    outline: transparent;
+  } */
+  
+  #lastname {
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-left: none;
+    width: 100%;
+    border-width: 1px 1px 1px 0;
+    border-style: solid;
+    border-color: #2e2e2e;
+  }
+
+  /* #lastname:focus {
+    border-width: 0 0 3px 0; 
+    border-style: solid;
+    border-color: #DA062E;
+    border-bottom-right-radius: 0;
+    outline: transparent;
+  } */
+  
+  .contacts-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 890px;
+  }
+
+  .contacts-container div p {
+    position: absolute;
+    margin-left: 12px;
+    background-color: #fff;
+    padding: 0px 6px 0 6px;
+    font-weight: 200;
+  }
+
+  .contacts-container div input {
+    border-radius: 20px;
+    width: 100%;
+    margin: 10px 0 30px 0;
+    padding: 20px 10px 10px 20px;
+    border: 1px solid #2e2e2e;
+    font-size: 20px;
+  }
+
+  .contacts-container div input:focus {
+    border-width: 0 0px 3px 0; 
+    border-style: solid;
+    border-color: #DA062E;
+    border-radius: 0;
+    outline: transparent;
+  }
+
+  .email-container {
+    width: 400px
+  }
+
+  .address-container {
+    display: flex;
+    align-items: center;
+    width: 890px;
+  }
+
+  #customerAddress p {
+    position: absolute;
+    margin-left: 12px;
+    background-color: #fff;
+    padding: 0px 6px 0 6px;
+    font-weight: 200;
+  }
+
+  #customerAddress {
     width: 100%;
   }
   
-  /* Style for sections */
-  .customerAddress,
-  .Address {
-    margin-bottom: 30px;
+  #customerAddress input {
+    border-radius: 20px;
+    width: 100%;
+    margin: 10px 0 30px 0;
+    padding: 20px 10px 10px 20px;
+    border: 1px solid #2e2e2e;
+    font-size: 20px;
   }
-  
-  .customerAddress h1,
-  .Address h1 {
-    font-size: 28px;
-    margin-bottom: 15px;
-    color: #333;
+
+  #customerAddress input:focus {
+    border-width: 0 0px 3px 0; 
+    border-style: solid;
+    border-color: #DA062E;
+    border-radius: 0;
+    outline: transparent;
   }
-  
-  /* Style for paragraphs */
-  p {
-    margin-bottom: 10px;
-    font-size: 18px;
-  }
-  
-  /* Style for strong tags */
-  strong {
-    font-weight: bold;
-    color: #000;
-  }
-  
-  /* Style for editable input boxes */
-  .editable-input {
-    display: inline-block;
-    width: 200px;
-    padding: 5px 10px;
-    border: 2px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-    font-size: 18px;
-    color: #555;
-  }
-  
-  .editable-input[contenteditable="true"] {
-    background-color: #fff;
-    outline: none;
-  }
-  
-  .editable-input[contenteditable="true"]:focus {
-    border-color: #007bff;
+
+  .button-container {
+    margin-left: auto;
+    width: fit-content;
   }
   
