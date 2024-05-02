@@ -21,6 +21,7 @@ export interface orderItems {
   orderStamp: string;
   cost: number;
   modeOfPayment: number;
+  status: number;
 }
 
 // this.orderItems.Item
