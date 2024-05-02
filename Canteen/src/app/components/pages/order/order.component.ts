@@ -67,6 +67,7 @@ export class OrderComponent {
                          orderItem.orderStamp
                          orderItem.cost
                          orderItem.modeOfPayment
+                         orderItem.status
                     });
                 } else {
                     console.error("Order items array is empty or undefined");

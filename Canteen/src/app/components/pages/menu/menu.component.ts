@@ -327,32 +327,7 @@ getCategoryName(categoryId: any): any {
     this.order.Cost = this.order.subTotal; 
   }
 
-  getAllCategories() {
-  this.menuService.getAllCaetegory().subscribe(
-    (res) => {
-      if (res.isSuccess) {
-        this.category = res.data;
-        console.log("Response", res);
 
-        if (this.category && this.category.length > 0) {
-          this.category.forEach(category => {
-            if (category && category) {
-              console.log("Item ID:", category.categoryId);
-              console.log("Item:", category.category);
-              console.log("Description:", category.description);
-            } else {
-              console.error("Menu item or its data is undefined:", category);
-            }
-          });
-        } else {
-          console.error("Menus array is empty or undefined");
-        }
-      } else {
-        console.error('Error retrieving menus:', res.message);
-      }
-    }
-  );
-  }
 
   getAllMOP() {
     this.menuService.getAllMOP().subscribe(
