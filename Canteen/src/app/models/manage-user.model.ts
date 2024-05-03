@@ -13,3 +13,30 @@ export interface getAllUser {
     middleName: string;
     lastName: string;
   }
+
+  export interface Membership {
+    memberShipId: number;
+    membership: string;
+    loyaltyPoints: number;
+    status: string;
+  }
+
+  export interface genAddress {
+    genAddressId: number;
+    addressId: string;
+    email: string;
+    contactNumber: string;
+  }
+
+  export interface userStatus {
+    userStatusId: number;
+    status: string;
+  }
+
+  export interface Address {
+    addressId: number;
+    barangay: string;
+    region: string;
+    postalCode: string;
+  }
+
