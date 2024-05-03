@@ -21,13 +21,13 @@
         <div *ngIf="openOrderItem === group.orderId" class="order-item">
           <div class="items-container" *ngFor="let orderItem of group.orderItems">
             <div class="item-main-container">
-              <img src="https://freshflavorful.com/wp-content/uploads/2022/10/easy-apple-tart-featured.jpg"/>
+              <img [src]="getOrderFoodImage(orderItem.item)" />
               <div class="item-info-container">
-                <p id="item-name">{{ getMenuName(orderItem.item) }}</p>
+                <p id="item-name">{{ getOrderItem(orderItem.item) }}</p>
                 <p id="quantity">x {{ orderItem.quantity }}</p>
               </div>
             </div>
-            <p id="item-price">₱{{ orderItem.price }}</p>
+            <p id="item-price">₱{{ orderItem.price }}</p> 
           </div>
         </div>
     </ng-container>         

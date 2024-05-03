@@ -10,6 +10,7 @@ import { orderItems, orders } from '../../../models/orders.model';
 import { constants } from 'buffer';
 import { Menu } from '../../../models/menu.model';
 import { MenuService } from '../../../services/menu.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-order',
@@ -67,7 +68,7 @@ export class OrderComponent {
         if (res.isSuccess) {  
           this.orderItems = res.data;
           console.log("Response", res);
-          this.loadItemsById();
+          this.loadItem();
           if (this.orderItems && this.orderItems.length > 0) {
             this.preprocessOrderItems(this.orderItems); 
           } else {
@@ -84,19 +85,9 @@ export class OrderComponent {
   }
   
   openModal(orderId: any) {
-    // Toggle openOrderItem based on the clicked group orderId
     this.openOrderItem = this.openOrderItem === orderId ? null : orderId;
   }
   
-  loadItems() {
-    this.orderService.loadItems().subscribe({
-      next: (res) => {
-        this.orderItems
-        console.log('Received menu data:', res.data);
-      }
-    });
-  }
-
   getAllMenus() {
     this.menuService.getAllMenu().subscribe(
       (res) => {
@@ -127,9 +118,39 @@ export class OrderComponent {
     );
   }
 
+  
+  loadItem(index: number = 0) {
+    if (index >= this.orderItems.length) {
+      console.log('All items loaded successfully.');
+      return;
+    }
+  
+    const orderItem = this.orderItems[index];
+    const itemId = orderItem.item;
+  
+    this.orderService.getItemById(itemId).subscribe({
+      next: (res) => {
+        const fetchedItem = res.data;
+        if (fetchedItem.itemId === orderItem.orderItemId) {
+          orderItem.item = fetchedItem.item;
+          orderItem.foodImage = fetchedItem.foodImage;
+          console.log('Received item:', orderItem.item);
+          console.log('Received food image:', orderItem.foodImage);
+        }
+        // Move to the next item
+        this.loadItem(index + 1);
+      },
+      error: (error) => {
+        console.error('Error loading item:', error);
+        // Move to the next item even if there's an error
+        this.loadItem(index + 1);
+      }
+    });
+  }
+  
+  
   getMenuName(item: any) {
-    // Implement your getMenuName function logic here
-    return item.name; // Placeholder logic, replace with actual logic
+    return item.name; 
   }
 
   preprocessOrderItems(orderItems: orderItems[]): void {
@@ -172,16 +193,13 @@ export class OrderComponent {
     return uniqueCosts.length === 1 ? uniqueCosts[0] : NaN;
 }
 
-  getOrderFoodImage(foodImage: string): string {
-    const orderItem = this.orderItems.find(item => item.item === foodImage);
-    return orderItem ? this.order.foodImage : '';
-  }
+getOrderFoodImage(foodImage: string): string {
+  const orderItem = this.orderItems.find(item => item.item === foodImage);
+  return orderItem ? orderItem.foodImage : '';
+}
 
-  getOrderItem(itemName: string): string {
-    const orderItem = this.orderItems.find(item => item.item === itemName);
-    return orderItem ? this.order.item : '';
-  }
-
-
-
+getOrderItem(itemName: string): string {
+  const orderItem = this.orderItems.find(item => item.item === itemName);
+  return orderItem ? orderItem.item : '';
+}
 }

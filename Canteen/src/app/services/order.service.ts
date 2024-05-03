@@ -52,9 +52,9 @@ export class OrderService {
     );
   }
 
-  getItemById(itemID: number): Observable<ApiResponseMessage<Menu>> {
+  getItemById(itemId: string): Observable<ApiResponseMessage<Menu>> {
     const headers = this.getHeaders();
-    return this.http.get<ApiResponseMessage<Menu>>(`${this.baseApiUrl}api/Item/GetItem?itemId=/${itemID}`, { headers })
+    return this.http.get<ApiResponseMessage<Menu>>(`${this.baseApiUrl}api/Item/GetItem/${itemId}`, { headers })
       .pipe(catchError(this.handleError));
   }
 }
