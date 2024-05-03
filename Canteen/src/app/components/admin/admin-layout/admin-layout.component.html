@@ -9,7 +9,7 @@
             <span>Dashboard</span>
           </a>
         </li>
-        <li [routerLink]="['manage-user']" [ngClass]="{'nav_items': isActive === 1}" (click)="toggleActive(2)">
+        <li [routerLink]="['manage-user']" [ngClass]="{'nav_items': isActive === 2}" (click)="toggleActive(2)">
           <a>
             <i class="fa-solid fa-qrcode">
               <use xlink:href="#search"></use>
@@ -17,15 +17,15 @@
             <span>Manage User</span>
           </a>
         </li>
-        <li [routerLink]="['order']" [ngClass]="{'nav_items': isActive === 2}" (click)="toggleActive(4)">
+        <li [routerLink]="['manage-menu']" [ngClass]="{'nav_items': isActive === 3}" (click)="toggleActive(3)">
           <a>
             <i class="fa-solid fa-receipt">
               <use xlink:href="#history"></use>
             </i>
-            <span>Order</span>
+            <span>Manage Menu</span>
           </a>
         </li>
-      <li [routerLink]="['logout']" [ngClass]="{'nav_items': isActive === 3}" (click)="logout()">
+      <li [routerLink]="['logout']" [ngClass]="{'nav_items': isActive === 4}" (click)="logout()">
         <a>
           <i class="fa-solid fa-receipt">
             <use xlink:href="#history"></use>
@@ -33,7 +33,7 @@
           <span>Logout</span>
         </a>
       </li>
-      <li [routerLink]="['profile']" [ngClass]="{'nav_items': isActive === 4}" (click)="toggleActive(6)">
+      <li [routerLink]="['profile']" [ngClass]="{'nav_items': isActive === 5}" (click)="toggleActive(5)">
         <a >
           <i class="fa-solid fa-house">
             <use xlink:href="#home"></use>

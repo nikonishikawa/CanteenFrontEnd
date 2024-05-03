@@ -3,12 +3,26 @@
         <div class="user-item" *ngFor="let user of users">
             <div class="user-details">
                 <p><strong>Customer ID:</strong> {{ user.customerId }}</p>
-                <p><strong>Credentials:</strong> {{ user.cusCredentials }}</p>
-                <p><strong>Name:</strong> {{ user.cusName }}</p>
-                <p><strong>Membership:</strong> {{ user.membership }}</p>
-                <p><strong>Address:</strong> {{ user.cusAddress }}</p>
-                <p><strong>Status:</strong> {{ user.status }}</p>
+                <p><strong>Name:</strong> {{ getUserFirstName(user.cusName) }} {{ getUserMiddleName(user.cusName) }} {{ getUserLastName(user.cusName) }} </p>
+                <p><strong>Membership:</strong> {{ getMembership(user.membership) }}</p>
+                <p><strong>Address:</strong> {{ getAddress(user.cusAddress) }}</p>
+                <p><strong>Status:</strong> {{ getUserStatus(user.status) }}</p>
+                <button (click)="openEditModal(user)">Edit</button>
             </div>
         </div>
     </div>
 </div>
+
+<div class="modal" [style.display]="modalOpen ? 'block' : 'none'">
+    <div class="modal-content">
+        <input type="text" [(ngModel)]="editedUser.firstName">
+        <input type="text" [(ngModel)]="editedUser.middleName">
+        <input type="text" [(ngModel)]="editedUser.lastName">
+        <input type="text" [(ngModel)]="editedUser.membership">
+        <input type="text" [(ngModel)]="editedUser.address">
+        <input type="text" [(ngModel)]="editedUser.status">
+        <button (click)="updateUser()">Update</button>
+        <button (click)="cancelEdit()">Cancel</button>
+    </div>
+</div>
+

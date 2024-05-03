@@ -52,19 +52,9 @@ export class OrderService {
     );
   }
 
-  getItemById(itemId: string): Observable<ApiResponseMessage<Menu>> {
+  getItemById(itemID: number | string): Observable<ApiResponseMessage<Menu>> {
     const headers = this.getHeaders();
-    return this.http.get<ApiResponseMessage<Menu>>(`${this.baseApiUrl}api/Item/GetItem/${itemId}`, { headers })
+    return this.http.get<ApiResponseMessage<Menu>>(`${this.baseApiUrl}api/Item/GetItem?itemId=/${itemID}`, { headers })
       .pipe(catchError(this.handleError));
   }
 }
-
-
-// loadItems() {
-//   this.orderService.loadItems().subscribe({
-//     next: (res) => {
-//       this.orderItems
-//       console.log('Received order data:', res.data);
-//     }
-//   });
-// }
