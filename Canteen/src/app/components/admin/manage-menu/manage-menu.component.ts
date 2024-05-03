@@ -29,6 +29,7 @@ export class ManageMenuComponent implements OnInit {
   activeIndex: number = 0;
   modalOpen: boolean = false;
   addMenu: addMenu = {} as addMenu;
+  getCategoryByName: {categoryId: number; category: string} [] = [];
 
   constructor(
     private menuService: MenuService,
@@ -38,6 +39,7 @@ export class ManageMenuComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadMenu(); 
+
   }
 
 
@@ -54,6 +56,7 @@ export class ManageMenuComponent implements OnInit {
   
   AddMenu(addMenu: addMenu) {
     this.addMenu = { 
+      itemId: addMenu.itemId,
       item: addMenu.item,
       description: addMenu.description,
       foodImage: addMenu.foodImage,
@@ -125,7 +128,6 @@ export class ManageMenuComponent implements OnInit {
     // console.log('Unique Categories:', uniqueCategories);
   }
 
-
   getCategoryName(categoryId: any): any {
     console.log(categoryId);
     const categoryIdNumber = parseInt(categoryId, 10);
@@ -172,6 +174,11 @@ export class ManageMenuComponent implements OnInit {
       (result[categoryName] = result[categoryName] || []).push(menuItem);
       return result;
     }, {});
+  }
+
+  getCategory(categoryId: number): string {
+    const cat = this.getCategoryByName.find(x => x.categoryId === categoryId)
+    return cat ? cat.category : '';
   }
   
 }
