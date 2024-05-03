@@ -68,7 +68,9 @@ export class OrderComponent {
         if (res.isSuccess) {  
           this.orderItems = res.data;
           console.log("Response", res);
-          this.loadItem();
+          this.orderItems.forEach(orderItem => {
+            this.loadItem(orderItem.item, orderItem);
+          });
           if (this.orderItems && this.orderItems.length > 0) {
             this.preprocessOrderItems(this.orderItems); 
           } else {
@@ -83,6 +85,19 @@ export class OrderComponent {
       }
     });
   }
+  
+
+  loadItem(itemId: string, orderItem: any) {
+    this.orderService.getItemById(itemId).subscribe({
+      next: (res) => {
+        orderItem.foodImage = res.data.foodImage;
+        orderItem.item = res.data.item;
+        console.log('Received order foodImage:', res.data.foodImage);
+        console.log('Received order item:', res.data.item);
+      }
+    });
+  }
+  
   
   openModal(orderId: any) {
     this.openOrderItem = this.openOrderItem === orderId ? null : orderId;
@@ -117,37 +132,6 @@ export class OrderComponent {
       }
     );
   }
-
-  
-  loadItem(index: number = 0) {
-    if (index >= this.orderItems.length) {
-      console.log('All items loaded successfully.');
-      return;
-    }
-  
-    const orderItem = this.orderItems[index];
-    const itemId = orderItem.item;
-  
-    this.orderService.getItemById(itemId).subscribe({
-      next: (res) => {
-        const fetchedItem = res.data;
-        if (fetchedItem.itemId === orderItem.orderItemId) {
-          orderItem.item = fetchedItem.item;
-          orderItem.foodImage = fetchedItem.foodImage;
-          console.log('Received item:', orderItem.item);
-          console.log('Received food image:', orderItem.foodImage);
-        }
-        // Move to the next item
-        this.loadItem(index + 1);
-      },
-      error: (error) => {
-        console.error('Error loading item:', error);
-        // Move to the next item even if there's an error
-        this.loadItem(index + 1);
-      }
-    });
-  }
-  
   
   getMenuName(item: any) {
     return item.name; 
@@ -193,13 +177,13 @@ export class OrderComponent {
     return uniqueCosts.length === 1 ? uniqueCosts[0] : NaN;
 }
 
-getOrderFoodImage(foodImage: string): string {
-  const orderItem = this.orderItems.find(item => item.item === foodImage);
-  return orderItem ? orderItem.foodImage : '';
-}
+  getOrderFoodImage(foodImage: string): string {
+    const orderItem = this.orderItems.find(item => item.item === foodImage);
+    return orderItem ? orderItem.foodImage : '';
+  }
 
-getOrderItem(itemName: string): string {
-  const orderItem = this.orderItems.find(item => item.item === itemName);
-  return orderItem ? orderItem.item : '';
-}
+  getOrderItem(itemName: string): string {
+    const orderItem = this.orderItems.find(item => item.item === itemName);
+    return orderItem ? orderItem.item : '';
+  }
 }

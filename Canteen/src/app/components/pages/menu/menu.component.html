@@ -10,10 +10,10 @@
   </div>
   <div class="filter-container">
     <div class="filt">
-      <input type="button" [value]="'All'" (click)="filterMenu(0)">
+      <input type="button" [value]="'All'" [class.active]="filterSelected === 0" (click)="filterMenu(0)">
     </div>
     <div class="filter-items" *ngFor="let cat of category">
-        <input type="button" [value]="getCategoryName(cat.categoryId)" (click)="filterMenu(cat.categoryId)">
+        <input type="button" [class.active]="filterSelected === cat.categoryId" [value]="getCategoryName(cat.categoryId)" (click)="filterMenu(cat.categoryId)">
     </div>
   </div>
 
