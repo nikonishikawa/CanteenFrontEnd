@@ -1,5 +1,10 @@
 <div class="canteen-body">
   <nav class="nav_cont">
+    <div class="nav-profile" [routerLink]="['profile']" [ngClass]="{'nav_items': isActive === 6}" (click)="toggleActive(6)">
+      <img src="https://static.vecteezy.com/system/resources/previews/000/422/799/original/avatar-icon-vector-illustration.jpg"/>
+      <h3>Customer Name</h3>
+      <p>emailaddresshere</p>
+    </div>
     <ul class="nav">
       <li [routerLink]="['dashboard']" [ngClass]="{'nav_items': isActive === 1}" (click)="toggleActive(1)">
         <a>
@@ -17,14 +22,14 @@
           <span>Menu</span>
         </a>
       </li>
-      <li [routerLink]="['transaction']" [ngClass]="{'nav_items': isActive === 3}" (click)="toggleActive(3)">
+      <!-- <li [routerLink]="['transaction']" [ngClass]="{'nav_items': isActive === 3}" (click)="toggleActive(3)">
         <a>
           <i class="fa-solid fa-receipt">
             <use xlink:href="#history"></use>
           </i>
           <span>History</span>
         </a>
-      </li>
+      </li> -->
       <li [routerLink]="['order']" [ngClass]="{'nav_items': isActive === 4}" (click)="toggleActive(4)">
         <a>
           <i class="fa-solid fa-receipt">
@@ -41,14 +46,14 @@
         <span>Logout</span>
       </a>
     </li>
-    <li [routerLink]="['profile']" [ngClass]="{'nav_items': isActive === 6}" (click)="toggleActive(6)">
+    <!-- <li [routerLink]="['profile']" [ngClass]="{'nav_items': isActive === 6}" (click)="toggleActive(6)">
       <a >
         <i class="fa-solid fa-house">
           <use xlink:href="#home"></use>
         </i>
         <span>Profile</span>
       </a>
-    </li>
+    </li> -->
     </ul>
   </nav>
   

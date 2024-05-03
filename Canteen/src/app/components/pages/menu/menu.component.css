@@ -48,6 +48,16 @@ h1#title {
   color: #DA062E;
 }
 
+.filter-container div input.active {
+  margin: 0 15px 0 0;
+  padding: 8px 24px 8px 24px;
+  border-radius: 20px;
+  border: solid 2px #DA062E;
+  background-color: #DA062E;
+  font-weight: 600;
+  color: #fff;
+}
+
 .filter-items input {
   margin: 0 15px 0 0;
   padding: 8px 24px 8px 24px;

@@ -37,6 +37,8 @@ export class MenuComponent implements OnInit {
   OrderID: number = 0;
   selectedCategory: number = 0;
   groupedMenu: { [key: string]: Menu[] } = {};
+  filterSelected: any = null;
+  activeIndex: number = 0;
 
 
   constructor(
@@ -153,8 +155,22 @@ export class MenuComponent implements OnInit {
     this.modeOfPaymentId = event.target.value;
     console.log('Selected MOP:', this.modeOfPaymentId);
   }
+
+  filtSelect(index: number) {
+    this.filterSelected = index === 0 ? index : (index === this.filterSelected ? 1 : index);
+    this.setActiveIndex(this.filterSelected);  
+  }
+
+  setActiveIndex(index: any | 0) {
+    this.activeIndex = index;
+  }
+
+  getActiveIndex() {
+    return this.activeIndex;
+  }
   
-  filterMenu(categoryId: number) {
+  filterMenu(categoryId: any) {
+    this.filtSelect(categoryId);
     const uniqueCategories = [...new Set(this.menus.map(menu => menu.category))];
     this.category = this.category.filter(cat => uniqueCategories.includes(cat.categoryId));
     this.selectedCategory = categoryId; 

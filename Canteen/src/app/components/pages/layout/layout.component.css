@@ -4,6 +4,38 @@ body{
   width: 100vw;
 }
 
+.nav-profile {
+  font-family: 'Roboto';
+  width: 400px;
+  min-width: 400px;
+  height: 289px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  margin: 0;
+  background-color: #BA0023;
+}
+
+.nav-profile img {
+  width: 90px;
+  height: 90px;
+  border-radius: 100%;
+  margin: 50px 0 20px 0;
+}
+
+.nav-profile h3 {
+  font-family: 'Roboto';
+  font-size: 26px;
+  font-weight: 800;
+  margin: 0;
+}
+
+.nav-profile p {
+  font-size: 15px;
+  margin: 0 0 50px 0;
+}
 nav.nav_cont {
   width: 400px;
   height: 100vh;
@@ -14,6 +46,8 @@ nav.nav_cont {
   position: sticky;
   display: flex;
   flex-direction: column;
+  border-top-right-radius: 40px;
+  border-bottom-right-radius: 40px;
   min-width: 400px;
   top: 0;
   left: 0;
