@@ -1,5 +1,5 @@
 import { Component, Injectable, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Customer } from '../../../models/user.model';
 import { ToastrService } from 'ngx-toastr';
@@ -12,7 +12,7 @@ import { CustomerService } from '../../../services/customer.service';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 }
@@ -32,6 +32,10 @@ export class DashboardComponent implements OnInit {
     this.loadCustomerData();
     console.log("hello")
   }
+
+  // navigateTo(route: string, index: number) {
+  //   this.router.navigate([route]);
+  // }
 
   loadCustomerData() {
     this.customerService.loadCustomerData().subscribe({

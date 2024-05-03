@@ -1,0 +1,91 @@
+.dashboard {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    overflow-y: hidden;
+    justify-content: space-between;
+    padding-right: 50px;
+}
+
+/* .advertisement-container {
+    width: 25%;
+    height: 100%;
+    background-color: #2e2e2e;
+} */
+
+.datas-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+.summary-container {
+    height: 10%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.summary-container div {
+    width: 47%;
+    padding: 30px;
+    box-sizing: border-box; /* Include padding and border in the width */
+    border-radius: 30px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    box-shadow: 0 10px 5.4px rgba(0, 0, 0, 0.15);
+}
+
+
+.summary-container div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.summary-container div p {
+    font-size: 35px;
+    margin: 0;
+}
+
+.standard-container {
+    width: 100%;
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+}
+
+.standard-container div {
+    display: flex;
+    flex-direction: column;
+    height: 50%;
+    box-sizing: border-box; /* Include padding and border in the width */
+    border-radius: 50px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    box-shadow: 0 10px 5.4px rgba(0, 0, 0, 0.15);
+    padding: 40px;
+    margin: 30px 0 20px 0; /* Remove margins */
+}
+
+.standard-container .row-header {
+    display: flex;
+    height: 10%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border: none;
+    box-shadow: none;
+    margin: 0;
+    padding: 0;
+}
+
+.standard-container div div a {
+    font-size: 24px;
+    font-weight: 400;
+}
+
+/* .standard-container p {
+    height: 90%;
+    padding-top: 20px;
+} */
