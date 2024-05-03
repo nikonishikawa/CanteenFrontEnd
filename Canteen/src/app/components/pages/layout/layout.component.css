@@ -9,6 +9,7 @@ body{
   width: 400px;
   min-width: 400px;
   height: 289px;
+  min-height: 289px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -18,17 +19,26 @@ body{
   background-color: #BA0023;
 }
 
-.nav-profile img {
-  width: 90px;
-  height: 90px;
-  border-radius: 100%;
+.nav-profile .image-container {
+  display: flex;
+  width: 140px;
+  height: 140px;
   margin: 50px 0 20px 0;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 100%;
+}
+
+.image-container img {
+  width: 100%;
+  margin: 0;
 }
 
 .nav-profile h3 {
   font-family: 'Roboto';
   font-size: 26px;
   font-weight: 800;
+  text-transform: capitalize;
   margin: 0;
 }
 
@@ -190,6 +200,6 @@ nav.nav_cont {
 
   .body-container {
     width: 100%;
-    margin: 30px 0 0 50px;
+    margin: 30px 0 30px 50px;
   }
   

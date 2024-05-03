@@ -313,6 +313,7 @@ form button {
   }
 
   .tray-total-container select {
+    text-transform: capitalize;
     width: 100%;
     font-size: 20px;
     padding: 15px 20px 15px 20px;

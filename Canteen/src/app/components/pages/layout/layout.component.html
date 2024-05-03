@@ -1,9 +1,11 @@
 <div class="canteen-body">
   <nav class="nav_cont">
     <div class="nav-profile" [routerLink]="['profile']" [ngClass]="{'nav_items': isActive === 6}" (click)="toggleActive(6)">
-      <img src="https://static.vecteezy.com/system/resources/previews/000/422/799/original/avatar-icon-vector-illustration.jpg"/>
-      <h3>Customer Name</h3>
-      <p>emailaddresshere</p>
+      <div class="image-container">
+        <img src="https://static.vecteezy.com/system/resources/previews/000/422/799/original/avatar-icon-vector-illustration.jpg"/>
+      </div>
+      <h3>{{customerName.firstName}} {{customerName.middleName}}. {{customerName.lastName}}</h3>
+      <p>{{customerAddress.email}}</p>
     </div>
     <ul class="nav">
       <li [routerLink]="['dashboard']" [ngClass]="{'nav_items': isActive === 1}" (click)="toggleActive(1)">
