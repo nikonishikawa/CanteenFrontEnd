@@ -40,3 +40,11 @@ export interface getAllUser {
     postalCode: string;
   }
 
+  export interface editUser {
+    firstName: string;
+    middleName: string;
+    lastName: string;
+    membership: string;
+    address: string;
+    status: string;
+  }

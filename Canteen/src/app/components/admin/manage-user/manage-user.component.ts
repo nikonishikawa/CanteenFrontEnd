@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ManageUserService } from '../../../services/manage-user.service';
 import { ToastrService } from 'ngx-toastr';
-import { Address, Membership, genAddress, getAllUser, userName, userStatus } from '../../../models/manage-user.model';
+import { Address, Membership, editUser, genAddress, getAllUser, userName, userStatus } from '../../../models/manage-user.model';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { CustomerService } from '../../../services/customer.service';
@@ -21,28 +21,28 @@ export class ManageUserComponent implements OnInit {
   genaddRess: { userAddress: number; email: string } [] = [];
   userStatus: { userStatus: number; status: string } [] = [];
   modalOpen: boolean = false;
-  editedUser: any;
+  editedUser: editUser = {} as editUser
 
   constructor(
-    private manageUserService: ManageUserService,
-    private customerService : CustomerService,
-    private toastr: ToastrService,
+      private manageUserService: ManageUserService,
+      private customerService: CustomerService,
+      private toastr: ToastrService,
   ) { }
 
   ngOnInit(): void {
-    this.getAllUsers();
+      this.getAllUsers();
   }
 
   openEditModal(user: any) {
-    this.modalOpen = true;
-    this.editedUser = { 
-        firstName: this.getUserFirstName(user.cusName),
-        middleName: this.getUserMiddleName(user.cusName),
-        lastName: this.getUserLastName(user.cusName),
-        membership: this.getMembership(user.membership),
-        address: this.getAddress(user.cusAddress),
-        status: this.getUserStatus(user.status)
-    };
+      this.modalOpen = true;
+      this.editedUser = { 
+          firstName: this.getUserFirstName(user.cusName),
+          middleName: this.getUserMiddleName(user.cusName),
+          lastName: this.getUserLastName(user.cusName),
+          membership: this.getMembership(user.membership),
+          address: this.getAddress(user.cusAddress),
+          status: this.getUserStatus(user.status)
+      };
   }
 
   updateUser() {

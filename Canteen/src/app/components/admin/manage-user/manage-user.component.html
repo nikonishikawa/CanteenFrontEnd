@@ -15,12 +15,12 @@
 
 <div class="modal" [style.display]="modalOpen ? 'block' : 'none'">
     <div class="modal-content">
-        <input type="text" [(ngModel)]="editedUser.firstName" placeholder="First Name">
-        <input type="text" [(ngModel)]="editedUser.middleName" placeholder="Middle Name">
-        <input type="text" [(ngModel)]="editedUser.lastName" placeholder="Last Name">
-        <input type="text" [(ngModel)]="editedUser.membership" placeholder="Membership">
-        <input type="text" [(ngModel)]="editedUser.address" placeholder="Address">
-        <input type="text" [(ngModel)]="editedUser.status" placeholder="Status">
+        <input type="text" [(ngModel)]="editedUser.firstName">
+        <input type="text" [(ngModel)]="editedUser.middleName">
+        <input type="text" [(ngModel)]="editedUser.lastName">
+        <input type="text" [(ngModel)]="editedUser.membership">
+        <input type="text" [(ngModel)]="editedUser.address">
+        <input type="text" [(ngModel)]="editedUser.status">
         <button (click)="updateUser()">Update</button>
         <button (click)="cancelEdit()">Cancel</button>
     </div>

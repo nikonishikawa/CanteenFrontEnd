@@ -1,1 +1,55 @@
-<p>manage-menu works!</p>
+<div class="menu">
+    <h1 id="title" >Menu</h1>
+    <hr>
+    <div class="filter-container">
+      <div class="filt">
+      <input type ="button" [value] ="'Add Menu'"(click)="openModal()">
+    </div>
+
+    <div class="modal" [class.open]="modalOpen">
+      <div class="modal-content">
+        <button class="close-btn" (click)="closeModal()">&times;</button>
+        <span class="close" (click)="closeModal()">&times;</span>
+        <input type="text" [(ngModel)]="addMenu.item" placeholder="Item">
+        <input type="text" [(ngModel)]="addMenu.description" placeholder="Description">
+        <input type="text" [(ngModel)]="addMenu.foodImage" placeholder="Food Image URL">
+        <label for="isHalal">Halal</label> <input id="isHalal" type="checkbox" [(ngModel)]="addMenu.isHalal">
+        <input type="number" [(ngModel)]="addMenu.price" placeholder="Price">
+        <input type="text" [(ngModel)]="addMenu.category" placeholder="Category">
+        <button (click)="submitMenu()">Add</button>
+      </div>
+    </div>
+
+      <div class="filt">
+        <input type="button" [value]="'All'" [class.active]="filterSelected === 0" (click)="filterMenu(0)">
+      </div>
+      <div class="filter-items" *ngFor="let cat of category">
+          <input type="button" [class.active]="filterSelected === cat.categoryId" [value]="getCategoryName(cat.categoryId)" (click)="filterMenu(cat.categoryId)">
+      </div>
+    </div>
+    <div class="main-category-container">
+      <ng-container *ngFor="let category of filteredMenu | keyvalue">
+        <div class="category-container">
+          <h1 class="category-name">{{ getCategoryName(category.key) }}</h1>
+          <div class="main-container">
+            <div class="grid-wrapper">
+              <div class="item-container" *ngFor="let menuItem of category.value">
+                <div class="image-container">
+                  <img [src]="menuItem.foodImage" alt="Food image">
+                </div>
+                <div class="header-container">
+                  <h1 class="item" [ngStyle]="{'font-size.px': menuItem.item.length > 8 ? 26 : 32}">
+                    {{ menuItem.item }}
+                  </h1>
+                  <h1 id="price">₱{{ menuItem.price }}</h1>
+                  <div class="action-container">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+  
