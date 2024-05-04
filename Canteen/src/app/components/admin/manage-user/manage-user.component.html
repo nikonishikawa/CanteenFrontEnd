@@ -1,13 +1,27 @@
 <div class="users-container">
     <div class="user-list">
+        <div class="user-item">
+            <div class="user-details">
+                <img src="https://static.vecteezy.com/system/resources/previews/000/422/799/original/avatar-icon-vector-illustration.jpg"/>
+                <p id="customer-id-label">Customer ID</p>
+                <p id="name-label">Name</p>
+                <p id="membership-label">Membership</p>
+                <p id="address-label">Address</p>
+                <p id="status-label">Status</p>
+                <p id="action-label" style="padding-right: 30px;">Action</p>
+            </div>
+        </div>
         <div class="user-item" *ngFor="let user of users">
             <div class="user-details">
-                <p><strong>Customer ID:</strong> {{ user.customerId }}</p>
-                <p><strong>Name:</strong> {{ getUserFirstName(user.cusName) }} {{ getUserMiddleName(user.cusName) }} {{ getUserLastName(user.cusName) }} </p>
-                <p><strong>Membership:</strong> {{ getMembership(user.membership) }}</p>
-                <p><strong>Address:</strong> {{ getAddress(user.cusAddress) }}</p>
-                <p><strong>Status:</strong> {{ getUserStatus(user.status) }}</p>
-                <button (click)="openEditModal(user)">Edit</button>
+                <img src="https://static.vecteezy.com/system/resources/previews/000/422/799/original/avatar-icon-vector-illustration.jpg"/>
+                <p>{{ user.customerId }}</p>
+                <p>{{ getUserFirstName(user.cusName) }} {{ getUserMiddleName(user.cusName) }} {{ getUserLastName(user.cusName) }} </p>
+                <p *ngIf="getMembership(user.membership) === ''" style="color:#8a8a8a">N/A</p>
+                <p *ngIf="getMembership(user.membership) !== ''">{{ getMembership(user.membership) }}</p>
+                <p>{{ getAddress(user.cusAddress) }}</p>
+                <p *ngIf="getUserStatus(user.status) === ''" style="color:#8a8a8a">N/A</p>
+                <p *ngIf="getUserStatus(user.status) !== ''">{{ getUserStatus(user.status) }}</p>
+                <button style="padding-right: 30px;" (click)="openEditModal(user)">Edit</button>
             </div>
         </div>
     </div>

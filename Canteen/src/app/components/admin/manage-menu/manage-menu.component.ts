@@ -54,6 +54,11 @@ export class ManageMenuComponent implements OnInit {
     this.closeModal(); 
   }
   
+  updateHalalValue(event: any) {
+    this.addMenu.isHalal = event.target.checked ? 1 : 0;
+  }
+
+  
   AddMenu(addMenu: addMenu) {
     this.addMenu = { 
       itemId: addMenu.itemId,
@@ -66,6 +71,16 @@ export class ManageMenuComponent implements OnInit {
     };
     this.openModal(); 
   }
+
+  onFileSelected(event: any) {
+    const file: File = event.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      this.addMenu.foodImage = reader.result as string;
+    };
+  }
+  
 
   loadMenu() {
     this.menuService.getAllMenu().subscribe({

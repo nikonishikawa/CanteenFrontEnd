@@ -1,33 +1,59 @@
 .users-container {
-    max-width: 800px;
-    margin: 0 auto;
-    white-space: nowrap; /* Prevent wrapping to next line */
-    overflow-x: auto; /* Add horizontal scroll if needed */
+    display: flex;
+    flex-direction: column;
 }
 
 .user-list {
-    display: flex;
-    flex-wrap: nowrap; /* Prevent wrapping to next line */
+    justify-content: space-between;
 }
 
 .user-item {
-    flex: 0 0 auto; /* Prevent flex items from growing */
-    margin-right: 10px; /* Add margin between user items */
+    width: 100%;
+    margin-bottom: 50px;
 }
 
 .user-details {
+    font-size: 20px;
     display: flex;
-    flex-direction: column; /* Stack user details vertically */
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 10px;
+    height: 200px;
+    flex-direction: row;
+    flex-grow: 1;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 0 0 30px;
+    border-radius: 20px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    box-shadow: 0 10px 5.4px rgba(0, 0, 0, 0.15);
 }
 
-.user-details p {
-    margin: 5px 0;
+.user-details p, .user-details button{
+    flex: 1;
+    width: 0;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    justify-self: center;
 }
 
-.user-details p strong {
-    font-weight: bold;
+.user-details button {
+    height: 100%;
+    border: transparent;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    font-size: 20px;
+    font-weight: 600;
+    background-color: #DA062E;
+    color: #fff;
+}
+
+.user-details img {
+    width: 100px;
+    background-color: #fff;
+    border-radius: 100%;
+    padding: 15px;
+    border: 1px solid #8a8a8a;
+}
+
+#customer-id-label, #name-label, #membership-label, #address-label, #status-label, #action-label {
+    font-weight: 800;
 }

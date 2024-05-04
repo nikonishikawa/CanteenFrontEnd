@@ -9,13 +9,18 @@
     <div class="modal" [class.open]="modalOpen">
       <div class="modal-content">
         <button class="close-btn" (click)="closeModal()">&times;</button>
-        <span class="close" (click)="closeModal()">&times;</span>
+        <h1>Add Menu Item</h1>
+        <h3>Item Name</h3>
         <input type="text" [(ngModel)]="addMenu.item" placeholder="Item">
+        <h3>Item Description</h3>
         <input type="text" [(ngModel)]="addMenu.description" placeholder="Description">
-        <input type="text" [(ngModel)]="addMenu.foodImage" placeholder="Food Image URL">
-        <label for="isHalal">Halal</label>
-        <input id="isHalal" type="checkbox" [(ngModel)]="addMenu.isHalal">
+        <h3>Food Image</h3>
+        <input type="file" (change)="onFileSelected($event)">
+        <h3>Halal</h3>
+        <input id="isHalal" type="checkbox" [(ngModel)]="addMenu.isHalal" (change)="updateHalalValue($event)">
+        <h3>Price</h3>
         <input type="number" [(ngModel)]="addMenu.price" placeholder="Price">
+        <h3>Category</h3>
         <select [(ngModel)]="addMenu.itemId">
           <option *ngFor="let category of category" [value]="category.categoryId">{{ getCategoryName(category.categoryId) }}</option>
       </select>
