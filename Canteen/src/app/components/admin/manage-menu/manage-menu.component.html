@@ -1,11 +1,10 @@
 <div class="menu">
-    <h1 id="title" >Menu</h1>
+    <h1 id="title" >Manage Menu</h1>
     <hr>
     <div class="filter-container">
       <div class="filt">
       <input type ="button" [value] ="'Add Menu'"(click)="openModal()">
     </div>
-
     <div class="modal" [class.open]="modalOpen">
       <div class="modal-content">
         <button class="close-btn" (click)="closeModal()">&times;</button>
@@ -21,9 +20,11 @@
         <h3>Price</h3>
         <input type="number" [(ngModel)]="addMenu.price" placeholder="Price">
         <h3>Category</h3>
-        <select [(ngModel)]="addMenu.itemId">
-          <option *ngFor="let category of category" [value]="category.categoryId">{{ getCategoryName(category.categoryId) }}</option>
-      </select>
+        <select [(ngModel)]="addMenu.category">
+          <option *ngFor="let category of category" [value]="category.categoryId">{{ category.category }}</option>
+        </select>
+        
+        
         <button (click)="submitMenu()">Add</button>
       </div>
     </div>

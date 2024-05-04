@@ -7,6 +7,7 @@ import { Category } from '../../../models/category.model';
 import { CommonModule } from '@angular/common';
 import { addMenu } from '../../../models/manage-menu.model';
 import { FormsModule } from '@angular/forms';
+import { ManageMenuService } from '../../../services/manage-menu.service';
 
 @Component({
   selector: 'app-manage-menu',
@@ -34,14 +35,14 @@ export class ManageMenuComponent implements OnInit {
   constructor(
     private menuService: MenuService,
     private toastr: ToastrService,
-    private router: Router
+    private router: Router,
+    private manageMenuService: ManageMenuService
   ) { }
 
   ngOnInit(): void {
     this.loadMenu(); 
 
   }
-
 
   openModal() {
     this.modalOpen = true;
@@ -51,14 +52,30 @@ export class ManageMenuComponent implements OnInit {
   }
 
   submitMenu() {
+    this.manageMenuService.addMenu(
+      this.addMenu.item,
+      this.addMenu.description,
+      this.addMenu.foodImage,
+      this.addMenu.isHalal,
+      this.addMenu.price,
+      this.addMenu.category,
+      this.getCategoryName(this.addMenu.category)
+    ).subscribe(
+      response => {
+        console.log(response);
+      },
+      error => {
+        console.error(error);
+      }
+    );
     this.closeModal(); 
   }
+
   
   updateHalalValue(event: any) {
     this.addMenu.isHalal = event.target.checked ? 1 : 0;
   }
 
-  
   AddMenu(addMenu: addMenu) {
     this.addMenu = { 
       itemId: addMenu.itemId,
@@ -67,7 +84,7 @@ export class ManageMenuComponent implements OnInit {
       foodImage: addMenu.foodImage,
       isHalal: addMenu.isHalal,
       price: addMenu.price,
-      category: addMenu.category
+      category: addMenu.category 
     };
     this.openModal(); 
   }
