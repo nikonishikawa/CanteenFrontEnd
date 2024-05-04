@@ -4,7 +4,7 @@
     <div class="filter-container">
       <div class="filt">
       <input type ="button" [value] ="'Add Menu'"(click)="openModal()">
-    </div>
+      </div>
     <div class="modal" [class.open]="modalOpen">
       <div class="modal-content">
         <button class="close-btn" (click)="closeModal()">&times;</button>
@@ -15,6 +15,8 @@
         <input type="text" [(ngModel)]="addMenu.description" placeholder="Description">
         <h3>Food Image</h3>
         <input type="file" (change)="onFileSelected($event)">
+        <img *ngIf="addMenu.foodImage" [src]="addMenu.foodImage" alt="Food Image">
+
         <h3>Halal</h3>
         <input id="isHalal" type="checkbox" [(ngModel)]="addMenu.isHalal" (change)="updateHalalValue($event)">
         <h3>Price</h3>
@@ -23,21 +25,19 @@
         <select [(ngModel)]="addMenu.category">
           <option *ngFor="let category of category" [value]="category.categoryId">{{ category.category }}</option>
         </select>
-        
-        
         <button (click)="submitMenu()">Add</button>
       </div>
-    </div>
-
+      </div>
       <div class="filt">
         <input type="button" [value]="'All'" [class.active]="filterSelected === 0" (click)="filterMenu(0)">
       </div>
       <div class="filter-items" *ngFor="let cat of category">
           <input type="button" [class.active]="filterSelected === cat.categoryId" [value]="getCategoryName(cat.categoryId)" (click)="filterMenu(cat.categoryId)">
       </div>
-    </div>
-    <div class="main-category-container">
-      <ng-container *ngFor="let category of filteredMenu | keyvalue">
+</div>
+
+  <div class="main-category-container">
+    <ng-container *ngFor="let category of filteredMenu | keyvalue">
         <div class="category-container">
           <h1 class="category-name">{{ getCategoryName(category.key) }}</h1>
           <div class="main-container">
@@ -58,7 +58,7 @@
             </div>
           </div>
         </div>
-      </ng-container>
+    </ng-container>
     </div>
   </div>
   

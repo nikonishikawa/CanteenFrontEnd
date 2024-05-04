@@ -1,3 +1,7 @@
+<div class="addUser">
+    <input type ="button" [value] ="'Add User'"(click)="addUserModal()">
+</div>
+
 <div class="users-container">
     <div class="user-list">
         <div class="user-item">
@@ -32,9 +36,17 @@
         <input type="text" [(ngModel)]="editedUser.firstName">
         <input type="text" [(ngModel)]="editedUser.middleName">
         <input type="text" [(ngModel)]="editedUser.lastName">
-        <input type="text" [(ngModel)]="editedUser.membership">
+        <select [(ngModel)]="editedUser.membership">
+            <option [value]="editedUser.membership" disabled selected>Default Membership</option>
+            <ng-container *ngFor="let membership of loadMem">
+              <option [value]="membership.membership" *ngIf="editedUser.membership">{{ membership.membership }}</option>
+            </ng-container>
+          </select>
         <input type="text" [(ngModel)]="editedUser.address">
-        <input type="text" [(ngModel)]="editedUser.status">
+        <select [(ngModel)]="editedUser.status">
+            <option [value]="editedUser.status" disabled selected>Default Status</option>
+            <option *ngFor="let status of loadUser" [value]="status.userStatusId">{{ status.userStatusId }}</option>
+          </select>
         <button (click)="updateUser()">Update</button>
         <button (click)="cancelEdit()">Cancel</button>
     </div>

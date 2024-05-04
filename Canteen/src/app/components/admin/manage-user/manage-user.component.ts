@@ -1,10 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ManageUserService } from '../../../services/manage-user.service';
 import { ToastrService } from 'ngx-toastr';
-import { Address, Membership, editUser, genAddress, getAllUser, userName, userStatus } from '../../../models/manage-user.model';
+import { Address, editUser, genAddress, getAllUser, getUser, userName, userStatus } from '../../../models/manage-user.model';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { CustomerService } from '../../../services/customer.service';
+import { Register } from '../../../models/register.model';
+import { RegisterService } from '../../../services/register.service';
+import { LoadDataService } from '../../../services/load-data.service';
+import { UserStatus, Membership } from '../../../models/load-data.model';
 
 @Component({
   selector: 'app-manage-user',
@@ -16,32 +20,41 @@ import { CustomerService } from '../../../services/customer.service';
 
 export class ManageUserComponent implements OnInit {
   users: getAllUser[] = [];
+  getUser: getUser = {} as getUser
+  registernUser: Register = new Register();
+  address: Address[] = [];
+  loadUser: UserStatus[] = [];
+  loadMem: Membership[] = [];
   userNames: { cusName: number; firstName: string; middleName: string; lastName: string; }[] = [];
   memberShips: { userMembership: number; membership: string; } [] = [];
   genaddRess: { userAddress: number; email: string } [] = [];
   userStatus: { userStatus: number; status: string } [] = [];
   modalOpen: boolean = false;
+  modalUserOpen: boolean = false;
   editedUser: editUser = {} as editUser
 
   constructor(
       private manageUserService: ManageUserService,
       private customerService: CustomerService,
       private toastr: ToastrService,
+      private registerService: RegisterService,
+      private loadDataService: LoadDataService
   ) { }
 
   ngOnInit(): void {
       this.getAllUsers();
+      this.loadAllAddress();
   }
 
-  openEditModal(user: any) {
+  openEditModal(getUser: getUser) {
       this.modalOpen = true;
       this.editedUser = { 
-          firstName: this.getUserFirstName(user.cusName),
-          middleName: this.getUserMiddleName(user.cusName),
-          lastName: this.getUserLastName(user.cusName),
-          membership: this.getMembership(user.membership),
-          address: this.getAddress(user.cusAddress),
-          status: this.getUserStatus(user.status)
+          firstName: this.getUserFirstName(getUser.cusName),
+          middleName: this.getUserMiddleName(getUser.cusName),
+          lastName: this.getUserLastName(getUser.cusName),
+          membership: this.getMembership(getUser.membership),
+          address: this.getAddress(getUser.cusAddress),
+          status: this.getUserStatus(getUser.status)
       };
   }
 
@@ -53,16 +66,29 @@ export class ManageUserComponent implements OnInit {
     this.modalOpen = false;
   }
 
+
+  addUserModal() {
+    this.modalUserOpen = true;
+    
+  }
+  closeModal() {
+    this.modalUserOpen = false;
+  }
+
+
   getAllUsers() {
     this.manageUserService.getAllUser().subscribe(
       (res) => {
         if (res.isSuccess) {
           this.users = res.data;
           this.toastr.success('Received Customer Details');
+          console.log(res)
           this.loadCustomerName();
           this.loadMembership();
           this.loadAddress();
           this.loadUserStatus();
+          this.loadStatus();
+          this.loadMemb();
          
 
           if (this.users && this.users.length > 0) {
@@ -132,6 +158,78 @@ export class ManageUserComponent implements OnInit {
         })
       }
       
+      onRegister() {
+        this.registerService.RegisterIn(this.registernUser).subscribe(
+          (res: any) => {
+            if (res && res.isSuccess) {
+              this.toastr.success('Registration Successful'); 
+            } else {
+              alert(res && res.message ? res.message : 'Registration failed');
+            }
+          },
+          (error) => {
+            console.error('Registration failed:', error);
+            this.toastr.error('An error occurred during registration');
+          }
+        );
+      }
+    
+    loadAllAddress(): void {
+      this.registerService.getAddress().subscribe({
+        next: (res) => {
+          if (res && res.data) {
+            this.address = res.data;
+            console.log('Received address data:', res.data);
+          }
+        },
+        error: (err) => {
+          console.error('Error fetching address data:', err);
+        }
+      });
+    }
+
+
+
+
+
+
+    loadStatus(): void {
+      this.loadDataService.getUserStatus().subscribe({
+        next: (res) => {
+          if (res && res.data) {
+            this.loadUser = res.data;
+            console.log('Received Status data:', res.data);
+          }
+        },
+        error: (err) => {
+          console.error('Error fetching Status data:', err);
+        }
+      });
+    }
+
+    loadMemb(): void {
+      this.loadDataService.getMembership().subscribe({
+        next: (res) => {
+          if (res && res.data) {
+            this.loadMem = res.data;
+            console.log('Received Membership data:', res.data);
+          }
+        },
+        error: (err) => {
+          console.error('Error fetching Membership data:', err);
+        }
+      });
+    }
+    
+
+
+
+
+
+
+
+
+
       getUserFirstName(cusName: number): string {
         const user = this.userNames.find(u => u.cusName === cusName);
         return user ? user.firstName : '';

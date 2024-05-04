@@ -88,6 +88,7 @@ export class ManageMenuComponent implements OnInit {
     };
     this.openModal(); 
   }
+  
 
   onFileSelected(event: any) {
     const file: File = event.target.files[0];

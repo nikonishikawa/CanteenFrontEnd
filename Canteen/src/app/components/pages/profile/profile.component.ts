@@ -6,6 +6,8 @@ import { ToastrService } from 'ngx-toastr';
 import { Customer, CustomerName, address, customerGeneralAddress } from '../../../models/user.model';
 import { FormsModule } from '@angular/forms';
 import { forkJoin } from 'rxjs';
+import { RegisterService } from '../../../services/register.service';
+import { Address } from '../../../models/manage-user.model';
 
 
 @Component({
@@ -26,15 +28,18 @@ export class ProfileComponent implements OnInit {
   activeIndex: number = 0;
   btnActive: boolean = false;
   updateSuccess: boolean = false;
+  allAddress: Address[] = [];
 
   constructor(
     private customerService: CustomerService,
     private router: Router,
-    private toaster: ToastrService
+    private toaster: ToastrService,
+    private adressService: RegisterService
   ) { }
 
   ngOnInit(): void {
     this.loadCustomerData();
+    this.loadAllAddress();
     this.inputNameActive = this.getActiveIndex();
   }
 
@@ -126,4 +131,20 @@ export class ProfileComponent implements OnInit {
       }
     });
   }
+
+
+  
+loadAllAddress(): void {
+  this.adressService.getAddress().subscribe({
+    next: (res) => {
+      if (res && res.data) {
+        this.allAddress = res.data;
+        console.log('Received address data:', res.data);
+      }
+    },
+    error: (err) => {
+      console.error('Error fetching address data:', err);
+    }
+  });
+}
 }

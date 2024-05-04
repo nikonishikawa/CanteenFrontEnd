@@ -1,17 +1,15 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../environments/environment';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, catchError, throwError } from 'rxjs';
-import { Register } from '../models/register.model';
 import { ApiResponseMessage } from '../models/apiresponsemessage.model';
-import { Address } from '../models/manage-user.model';
+import { Membership, UserStatus } from '../models/load-data.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class RegisterService {
-  
-  
+export class LoadDataService {
+
   private baseApiUrl: string = environment.baseApiUrl;
   constructor(private http: HttpClient) { }
 
@@ -34,13 +32,15 @@ export class RegisterService {
     return throwError('An error occurred. Please try again later.');
   }
 
-  RegisterIn(RegisterUser: Register): Observable<Register> {
-    return this.http.post<Register>(this.baseApiUrl + 'api/UserCredential/RegisterUser', RegisterUser);
-  }
-
-  getAddress(): Observable<ApiResponseMessage<Address[]>> {
-    return this.http.get<ApiResponseMessage<Address[]>>(`${this.baseApiUrl}api/Address/GetAllAddress`)
+  getUserStatus(): Observable<ApiResponseMessage<UserStatus[]>> {
+    const headers = this.getHeaders();
+    return this.http.get<ApiResponseMessage<UserStatus[]>>(`${this.baseApiUrl}api/UserStatus/GetAllUserStatus`, { headers })
       .pipe(catchError(this.handleError));
   }
 
+  getMembership(): Observable<ApiResponseMessage<Membership[]>> {
+    const headers = this.getHeaders();
+    return this.http.get<ApiResponseMessage<Membership[]>>(`${this.baseApiUrl}api/Membership/GetAllMembership`, { headers })
+      .pipe(catchError(this.handleError));
+  }
 }
