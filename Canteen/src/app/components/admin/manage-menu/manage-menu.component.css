@@ -470,34 +470,55 @@ div.menu {
 
     .modal {
       display: none;
-      position: fixed;
       z-index: 1;
       left: 0;
       top: 0;
       width: 100%;
       height: 100%;
-      overflow: auto;
       background-color: rgba(0, 0, 0, 0.4);
     }
     
     .modal-content {
       background-color: #fefefe;
       position: absolute;
-      left: 50%;
+      width: 343px;
+      height: 65%;
       top: 50%;
+      left: 40%;
       transform: translate(-50%, -50%);
-      padding: 60px; /* Increased padding */
       border: 3px solid #888; /* Increased border width */
-      width: 95%; /* Increased width */
+      width: 40%; /* Increased width */
       max-width: 700px; /* Increased max-width */
     }
 
-    .modal-content input[type="text"],
-.modal-content input[type="number"],
-.modal-content select {
+    .main-modal-content {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .main-modal-content.image-container {
+      width: 343px;
+      height: 400px;
+      margin: 0;
+      padding: 0;
+    }
+
+    .main-modal-content .image-container img {
+      border-radius: 0;
+      height: 100%;
+      height: auto;
+      
+    }
+
+    .main-modal-content input[type="text"],
+.main-modal-content input[type="number"],
+.main-modal-content select {
   font-size: 18px; /* Increased font size */
   padding: 10px; /* Increased padding */
   margin-bottom: 15px; /* Added margin bottom for spacing between inputs */
+  height: fit-content;
 }
 
 .modal-content h3 {
@@ -519,7 +540,8 @@ div.menu {
     }
     
     .open {
-      display: block;
+      display: flex;
+      margin-left: 400px;
     }
     
     .close-btn {
