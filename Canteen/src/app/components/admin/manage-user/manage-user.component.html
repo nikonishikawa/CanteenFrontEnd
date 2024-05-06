@@ -39,7 +39,7 @@
                     <p id="membership-label">Membership</p>
                     <p id="address-label">Address</p>
                     <p id="status-label">Status</p>
-                    <p id="action-label" style="padding-right: 30px;">Action</p>
+                    <p id="action-label">Action</p>
                 </div>
             </div>
             <div class="user-item" *ngFor="let user of users">
@@ -52,7 +52,10 @@
                     <p>{{ getAddress(user.cusAddress) }}</p>
                     <p *ngIf="getUserStatus(user.status) === ''" style="color:#8a8a8a">N/A</p>
                     <p *ngIf="getUserStatus(user.status) !== ''">{{ getUserStatus(user.status) }}</p>
-                    <button style="padding-right: 30px;" (click)="openEditModal(user)">Edit</button>
+                    <div class="user-details-buttons-container">
+                        <button (click)="openEditModal(user)">Edit</button>
+                        <button>Archive</button>
+                    </div>
                 </div>
             </div>
         </div>
