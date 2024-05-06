@@ -164,6 +164,7 @@ export class ManageUserComponent implements OnInit {
             if (res && res.isSuccess) {
               this.toastr.success('Registration Successful'); 
               this.modalUserOpen = false;
+              this.getAllUsers();
             } else {
               alert(res && res.message ? res.message : 'Registration failed');
             }
