@@ -1,5 +1,11 @@
 <div class="canteen-body">
     <nav class="nav_cont">
+      <div class="nav-profile" [routerLink]="['profile']" [ngClass]="{'nav_items': isActive === 6}" (click)="toggleActive(6)">
+        <div class="image-container">
+          <img src="https://static.vecteezy.com/system/resources/previews/000/422/799/original/avatar-icon-vector-illustration.jpg"/>
+        </div>
+        <h3>{{adminName.firstName}} {{adminName.middleName}}. {{adminName.lastName}}</h3>
+      </div>
       <ul class="nav">
         <li [routerLink]="['dashboard']" [ngClass]="{'nav_items': isActive === 1}" (click)="toggleActive(1)">
           <a>
@@ -31,14 +37,6 @@
             <use xlink:href="#history"></use>
           </i>
           <span>Logout</span>
-        </a>
-      </li>
-      <li [routerLink]="['profile']" [ngClass]="{'nav_items': isActive === 5}" (click)="toggleActive(5)">
-        <a >
-          <i class="fa-solid fa-house">
-            <use xlink:href="#home"></use>
-          </i>
-          <span>Profile</span>
         </a>
       </li>
       </ul>

@@ -1,3 +1,162 @@
+.manage-user-container {
+    width: 100%;
+    height: 100%;
+}
+
+.addUser input{
+    margin: 0 15px 0 0;
+    padding: 8px 24px 8px 24px;
+    border-radius: 20px;
+    border: solid 2px #DA062E;
+    background-color: #fff;
+    font-weight: 600;
+    color: #DA062E;
+}
+
+.addUser {
+    margin: 0 0 30px 0
+}
+
+.modal {
+    display: none;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    overflow-y: hidden;
+    overflow-y: hidden;
+}
+
+.open {
+    display: flex;
+    margin-left: 400px;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    padding: 20px;
+    width: 10%;
+    height: 65%;
+    top: 50%;
+    left: 40%;
+    transform: translate(-50%, -50%);
+    border-radius: 30px;
+    border: 1px solid #fff; /* Increased border width */
+    width: 40%; /* Increased width */
+    max-width: 700px; /* Increased max-width */
+    overflow-y: inherit;
+    overflow-y: inherit;
+  }
+
+.register {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+}
+
+.register h1 {
+    margin: 20px 0 30px 0;
+}
+
+#username, #email, #password, .register-name-container input, .register-address-container input, .register-address-container select {
+    width: 100%;
+    padding: 17px;
+    font-size: 20px;
+    margin: 0;
+    height: 40px;
+    margin-bottom: 15px;
+    border-radius: 15px;
+}
+
+.register-header-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+#close-btn {
+    width: fit-content;
+    height: fit-content;
+    background-color: transparent;
+    border: transparent;
+    color: #DA062E;
+}
+
+.register-name-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.register-address-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.register-address-container select {
+    margin: 0 10px 0 0;
+}
+.register-address-container input {
+    margin: 0 0 0 10px;
+}
+
+.register button {
+    width: 100%;
+    padding: 15px 30px 15px 30px;
+    color: #fff;
+    font-size: 21px;
+    font-weight: 600;
+    background-color: #DA062E;
+    border-radius: 20px;
+    border: 1px solid #DA062E;
+    margin-top: 10px;
+}
+
+.modal-content input {
+    width: 100%;
+    padding: 17px;
+    font-size: 20px;
+    margin: 0;
+    height: 40px;
+    margin-bottom: 15px;
+    border-radius: 15px;
+}
+
+.modal-content .header-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    width: 100%;
+}
+
+.modal-content .action-button-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.action-button-container button {
+    flex: 1;
+    padding: 15px 30px 15px 30px; 
+    margin: 5px;
+    color: #fff;
+    font-size: 21px;
+    font-weight: 600;
+    background-color: #DA062E;
+    border-radius: 20px;
+    border: 1px solid #DA062E;
+}
+
 .users-container {
     display: flex;
     flex-direction: column;

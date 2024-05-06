@@ -2,10 +2,7 @@
   <h1 id="title" >Manage Menu</h1>
   <hr>
   <div class="filter-container">
-    <div class="filt">
-    <input type ="button" [value] ="'Add Menu'"(click)="openModal()">
-    </div>
-  <div class="modal" [class.open]="modalOpen">
+    <div class="modal" [class.open]="modalOpen">
     <div class="modal-content">
       <button class="close-btn" (click)="closeModal()">&times;</button>
       <button id="modal-add-btn" (click)="submitMenu()">+</button>
@@ -36,9 +33,12 @@
     </div>
     <div class="filt">
       <input type="button" [value]="'All'" [class.active]="filterSelected === 0" (click)="filterMenu(0)">
-    </div>
-    <div class="filter-items" *ngFor="let cat of category">
+      <div class="filter-items" *ngFor="let cat of category">
         <input type="button" [class.active]="filterSelected === cat.categoryId" [value]="getCategoryName(cat.categoryId)" (click)="filterMenu(cat.categoryId)">
+      </div>
+    </div>
+    <div class="action">
+      <input type ="button" [value] ="'Add Menu'"(click)="openModal()">
     </div>
 </div>
 
