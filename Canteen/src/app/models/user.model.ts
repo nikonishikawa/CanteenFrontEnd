@@ -7,6 +7,11 @@ export interface Customer {
   status: number;
 }
 
+export interface CustomerById {
+  cusId: number;
+  cusName: number; 
+}
+
 export interface CustomerName {
   firstName: string;
   middleName: string;

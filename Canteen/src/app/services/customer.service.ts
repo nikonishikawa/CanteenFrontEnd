@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ApiResponseMessage } from '../models/apiresponsemessage.model';
-import { Customer, CustomerName, address, customerGeneralAddress } from '../models/user.model';
+import { Customer, CustomerById, CustomerName, address, customerGeneralAddress } from '../models/user.model';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -67,12 +67,20 @@ export class CustomerService {
     return this.http.get<ApiResponseMessage<Customer>>(url, { headers });
   }
 
-   getCustomerName(nameId: number): Observable<ApiResponseMessage<CustomerName>> {
+  getCustomerName(nameId: number): Observable<ApiResponseMessage<CustomerName>> {
     const headers = this.getHeaders();
 
     const url = `${this.baseApiUrl}api/Name/GetName/${nameId}`;
 
     return this.http.get<ApiResponseMessage<CustomerName>>(url, { headers });
+   }
+
+   getCustomerById(CustomerId: number): Observable<ApiResponseMessage<CustomerById>> {
+    const headers = this.getHeaders();
+
+    const url = `${this.baseApiUrl}api/Customer/GetCustomerById/${CustomerId}`;
+
+    return this.http.get<ApiResponseMessage<CustomerById>>(url, { headers });
    }
 
    getCustomerAddress(genAddressId: number): Observable<ApiResponseMessage<customerGeneralAddress>> {
