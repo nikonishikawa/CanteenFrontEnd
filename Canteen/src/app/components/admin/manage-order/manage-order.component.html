@@ -1,1 +1,37 @@
-<p>manage-order works!</p>
+<div class="order">
+    <div class="search-bar-container">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" placeholder="Search" />
+    </div>
+  
+    <div class="orders-container">
+      <ng-container *ngFor="let group of orderGroups">
+        <div class="order-group" (click)="openModal(group.orderId)">
+          <div class="main-info-container">
+            <h2>{{ group.orderId }}</h2>
+            <p id="timestamp">{{ group.orderStamp }}</p>
+            <p id="mop-cash" *ngIf="group.modeOfPayment == '1'">Cash</p>
+            <p id="mop-gcash" *ngIf="group.modeOfPayment == '2'">GCash</p>
+          </div>
+          <p id="cost">₱{{ group.cost }}</p>
+          <p id="status-pending" *ngIf="group.status == '1'">Pending</p>
+          <p id="status-in-progress" *ngIf="group.status == '2'">In Progress</p>
+          <p id="status-completed" *ngIf="group.status == '3'">Completed</p>
+          <p id="status-cancelled" *ngIf="group.status == '4'">Cancelled</p>
+        </div>
+        <div *ngIf="openOrderItem === group.orderId" class="order-item">
+          <div class="items-container" *ngFor="let orderItem of group.orderItems">
+            <div class="item-main-container">
+              <img [src]="orderItem.foodImage" />
+              <div class="item-info-container">
+                <p id="item-name">{{ orderItem.item }}</p>
+                <p id="quantity">x {{ orderItem.quantity }}</p>
+              </div>
+            </div>
+            <p id="item-price">₱{{ orderItem.price }}</p> 
+          </div>
+        </div>
+      </ng-container>         
+    </div>
+  </div>
+  

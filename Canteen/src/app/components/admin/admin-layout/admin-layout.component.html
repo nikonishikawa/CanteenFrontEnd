@@ -15,7 +15,15 @@
             <span>Dashboard</span>
           </a>
         </li>
-        <li [routerLink]="['manage-user']" [ngClass]="{'nav_items': isActive === 2}" (click)="toggleActive(2)">
+        <li [routerLink]="['manage-order']" [ngClass]="{'nav_items': isActive === 2}" (click)="toggleActive(2)">
+          <a>
+            <i class="fa-solid fa-qrcode">
+              <use xlink:href="#search"></use>
+            </i>
+            <span>Orders</span>
+          </a>
+        </li>
+        <li [routerLink]="['manage-user']" [ngClass]="{'nav_items': isActive === 3}" (click)="toggleActive(3)">
           <a>
             <i class="fa-solid fa-qrcode">
               <use xlink:href="#search"></use>
@@ -23,7 +31,7 @@
             <span>Manage User</span>
           </a>
         </li>
-        <li [routerLink]="['manage-menu']" [ngClass]="{'nav_items': isActive === 3}" (click)="toggleActive(3)">
+        <li [routerLink]="['manage-menu']" [ngClass]="{'nav_items': isActive === 4}" (click)="toggleActive(4)">
           <a>
             <i class="fa-solid fa-receipt">
               <use xlink:href="#history"></use>
@@ -31,7 +39,7 @@
             <span>Manage Menu</span>
           </a>
         </li>
-      <li [routerLink]="['logout']" [ngClass]="{'nav_items': isActive === 4}" (click)="logout()">
+      <li [routerLink]="['logout']" [ngClass]="{'nav_items': isActive === 5}" (click)="logout()">
         <a>
           <i class="fa-solid fa-receipt">
             <use xlink:href="#history"></use>

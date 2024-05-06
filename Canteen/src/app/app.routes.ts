@@ -84,6 +84,11 @@ export const routes: Routes = [
         canActivate: [AuthGuard] 
       },
       {
+        path: 'manage-order',
+        component: ManageOrderComponent,
+        canActivate: [AuthGuard]
+      },
+      {
         path: 'manage-user',
         component: ManageUserComponent,
         canActivate: [AuthGuard]

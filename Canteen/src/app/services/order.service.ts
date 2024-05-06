@@ -4,6 +4,7 @@ import { environment } from '../environments/environment';
 import { Observable, catchError, throwError } from 'rxjs';
 import { ApiResponseMessage } from '../models/apiresponsemessage.model';
 import { Menu } from '../models/menu.model';
+import { orderItems } from '../models/orders.model';
 
 @Injectable({
   providedIn: 'root'
@@ -40,6 +41,12 @@ export class OrderService {
         return throwError('Error fetching orders by customer ID. Please try again later.');
       })
     );
+  }
+
+  getAllOrders(): Observable<ApiResponseMessage<orderItems[]>> {
+    const headers = this.getHeaders();
+    return this.http.get<ApiResponseMessage<orderItems[]>>(`${this.baseApiUrl}api/OrderStatus/GetAllOrders`, { headers })
+      .pipe(catchError(this.handleError));
   }
 
   loadItemsById(): Observable<any> {

@@ -15,7 +15,7 @@
           <p id="mop-gcash" *ngIf="group.modeOfPayment == '2'">GCash</p>
         </div>
         <p id="cost">₱{{ group.cost }}</p>
-        <p id="status-pending" *ngIf="group.status == '0'">Pending</p>
+        <p id="status-pending" *ngIf="group.status == '1'">Pending</p>
         <p id="status-in-progress" *ngIf="group.status == '2'">In Progress</p>
         <p id="status-completed" *ngIf="group.status == '3'">Completed</p>
         <p id="status-cancelled" *ngIf="group.status == '4'">Cancelled</p>

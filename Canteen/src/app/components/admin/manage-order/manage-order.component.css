@@ -1,0 +1,212 @@
+/* CSS for Customer Details */
+.order {
+    font-family: Arial, sans-serif;
+    max-width: 100%;
+    margin: 0 auto;
+
+}
+
+
+.search-bar-container {
+    width: 100%;
+    border: 1px solid #b6b6b6;
+    border-radius: 25px;
+    margin: 12px 0 24px 0 ;
+    padding: 12px 20px 12px 15px;
+    font-size: 30px;
+  }
+  
+  .search-bar-container i {
+    margin: 0 0 0 33px;
+    color: #2C2C2C;
+  }
+  
+  .search-bar-container input {
+    width: 90%;
+    border: none;
+    padding: 15px 0 15px 0;
+    margin: 0 0 0 33px;
+  }
+  
+  .search-bar-container input:focus {
+    outline: none;
+  }
+
+  .filter-container {
+    display: flex;
+  }
+  
+  .filt input {
+    margin: 0 15px 0 0;
+    padding: 8px 24px 8px 24px;
+    border-radius: 20px;
+    border: solid 2px #DA062E;
+    background-color: #fff;
+    font-weight: 600;
+    color: #DA062E;
+  }
+  
+  .filter-items input {
+    margin: 0 15px 0 0;
+    padding: 8px 24px 8px 24px;
+    border-radius: 20px;
+    border: solid 2px #DA062E;
+    background-color: #fff;
+    font-weight: 600;
+    color: #DA062E;
+  }
+
+h1 {
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+#customerDetails {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 20px;
+}
+
+#customerDetails p {
+    margin: 5px 0;
+    font-size: 18px;
+    color: #555;
+}
+
+/* CSS for Orders Container */
+.order-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.order-group p {
+    font-size: 20px;
+}
+#timestamp {
+    color: #c2c2c2;
+    font-weight: 600;
+}
+
+#mop {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+#mop-cash {
+    color: #e42e00;
+}
+
+#mop-gcash {
+    color: rgb(0, 45, 170);
+}
+
+#cost {
+    color: #00aa1c;
+    font-weight: 600;
+}
+
+#status-pending {
+    color: #e4af00;
+    border-radius: 30px;
+    padding: 10px 30px 10px 30px;
+    border: 2px solid #e4af00;
+    background-color: #f1ddbe;
+    font-weight: 600;
+}
+
+#status-in-progress {
+    color: #00e40b;
+    border-radius: 30px;
+    padding: 10px 30px 10px 30px;
+    border: 2px solid #00e40b;
+    background-color: #bef1c0;
+    font-weight: 600;
+}
+
+#status-completed {
+    color: #0048e4;
+    border-radius: 30px;
+    padding: 10px 30px 10px 30px;
+    border: 2px solid #0048e4;
+    background-color: #becef1;
+    font-weight: 600;
+}
+
+#status-cancelled {
+    color: #e40000;
+    border-radius: 30px;
+    padding: 10px 30px 10px 30px;
+    border: 2px solid #e40000;
+    background-color: #f1bebe;
+    font-weight: 600;
+}
+
+/* .order-item {
+    
+} */
+
+.item-main-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 30px;
+}
+
+.items-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+    padding-right: 80px;
+    border: 1px solid #ddd;
+    border-radius: 30px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.order-item .item-main-container img {
+    width: 120px;
+    height: 120px;
+    border-top-left-radius: inherit;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: inherit;
+    border-bottom-right-radius: 0;
+}
+
+.order-item p {
+    font-size: 16px;
+    color: #444;
+    margin-bottom: 0;
+}
+
+.order-item #item-name {
+    font-size: 26px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.order-item #quantity {
+    margin-left: auto;
+}
+
+.items-container #item-price {
+    font-size: 24px;
+    font-weight: 600;
+    color: #00aa1c;
+}
+
+.item-info-container {
+    margin-left: 30px;
+}
