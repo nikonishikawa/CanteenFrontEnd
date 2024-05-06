@@ -27,7 +27,7 @@ div.menu {
     width: 90%;
     border: none;
     padding: 15px 0 15px 0;
-    margin: 0 0 0 33px;
+    
   }
   
   .search-bar-container input:focus {
@@ -36,6 +36,15 @@ div.menu {
   
   .filter-container {
     display: flex;
+    justify-content: space-between;
+  }
+
+  .filter-container .filt {
+    display: flex;
+    flex: 1;
+    flex-wrap: wrap;
+    justify-content: start;
+    margin: 0 0 0 33px;
   }
   
   .filt input {
@@ -46,6 +55,26 @@ div.menu {
     background-color: #fff;
     font-weight: 600;
     color: #DA062E;
+  }
+
+  .action input {
+    margin: 0 15px 0 0;
+    padding: 8px 24px 8px 24px;
+    border-radius: 20px;
+    border: solid 2px #e4a92a;
+    background-color: #fff;
+    font-weight: 600;
+    color: #e4a92a;
+  }
+
+  .action input.active {
+    margin: 0 15px 0 0;
+    padding: 8px 24px 8px 24px;
+    border-radius: 20px;
+    border: solid 2px #e4a92a;
+    background-color: #e4a92a;
+    font-weight: 600;
+    color: #fff;
   }
   
   .filter-container div input.active {

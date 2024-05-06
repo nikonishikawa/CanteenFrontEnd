@@ -1,75 +1,86 @@
-<div class="addUser">
-    <button type="button" (click)="addUserModal()">Add User</button>
-</div>
-<div class="modal" [style.display]="modalUserOpen ? 'block' : 'none'">
-    <div class="modal-content">
-        <form class="register">
-            <input type="name" name="username" [(ngModel)]="registernUser.username" placeholder="username" required="">
-            <input type="password" name="password" [(ngModel)]="registernUser.password" placeholder="password" required="">
-
-            <input type="name" name="email" [(ngModel)]="registernUser.info.email" placeholder="email" required="">
-            <select name="addressId" [(ngModel)]="registernUser.info.addressId" required>
-                <option *ngFor="let addr of address" [value]="addr.addressId">{{ addr.barangay }}</option>
-            </select>
-            
-            <input type="text" name="contactNumber" [(ngModel)]="registernUser.info.contactNumber" placeholder="phone number" required="">
-            <input type="text" name="firstName" [(ngModel)]="registernUser.info.firstName" placeholder="first name" required="">
-            <input type="text" name="middleName" [(ngModel)]="registernUser.info.middleName" placeholder="middle name" required="">
-            <input type="text" name="lastName" [(ngModel)]="registernUser.info.lastName" placeholder="last name" required="">
-
-            <button type="button" (click)="onRegister()">Register</button>
-        </form>
+<div class="manage-user-container">
+    <div class="addUser">
+        <input type="button" (click)="addUserModal()" value="Add User">
     </div>
-</div>
-
-
-<div class="users-container">
-    <div class="user-list">
-        <div class="user-item">
-            <div class="user-details">
-                <img src="https://static.vecteezy.com/system/resources/previews/000/422/799/original/avatar-icon-vector-illustration.jpg"/>
-                <p id="customer-id-label">Customer ID</p>
-                <p id="name-label">Name</p>
-                <p id="membership-label">Membership</p>
-                <p id="address-label">Address</p>
-                <p id="status-label">Status</p>
-                <p id="action-label" style="padding-right: 30px;">Action</p>
-            </div>
-        </div>
-        <div class="user-item" *ngFor="let user of users">
-            <div class="user-details">
-                <img src="https://static.vecteezy.com/system/resources/previews/000/422/799/original/avatar-icon-vector-illustration.jpg"/>
-                <p>{{ user.customerId }}</p>
-                <p>{{ getUserFirstName(user.cusName) }} {{ getUserMiddleName(user.cusName) }} {{ getUserLastName(user.cusName) }} </p>
-                <p *ngIf="getMembership(user.membership) === ''" style="color:#8a8a8a">N/A</p>
-                <p *ngIf="getMembership(user.membership) !== ''">{{ getMembership(user.membership) }}</p>
-                <p>{{ getAddress(user.cusAddress) }}</p>
-                <p *ngIf="getUserStatus(user.status) === ''" style="color:#8a8a8a">N/A</p>
-                <p *ngIf="getUserStatus(user.status) !== ''">{{ getUserStatus(user.status) }}</p>
-                <button style="padding-right: 30px;" (click)="openEditModal(user)">Edit</button>
-            </div>
+    <div class="modal" [class.open]="modalUserOpen">
+        <div class="modal-content">
+            <form class="register">
+                <div class="register-header-container">
+                    <h1>Add User</h1>
+                    <button id="close-btn" (click)="closeModal()">X</button>
+                </div>
+                <input type="name" id="username" name="username" [(ngModel)]="registernUser.username" placeholder="username" required="">
+                <input type="name" id="email" name="email" [(ngModel)]="registernUser.info.email" placeholder="email" required="">
+                <input type="password" id="password" name="password" [(ngModel)]="registernUser.password" placeholder="password" required="">
+                <div class="register-name-container">
+                    <input type="text" name="firstName" [(ngModel)]="registernUser.info.firstName" placeholder="first name" required="">
+                    <input type="text" name="middleName" [(ngModel)]="registernUser.info.middleName" placeholder="middle name" required="">
+                    <input type="text" name="lastName" [(ngModel)]="registernUser.info.lastName" placeholder="last name" required="">
+                </div>
+                <div class="register-address-container">
+                    <select name="addressId" [(ngModel)]="registernUser.info.addressId" required>
+                        <option *ngFor="let addr of address" [value]="addr.addressId">{{ addr.barangay }}</option>
+                    </select>
+                    <input type="text" name="contactNumber" [(ngModel)]="registernUser.info.contactNumber" placeholder="phone number" required="">
+                </div>
+                <button type="button" (click)="onRegister()">Register</button>
+            </form>
         </div>
     </div>
-</div>
-
-<div class="modal" [style.display]="modalOpen ? 'block' : 'none'">
-    <div class="modal-content">
-        <input type="text" [(ngModel)]="editedUser.firstName">
-        <input type="text" [(ngModel)]="editedUser.middleName">
-        <input type="text" [(ngModel)]="editedUser.lastName">
-        <select [(ngModel)]="editedUser.membership">
-            <option [value]="editedUser.membership" disabled selected>Default Membership</option>
-            <ng-container *ngFor="let membership of loadMem">
-              <option [value]="membership.membership" *ngIf="editedUser.membership">{{ membership.membership }}</option>
-            </ng-container>
-          </select>
-        <input type="text" [(ngModel)]="editedUser.address">
-        <select [(ngModel)]="editedUser.status">
-            <option [value]="editedUser.status" disabled selected>Default Status</option>
-            <option *ngFor="let status of loadUser" [value]="status.userStatusId">{{ status.userStatusId }}</option>
-          </select>
-        <button (click)="updateUser()">Update</button>
-        <button (click)="cancelEdit()">Cancel</button>
+    
+    
+    <div class="users-container">
+        <div class="user-list">
+            <div class="user-item">
+                <div class="user-details">
+                    <img src="https://static.vecteezy.com/system/resources/previews/000/422/799/original/avatar-icon-vector-illustration.jpg"/>
+                    <p id="customer-id-label">Customer ID</p>
+                    <p id="name-label">Name</p>
+                    <p id="membership-label">Membership</p>
+                    <p id="address-label">Address</p>
+                    <p id="status-label">Status</p>
+                    <p id="action-label" style="padding-right: 30px;">Action</p>
+                </div>
+            </div>
+            <div class="user-item" *ngFor="let user of users">
+                <div class="user-details">
+                    <img src="https://static.vecteezy.com/system/resources/previews/000/422/799/original/avatar-icon-vector-illustration.jpg"/>
+                    <p>{{ user.customerId }}</p>
+                    <p>{{ getUserFirstName(user.cusName) }} {{ getUserMiddleName(user.cusName) }} {{ getUserLastName(user.cusName) }} </p>
+                    <p *ngIf="getMembership(user.membership) === ''" style="color:#8a8a8a">N/A</p>
+                    <p *ngIf="getMembership(user.membership) !== ''">{{ getMembership(user.membership) }}</p>
+                    <p>{{ getAddress(user.cusAddress) }}</p>
+                    <p *ngIf="getUserStatus(user.status) === ''" style="color:#8a8a8a">N/A</p>
+                    <p *ngIf="getUserStatus(user.status) !== ''">{{ getUserStatus(user.status) }}</p>
+                    <button style="padding-right: 30px;" (click)="openEditModal(user)">Edit</button>
+                </div>
+            </div>
+        </div>
     </div>
+    
+    <div class="modal" [class.open]="modalOpen">
+        <div class="modal-content">
+            <div class="header-container">
+                <h1>Edit User</h1>
+            </div>
+            <input type="text" [(ngModel)]="editedUser.firstName">
+            <input type="text" [(ngModel)]="editedUser.middleName">
+            <input type="text" [(ngModel)]="editedUser.lastName">
+            <select [(ngModel)]="editedUser.membership">
+                <option [value]="editedUser.membership" disabled selected>Default Membership</option>
+                <ng-container *ngFor="let membership of loadMem">
+                  <option [value]="membership.membership" *ngIf="editedUser.membership">{{ membership.membership }}</option>
+                </ng-container>
+              </select>
+            <input type="text" [(ngModel)]="editedUser.address">
+            <select [(ngModel)]="editedUser.status">
+                <option [value]="editedUser.status" disabled selected>Default Status</option>
+                <option *ngFor="let status of loadUser" [value]="status.userStatusId">{{ status.userStatusId }}</option>
+              </select>
+            <div class="action-button-container">
+                <button (click)="updateUser()">Update</button>
+                <button (click)="cancelEdit()">Cancel</button>
+            </div>
+        </div>
+    </div>    
 </div>
-

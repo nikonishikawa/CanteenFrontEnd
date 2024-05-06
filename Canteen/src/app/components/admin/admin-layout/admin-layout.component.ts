@@ -1,5 +1,6 @@
 import { Component, NO_ERRORS_SCHEMA, OnInit } from '@angular/core';
 import { LayoutService } from '../../../services/layout.service';
+import { Admin, AdminName } from '../../../models/admin.model';
 import { Router, RouterModule } from '@angular/router';
 import { MenuService } from '../../../services/menu.service';
 import { ToastrService } from 'ngx-toastr';
@@ -15,6 +16,8 @@ import { CommonModule } from '@angular/common';
 })
 export class AdminLayoutComponent implements OnInit {
   isActive!: number | 1;
+  admin: Admin = {} as Admin;
+  adminName: AdminName = {} as AdminName;
 
   constructor(private layoutService: LayoutService,
               private router: Router, 
