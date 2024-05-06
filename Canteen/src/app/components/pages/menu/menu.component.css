@@ -106,7 +106,7 @@ h1#title {
   width: 100%;
   max-width: 100%;
   height: fit-content; /* Fixed height */
-  background-color: #f0f0f0;
+  background-color: #fff;
   padding: 15px;
   overflow-y: hidden;
 }

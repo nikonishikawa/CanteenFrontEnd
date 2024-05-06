@@ -62,6 +62,8 @@ export class ManageMenuComponent implements OnInit {
       this.getCategoryName(this.addMenu.category)
     ).subscribe(
       response => {
+        this.toastr.success("Added Item Successfully!");
+        this.loadMenu(); 
         console.log(response);
       },
       error => {
