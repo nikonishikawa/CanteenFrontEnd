@@ -132,8 +132,6 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-
-  
 loadAllAddress(): void {
   this.adressService.getAddress().subscribe({
     next: (res) => {

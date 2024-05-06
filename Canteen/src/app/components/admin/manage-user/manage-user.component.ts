@@ -38,7 +38,7 @@ export class ManageUserComponent implements OnInit {
       private customerService: CustomerService,
       private toastr: ToastrService,
       private registerService: RegisterService,
-      private loadDataService: LoadDataService
+      private loadDataService: LoadDataService,
   ) { }
 
   ngOnInit(): void {
@@ -163,6 +163,7 @@ export class ManageUserComponent implements OnInit {
           (res: any) => {
             if (res && res.isSuccess) {
               this.toastr.success('Registration Successful'); 
+              this.modalUserOpen = false;
             } else {
               alert(res && res.message ? res.message : 'Registration failed');
             }

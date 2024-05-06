@@ -1,6 +1,27 @@
 <div class="addUser">
-    <input type ="button" [value] ="'Add User'"(click)="addUserModal()">
+    <button type="button" (click)="addUserModal()">Add User</button>
 </div>
+<div class="modal" [style.display]="modalUserOpen ? 'block' : 'none'">
+    <div class="modal-content">
+        <form class="register">
+            <input type="name" name="username" [(ngModel)]="registernUser.username" placeholder="username" required="">
+            <input type="password" name="password" [(ngModel)]="registernUser.password" placeholder="password" required="">
+
+            <input type="name" name="email" [(ngModel)]="registernUser.info.email" placeholder="email" required="">
+            <select name="addressId" [(ngModel)]="registernUser.info.addressId" required>
+                <option *ngFor="let addr of address" [value]="addr.addressId">{{ addr.barangay }}</option>
+            </select>
+            
+            <input type="text" name="contactNumber" [(ngModel)]="registernUser.info.contactNumber" placeholder="phone number" required="">
+            <input type="text" name="firstName" [(ngModel)]="registernUser.info.firstName" placeholder="first name" required="">
+            <input type="text" name="middleName" [(ngModel)]="registernUser.info.middleName" placeholder="middle name" required="">
+            <input type="text" name="lastName" [(ngModel)]="registernUser.info.lastName" placeholder="last name" required="">
+
+            <button type="button" (click)="onRegister()">Register</button>
+        </form>
+    </div>
+</div>
+
 
 <div class="users-container">
     <div class="user-list">

@@ -29,7 +29,6 @@ export class RegisterComponent implements OnInit {
       (res: any) => {
         if (res && res.isSuccess) {
           this.toaster.success('Registration Successful'); 
-          this.router.navigateByUrl('login');
         } else {
           alert(res && res.message ? res.message : 'Registration failed');
         }
