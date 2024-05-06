@@ -32,10 +32,13 @@
     </div>
   </div>
   <div class="address-container">
-    <div *ngIf="customerAddress" [class.active]="inputNameActive  === 4" (click)="toggleActive(4)">
+    <div *ngIf="customerAddress" [class.active]="inputNameActive === 4" (click)="toggleActive(4)">
       <p>Address:</p>
-      <input class="editable-input" id="addressId" [attr.contenteditable]="enableEditing" [(ngModel)]="customerAddress.addressId">
+      <select class="editable-input" id="addressId" [(ngModel)]="customerAddress.addressId">
+        <option *ngFor="let addr of allAddress" [value]="addr.addressId">{{ addr.barangay }}</option>
+      </select>
     </div>  
   </div>
+  
   </div>
 </div>

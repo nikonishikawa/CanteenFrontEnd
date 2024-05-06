@@ -71,11 +71,11 @@ export class MenuComponent implements OnInit {
   
   generateTrayTempId() {
     this.trayTempId = localStorage.getItem('trayTempId');
-  
     if (!this.trayTempId) {
       this.menuService.generateTrayTempId(this.customer.customerId.toString()).subscribe(
         (trayTempId) => {
           this.trayTempId = trayTempId;
+          this.loadCategory();
           localStorage.setItem('trayTempId', JSON.stringify(trayTempId));
           this.getTrayTempId();
         },

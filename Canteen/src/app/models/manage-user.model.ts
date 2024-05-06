@@ -8,6 +8,16 @@ export interface getAllUser {
     customerName?: string;
   }
 
+  export interface getUser {
+    customerId: number;
+    cusCredentials: string;
+    cusName: number;
+    cusAddress: number;
+    membership: number;
+    status: number;
+    customerName?: string;
+  }
+
   export interface userName {
     firstName: string;
     middleName: string;
@@ -47,4 +57,8 @@ export interface getAllUser {
     membership: string;
     address: string;
     status: string;
+  }
+
+  export interface addUser {
+    
   }
