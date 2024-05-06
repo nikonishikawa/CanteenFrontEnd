@@ -8,7 +8,7 @@
       <ng-container *ngFor="let group of orderGroups">
         <div class="order-group" (click)="openModal(group.orderId)">
           <div class="main-info-container">
-            <h2>{{ group.orderId }}</h2>
+            <h2>{{ getNameValue(group) }}</h2>
             <p id="timestamp">{{ group.orderStamp }}</p>
             <p id="mop-cash" *ngIf="group.modeOfPayment == '1'">Cash</p>
             <p id="mop-gcash" *ngIf="group.modeOfPayment == '2'">GCash</p>

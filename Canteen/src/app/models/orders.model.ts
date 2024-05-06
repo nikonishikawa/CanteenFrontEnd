@@ -15,6 +15,7 @@ export interface MOP {
   export interface orderItems {
     orderId: number;
     orderItemId: number;
+    cusId: number;
     item: string;
     quantity: number;
     price: number;
@@ -23,6 +24,7 @@ export interface MOP {
     modeOfPayment: string; 
     status:  string; 
     foodImage: string;
+    name: number;
 }
 
 export interface orders {

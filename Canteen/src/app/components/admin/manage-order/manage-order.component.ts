@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { OrderService } from '../../../services/order.service';
@@ -8,6 +8,11 @@ import { FormsModule } from '@angular/forms';
 import { TrayItemsDTO } from '../../../models/tray.model';
 import { Menu } from '../../../models/menu.model';
 import { MenuService } from '../../../services/menu.service';
+import { Customer, CustomerById } from '../../../models/user.model';
+import { CustomerService } from '../../../services/customer.service';
+import { ApiResponseMessage } from '../../../models/apiresponsemessage.model';
+import { Component, OnInit } from '@angular/core';
+import { getAllUser } from '../../../models/manage-user.model';
 
 @Component({
   selector: 'app-manage-order',
@@ -16,7 +21,9 @@ import { MenuService } from '../../../services/menu.service';
   templateUrl: './manage-order.component.html',
   styleUrl: './manage-order.component.css'
 })
+
 export class ManageOrderComponent implements OnInit {
+  customer: CustomerById = {} as CustomerById;
   tray: TrayItemsDTO = {} as TrayItemsDTO;
   orderItems: orderItems[] =  [];
   order: orders = {} as orders;
@@ -26,6 +33,9 @@ export class ManageOrderComponent implements OnInit {
   orderGroups: any[] = [];
   openOrderItem: any = null;
   showFirstContent: boolean = false;
+  users: getAllUser[] = [];
+  userNames: { cusName: number; firstName: string; middleName: string; lastName: string; }[] = [];
+  
 
   constructor(
     private route: ActivatedRoute,
@@ -33,6 +43,7 @@ export class ManageOrderComponent implements OnInit {
     private router: Router,
     private orderService: OrderService,
     private menuService: MenuService,
+    private customerService: CustomerService,
   ) { }
   
   ngOnInit(): void {
@@ -41,11 +52,13 @@ export class ManageOrderComponent implements OnInit {
 
 
   getOrders() {
- this.orderService.getAllOrders().subscribe({
+    this.orderService.getAllOrders().subscribe({
       next: (res: { isSuccess: boolean, data: orderItems[], message: string }) => {
         if (res.isSuccess) {  
           this.orderItems = res.data;
           console.log("Response", res);
+          const customerId = this.extractCustomerId(res.data); // Extract customer ID
+          this.getCustomerId(customerId); // Fetch customer details using the extracted ID
           this.orderItems.forEach(orderItem => {
             this.loadItem(orderItem.item, orderItem);
           });
@@ -63,6 +76,25 @@ export class ManageOrderComponent implements OnInit {
       }
     });
   }
+  
+  extractCustomerId(data: orderItems[]): number {
+    return data.length > 0 ? data[0].cusId : 0;
+  }
+  
+  getCustomerId(customerId: number): void {
+    this.customerService.getCustomerById(customerId).subscribe({
+      next: (res: ApiResponseMessage<CustomerById>) => {
+        const customer = res.data; 
+        this.customer = customer; 
+        console.log("CustomerId Response", res);
+      },
+      error: (err) => {
+        console.error('Error retrieving customer ID:', err);
+      }
+    });
+  }
+  
+
 
   loadItem(itemId: string, orderItem: any) {
     this.orderService.getItemById(itemId).subscribe({
@@ -72,7 +104,19 @@ export class ManageOrderComponent implements OnInit {
       }
     });
   }
-  
+
+  loadCustomerName() {
+    this.users.forEach(user => {
+      this.customerService.getCustomerName(user.cusName).subscribe({
+        next: (res) => {
+          this.userNames.push({ cusName: user.cusName, firstName: res.data.firstName, middleName: res.data.middleName, lastName: res.data.lastName });
+        },
+        error: (error) => {
+          console.error('Error loading Customer Name:', error);
+        }
+      });
+    });
+  }
   
   openModal(orderId: any) {
     this.openOrderItem = this.openOrderItem === orderId ? null : orderId;
@@ -160,5 +204,15 @@ export class ManageOrderComponent implements OnInit {
   getOrderItem(itemName: string): string {
     const orderItem = this.orderItems.find(item => item.item === itemName);
     return orderItem ? orderItem.item : '';
+  }
+
+  getUserFirstName(cusName: number): string {
+    const user = this.userNames.find(u => u.cusName === cusName);
+    return user ? user.firstName : '';
+  }
+
+  getNameValue(group: any): string {
+    const firstOrderItem = group.orderItems[0]; 
+    return firstOrderItem ? firstOrderItem.name : '';
   }
 }

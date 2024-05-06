@@ -98,11 +98,7 @@ export const routes: Routes = [
         component: ManageMenuComponent,
         canActivate: [AuthGuard]
       },
-      {
-        path: 'manage-order',
-        component: ManageOrderComponent,
-        canActivate: [AuthGuard]
-      },
+    
       {
         path: 'menu',
         component: MenuComponent,
