@@ -49,10 +49,9 @@ export class MenuComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+
     this.loadCustomerData();
     this.loadMenu(); 
-    this.fetchTrayItems();
-    this.loadMOP();
   }
   
   loadCustomerData(): void {
@@ -61,7 +60,7 @@ export class MenuComponent implements OnInit {
         console.log('Received customer data:', res.data.customerId);
         this.customer.customerId = res.data.customerId;
         this.generateTrayTempId();
-        this.loadCategory();
+       
       },
       error: (error) => {
         console.error('Error loading customer data:', error);
@@ -111,6 +110,9 @@ export class MenuComponent implements OnInit {
       next: (res) => {
         if (res && res.data) {
           this.menus = res.data;
+          this.loadCategory();
+          this.fetchTrayItems();
+          this.loadMOP();
           this.groupedMenu = this.groupByCategory(this.menus);
           console.log("load menus", this.menus)
         }
@@ -202,11 +204,9 @@ export class MenuComponent implements OnInit {
         addStamp: new Date().toISOString()
       };
       this.insertDataToTray(trayItem);
-    } else {
-      this.toastr.error('This item is currently out of stock.');
-    }
+    } 
   }
-  
+
   insertDataToTray(trayItem: any) {
     const data = {
       items: [trayItem], 
@@ -231,6 +231,7 @@ export class MenuComponent implements OnInit {
       const storedTrayItems = localStorage.getItem('trayItems');
       if (storedTrayItems) {
         this.trayItems = JSON.parse(storedTrayItems);
+        this.filterOutStockZeroItems(); 
         this.fetchTrayItemDetails(); 
         this.calculateTotal();
       } else {
@@ -240,6 +241,7 @@ export class MenuComponent implements OnInit {
             next: (res) => {
               if (res && res.data) {
                 this.trayItems = res.data.filter((item: trayItemTest) => item.trayTempId === trayTempId);
+                this.filterOutStockZeroItems(); 
                 this.fetchTrayItemDetails(); 
                 this.calculateTotal();
                 console.log('Tray items loaded from server:', this.trayItems);
@@ -253,7 +255,21 @@ export class MenuComponent implements OnInit {
       }
     }
   }
-
+  
+  filterOutStockZeroItems() {
+    this.trayItems = this.trayItems.filter(item => {
+      const menuItem = this.menus.find(menu => menu.itemId === item.item);
+      const shouldKeepItem = menuItem ? menuItem.stock > 0 : true;
+      if (!shouldKeepItem) {
+        this.toastr.show(`Removed item '${item.item}' from tray due to stock value of 0`);
+      }
+      return shouldKeepItem;
+    });
+  
+  
+  }
+  
+  
 
   orderNow() {
     const orderStamp = new Date().toISOString();
@@ -289,7 +305,6 @@ export class MenuComponent implements OnInit {
     }
   }
   
-  
   updateMenuStock(itemId: number, newStock: number) {
     this.menuService.updateMenu(itemId, newStock).subscribe(
       response => {
@@ -300,7 +315,6 @@ export class MenuComponent implements OnInit {
       }
     );
   }
-  
   
   
   increaseQuantity(trayItem: trayItemTest) {
@@ -390,7 +404,6 @@ export class MenuComponent implements OnInit {
       }
     );
     }
-
 
   groupByCategory(menuItems: Menu[]): { [key: string]: Menu[] } {
     return menuItems.reduce((result: { [key: string]: Menu[] }, menuItem) => {
