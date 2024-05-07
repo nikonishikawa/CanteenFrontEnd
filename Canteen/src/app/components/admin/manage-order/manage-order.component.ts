@@ -29,13 +29,9 @@ export class ManageOrderComponent implements OnInit {
   order: orders = {} as orders;
   menus: Menu[] = [];
   orderItemsMap: { [orderId: number]: orderItems[] } = {};
-  // orderGroups: { orderId: number; modeOfPayment: string; status: string; orderStamp: string; cost:number; orderItems: orderItems[] }[] = [];
   orderGroups: any[] = [];
   openOrderItem: any = null;
   showFirstContent: boolean = false;
-  users: getAllUser[] = [];
-  userNames: { cusName: number; firstName: string; middleName: string; lastName: string; }[] = [];
-  
 
   constructor(
     private route: ActivatedRoute,
@@ -57,8 +53,6 @@ export class ManageOrderComponent implements OnInit {
         if (res.isSuccess) {  
           this.orderItems = res.data;
           console.log("Response", res);
-          const customerId = this.extractCustomerId(res.data); // Extract customer ID
-          this.getCustomerId(customerId); // Fetch customer details using the extracted ID
           this.orderItems.forEach(orderItem => {
             this.loadItem(orderItem.item, orderItem);
           });
@@ -77,25 +71,6 @@ export class ManageOrderComponent implements OnInit {
     });
   }
   
-  extractCustomerId(data: orderItems[]): number {
-    return data.length > 0 ? data[0].cusId : 0;
-  }
-  
-  getCustomerId(customerId: number): void {
-    this.customerService.getCustomerById(customerId).subscribe({
-      next: (res: ApiResponseMessage<CustomerById>) => {
-        const customer = res.data; 
-        this.customer = customer; 
-        console.log("CustomerId Response", res);
-      },
-      error: (err) => {
-        console.error('Error retrieving customer ID:', err);
-      }
-    });
-  }
-  
-
-
   loadItem(itemId: string, orderItem: any) {
     this.orderService.getItemById(itemId).subscribe({
       next: (res) => {
@@ -105,19 +80,6 @@ export class ManageOrderComponent implements OnInit {
     });
   }
 
-  loadCustomerName() {
-    this.users.forEach(user => {
-      this.customerService.getCustomerName(user.cusName).subscribe({
-        next: (res) => {
-          this.userNames.push({ cusName: user.cusName, firstName: res.data.firstName, middleName: res.data.middleName, lastName: res.data.lastName });
-        },
-        error: (error) => {
-          console.error('Error loading Customer Name:', error);
-        }
-      });
-    });
-  }
-  
   openModal(orderId: any) {
     this.openOrderItem = this.openOrderItem === orderId ? null : orderId;
   }
@@ -168,10 +130,11 @@ export class ManageOrderComponent implements OnInit {
   
     this.orderGroups = Object.keys(orderGroupsMap).map(orderId => ({
       orderId: Number(orderId),
-      modeOfPayment: this.getUniqueModeOfPayment(orderGroupsMap[Number(orderId)]),
+      modeOfPayment: orderGroupsMap[Number(orderId)][0].foodImage,
       status: this.getUniqueStatus(orderGroupsMap[Number(orderId)]),
       orderStamp: this.getUniqueOrderStamp(orderGroupsMap[Number(orderId)]),
-      cost: this.getUniqueCost(orderGroupsMap[Number(orderId)]),
+      cost: orderGroupsMap[Number(orderId)][0].price,
+      firstName: orderGroupsMap[Number(orderId)][0].firstName, 
       orderItems: orderGroupsMap[Number(orderId)]
     }));
   }
@@ -206,13 +169,4 @@ export class ManageOrderComponent implements OnInit {
     return orderItem ? orderItem.item : '';
   }
 
-  getUserFirstName(cusName: number): string {
-    const user = this.userNames.find(u => u.cusName === cusName);
-    return user ? user.firstName : '';
-  }
-
-  getNameValue(group: any): string {
-    const firstOrderItem = group.orderItems[0]; 
-    return firstOrderItem ? firstOrderItem.name : '';
-  }
 }

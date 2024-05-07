@@ -23,8 +23,12 @@ export interface MOP {
     cost: number;
     modeOfPayment: string; 
     status:  string; 
+    statusName: string;
     foodImage: string;
     name: number;
+    firstName: string;
+    itemCategoryName: string;
+    modeOfPaymentName: string;
 }
 
 export interface orders {
