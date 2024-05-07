@@ -30,6 +30,7 @@
                 <h1 class="item" [ngStyle]="{'font-size.px': menuItem.item.length > 8 ? 26 : 32}">
                   {{ menuItem.item }}
                 </h1>
+                <h1>{{ menuItem.stock}}</h1>
                 <h1 id="price">₱{{ menuItem.price }}</h1>
                 <div class="action-container">
                   <button type="button" (click)="addToTray(menuItem)">Add to Tray</button>

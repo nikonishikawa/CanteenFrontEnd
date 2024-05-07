@@ -172,37 +172,6 @@ export class ManageMenuComponent implements OnInit {
     return correspondingCategory ? correspondingCategory.category : categoryId;
   }
 
-
-  getAllMenus() {
-    this.menuService.getAllMenu().subscribe(
-      (res) => {
-        if (res.isSuccess) {
-          this.menus = res.data;
-          console.log("Response", res);
-
-          if (this.menus && this.menus.length > 0) {
-            this.menus.forEach(menuItem => {
-              if (menuItem && menuItem) {
-                console.log("Item ID:", menuItem.itemId);
-                console.log("Item:", menuItem.item);
-                console.log("Description:", menuItem.description);
-                console.log("Is Halal:", menuItem.isHalal);
-                console.log("Price:", menuItem.price);
-                console.log("Category:", menuItem.category);
-              } else {
-                console.error("Menu item or its data is undefined:", menuItem);
-              }
-            });
-          } else {
-            console.error("Menus array is empty or undefined");
-          }
-        } else {
-          console.error('Error retrieving menus:', res.message);
-        }
-      }
-    );
-  }
-
   groupByCategory(menuItems: Menu[]): { [key: string]: Menu[] } {
     return menuItems.reduce((result: { [key: string]: Menu[] }, menuItem) => {
       const categoryName = this.getCategoryName(menuItem.category);

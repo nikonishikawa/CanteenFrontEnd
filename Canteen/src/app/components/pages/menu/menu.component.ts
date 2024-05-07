@@ -112,6 +112,7 @@ export class MenuComponent implements OnInit {
         if (res && res.data) {
           this.menus = res.data;
           this.groupedMenu = this.groupByCategory(this.menus);
+          console.log("load menus", this.menus)
         }
       },
       error: (error) => {
@@ -176,15 +177,11 @@ export class MenuComponent implements OnInit {
     this.selectedCategory = categoryId; 
 
     if (this.selectedCategory === 0) {
-      this.filteredMenu = this.groupByCategory(this.menus); // Use the groupedMenu instead of menus
+      this.filteredMenu = this.groupByCategory(this.menus); 
     } else {
       const filteredMenus = this.menus.filter(menu => menu.category === this.selectedCategory);
       this.filteredMenu = this.groupByCategory(filteredMenus);
     }
-
-    // console.log('Filtered Menu:', this.filteredMenu);
-    // console.log('All Menus:', this.menus);
-    // console.log('Unique Categories:', uniqueCategories);
 }
 
 
@@ -193,7 +190,6 @@ getCategoryName(categoryId: any): any {
   const categoryIdNumber = parseInt(categoryId, 10);
   const correspondingCategory = this.category.find(cat => cat.categoryId === categoryIdNumber);
   
-  console.log("bingbong");
   console.log(categoryIdNumber, correspondingCategory);
   return correspondingCategory ? correspondingCategory.category : categoryId;
 }
@@ -257,7 +253,6 @@ getCategoryName(categoryId: any): any {
     }
   }
   
-  //     this.menuService.insertOrderStatus(this.customer.customerId, orderStamp, this.order.Cost, this.modeOfPaymentId)
   orderNow() {
   this.trayItems
   const orderStamp = new Date().toISOString();
@@ -371,35 +366,6 @@ getCategoryName(categoryId: any): any {
     );
     }
 
-  getAllMenus() {
-    this.menuService.getAllMenu().subscribe(
-      (res) => {
-        if (res.isSuccess) {
-          this.menus = res.data;
-          console.log("Response", res);
-
-          if (this.menus && this.menus.length > 0) {
-            this.menus.forEach(menuItem => {
-              if (menuItem && menuItem) {
-                console.log("Item ID:", menuItem.itemId);
-                console.log("Item:", menuItem.item);
-                console.log("Description:", menuItem.description);
-                console.log("Is Halal:", menuItem.isHalal);
-                console.log("Price:", menuItem.price);
-                console.log("Category:", menuItem.category);
-              } else {
-                console.error("Menu item or its data is undefined:", menuItem);
-              }
-            });
-          } else {
-            console.error("Menus array is empty or undefined");
-          }
-        } else {
-          console.error('Error retrieving menus:', res.message);
-        }
-      }
-    );
-  }
 
   groupByCategory(menuItems: Menu[]): { [key: string]: Menu[] } {
     return menuItems.reduce((result: { [key: string]: Menu[] }, menuItem) => {

@@ -3,6 +3,7 @@ export interface Menu {
   item: string;
   description: string;
   foodImage: string; 
+  stock: number;
   isHalal: number;
   price: number;
   category: number;
