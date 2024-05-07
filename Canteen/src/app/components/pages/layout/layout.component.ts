@@ -34,7 +34,7 @@ export class LayoutComponent implements OnInit {
   }
 
   toggleActive(index: number) {
-    this.isActive = index === 5 ? 1 : (index === this.isActive ? 1 : index);
+    this.isActive = index === 5 ? 1 : (index === this.isActive ? index : index);
     this.layoutService.setActiveIndex(this.isActive);
   }  
 

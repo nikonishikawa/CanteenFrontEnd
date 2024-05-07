@@ -56,6 +56,34 @@
     color: #DA062E;
   }
 
+  .main-info-container .header-container {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+  }
+
+  .main-info-container .header-container h2 {
+    margin: 0;
+  }
+
+  .main-info-container .header-container .creator-container {
+    display: flex;
+  }
+
+  .main-info-container .header-container .creator-container p {
+    margin: 0;
+    font-size: 18px;
+    color: #b6b6b6;
+  }
+
+  .main-info-container .header-container .creator-container p:first-child{
+    margin-right: 5px;
+  }
+
+  .main-info-container .header-container .creator-container p:last-child{
+    text-transform: capitalize;
+  }
+
 h1 {
     font-size: 28px;
     color: #333;
@@ -92,8 +120,7 @@ h1 {
     font-size: 20px;
 }
 #timestamp {
-    color: #c2c2c2;
-    font-weight: 600;
+    color: #b6b6b6;
 }
 
 #mop {

@@ -53,13 +53,13 @@
                 <img [src]="menuItem.foodImage" alt="Food image">
               </div>
               <div class="header-container">
-                <h1 class="item" [ngStyle]="{'font-size.px': menuItem.item.length > 8 ? 26 : 32}">
-                  {{ menuItem.item }}
-                </h1>
-                <h1>{{menuItem.stock}}</h1>
-                <h1 id="price">₱{{ menuItem.price }}</h1>
-                <div class="action-container">
+                <div class="main-header">
+                  <h1 class="item" [ngStyle]="{'font-size.px': menuItem.item.length > 8 ? 26 : 32}">
+                    {{ menuItem.item }}
+                  </h1>
+                  <p>{{menuItem.stock}} Left</p>
                 </div>
+                <h1 id="price">₱{{ menuItem.price }}</h1>
               </div>
             </div>
           </div>
