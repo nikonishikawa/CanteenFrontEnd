@@ -54,6 +54,11 @@ export class MenuService {
       .pipe(catchError(this.handleError));
   }
 
+  removeFromTrayById(itemId: number): Observable<any>{
+    const headers = this.getHeaders();
+    return this.http.delete<any>(`${this.baseApiUrl}api/TrayItem/RemoveTray/${itemId}`, { headers })
+      .pipe(catchError(this.handleError));
+  }
   GetTraytempId(cusId: number): Observable<any> {
     const headers = this.getHeaders();
     return this.http.get<any>(`${this.baseApiUrl}api/TrayItem/GetTrayTempId/${cusId}`, { headers })
