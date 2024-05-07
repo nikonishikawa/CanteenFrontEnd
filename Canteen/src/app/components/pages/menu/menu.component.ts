@@ -121,7 +121,7 @@ export class MenuComponent implements OnInit {
     });
   }
   
-
+  
   loadCategory() {
     this.menuService.getAllCaetegory().subscribe({
       next: (res) => {
@@ -182,19 +182,17 @@ export class MenuComponent implements OnInit {
       const filteredMenus = this.menus.filter(menu => menu.category === this.selectedCategory);
       this.filteredMenu = this.groupByCategory(filteredMenus);
     }
-}
+  }
 
 
-getCategoryName(categoryId: any): any {
-  console.log(categoryId);
-  const categoryIdNumber = parseInt(categoryId, 10);
-  const correspondingCategory = this.category.find(cat => cat.categoryId === categoryIdNumber);
-  
-  console.log(categoryIdNumber, correspondingCategory);
-  return correspondingCategory ? correspondingCategory.category : categoryId;
-}
-
-
+  getCategoryName(categoryId: any): any {
+    console.log(categoryId);
+    const categoryIdNumber = parseInt(categoryId, 10);
+    const correspondingCategory = this.category.find(cat => cat.categoryId === categoryIdNumber);
+    
+    console.log(categoryIdNumber, correspondingCategory);
+    return correspondingCategory ? correspondingCategory.category : categoryId;
+  }
 
   addToTray(menuItem: Menu) {
     const trayItem = {
@@ -204,6 +202,7 @@ getCategoryName(categoryId: any): any {
     };
   
     this.insertDataToTray(trayItem); 
+
   }
   
   insertDataToTray(trayItem: any) {
@@ -252,30 +251,55 @@ getCategoryName(categoryId: any): any {
       }
     }
   }
-  
-  orderNow() {
-  this.trayItems
-  const orderStamp = new Date().toISOString();
 
-  if (this.customer.customerId && this.trayTempId && this.modeOfPaymentId && this.trayItems) {
-    
-    const items = this.trayItems.map(item => ({ price: item.price }));
-   
-    this.menuService.insertTempToNotTemp(this.customer.customerId, this.trayTempId, orderStamp, this.order.Cost, this.modeOfPaymentId, items).subscribe(
-      (response) => {
-        this.toastr.success('Item transported to tray successfully');
-        localStorage.removeItem('trayTempId');
-        this.fetchTrayItems();
-        this.router.navigateByUrl('layout/order');
+
+  orderNow() {
+    const orderStamp = new Date().toISOString();
+  
+    this.menus.forEach(menu => {
+      console.log(menu.stock); 
+    });
+
+    if (this.customer.customerId && this.trayTempId && this.modeOfPaymentId && this.trayItems) {
+    this.trayItems.forEach(trayItem => {
+    const menuItem = this.menus.find(menu => menu.itemId === trayItem.itemiD);
+    if (menuItem && trayItem.quantity !== undefined) {
+      const newStock = menuItem.stock - trayItem.quantity;
+      this.updateMenuStock(trayItem.itemiD, newStock);
+    }
+  });
+
+      const orderItems = this.trayItems.map(item => ({ itemId: item.itemiD.itemId, quantity: item.quantity }));
+  
+      this.menuService.insertTempToNotTemp(this.customer.customerId, this.trayTempId, orderStamp, this.order.Cost, this.modeOfPaymentId, orderItems).subscribe(
+        (response) => {
+          this.toastr.success('Item transported to tray successfully');
+          localStorage.removeItem('trayTempId');
+          this.fetchTrayItems();
+          this.router.navigateByUrl('layout/order');
+        },
+        (error) => {
+          console.error('Error placing order', error);
+        }
+      );
+    } else {
+      console.error('Customer Id or Tray Temp Id is missing.');
+    }
+  }
+  
+  
+  updateMenuStock(itemId: number, newStock: number) {
+    this.menuService.updateMenu(itemId, newStock).subscribe(
+      response => {
+        console.log('Menu stock updated successfully:', response);
       },
-      (error) => {
-        console.error('Error placing order', error);
+      error => {
+        console.error('Error updating menu stock:', error);
       }
     );
-  } else {
-    console.error('Customer Id or Tray Temp Id is missing.');
   }
-  }
+  
+  
   
   increaseQuantity(trayItem: trayItemTest) {
     trayItem.quantity++; 
@@ -326,6 +350,7 @@ getCategoryName(categoryId: any): any {
     this.trayItems.forEach(trayItem => {
       const menuItem = this.menus.find(menu => menu.itemId === trayItem.item);
       if (menuItem) {
+        trayItem.itemiD = menuItem.itemId;
         trayItem.item = menuItem.item;
         trayItem.foodImage = menuItem.foodImage;
         trayItem.price = menuItem.price;
@@ -337,8 +362,6 @@ getCategoryName(categoryId: any): any {
     this.order.subTotal = this.trayItems.reduce((total, item) => total + (item.price * item.quantity), 0);
     this.order.Cost = this.order.subTotal; 
   }
-
-
 
   getAllMOP() {
     this.menuService.getAllMOP().subscribe(
