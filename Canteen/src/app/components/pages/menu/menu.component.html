@@ -33,7 +33,7 @@
                 <h1>{{ menuItem.stock}}</h1>
                 <h1 id="price">₱{{ menuItem.price }}</h1>
                 <div class="action-container">
-                  <button type="button" (click)="addToTray(menuItem)">Add to Tray</button>
+                  <button [disabled]="menuItem.stock === 0" (click)="addToTray(menuItem)">Add to Tray</button>
                 </div>
               </div>
             </div>

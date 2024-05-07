@@ -195,14 +195,16 @@ export class MenuComponent implements OnInit {
   }
 
   addToTray(menuItem: Menu) {
-    const trayItem = {
-      item: menuItem.itemId,
-      quantity: 1,
-      addStamp: new Date().toISOString()
-    };
-  
-    this.insertDataToTray(trayItem); 
-
+    if (menuItem.stock > 0) {
+      const trayItem = {
+        item: menuItem.itemId,
+        quantity: 1,
+        addStamp: new Date().toISOString()
+      };
+      this.insertDataToTray(trayItem);
+    } else {
+      this.toastr.error('This item is currently out of stock.');
+    }
   }
   
   insertDataToTray(trayItem: any) {
