@@ -97,6 +97,12 @@ export class MenuService {
       .pipe(catchError(this.handleError));
   }
 
+  updateMenu(itemId: number, newStock: number ) {
+    const headers = this.getHeaders();
+    return this.http.put<ApiResponseMessage<Menu[]>>(`${this.baseApiUrl}api/Item/UpdateItemById?itemId=${itemId}&newStock=${newStock}`, { headers })
+      .pipe(catchError(this.handleError));
+  }
+
   insertData(data: any): Observable<any> {
     const headers = this.getHeaders();
     return this.http.post<any>(`${this.baseApiUrl}api/TrayItem/AddToTrayTest`, data, { headers })
