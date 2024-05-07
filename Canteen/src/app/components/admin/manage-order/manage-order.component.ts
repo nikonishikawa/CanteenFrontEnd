@@ -130,7 +130,7 @@ export class ManageOrderComponent implements OnInit {
   
     this.orderGroups = Object.keys(orderGroupsMap).map(orderId => ({
       orderId: Number(orderId),
-      modeOfPayment: orderGroupsMap[Number(orderId)][0].foodImage,
+      modeOfPayment: this.getUniqueModeOfPayment(orderGroupsMap[Number(orderId)]),
       status: this.getUniqueStatus(orderGroupsMap[Number(orderId)]),
       orderStamp: this.getUniqueOrderStamp(orderGroupsMap[Number(orderId)]),
       cost: orderGroupsMap[Number(orderId)][0].price,
@@ -152,21 +152,6 @@ export class ManageOrderComponent implements OnInit {
   getUniqueOrderStamp (orderItems: orderItems[]): string {
     const uniqueorderStamp = Array.from(new Set(orderItems.map(item => item.orderStamp)));
     return uniqueorderStamp.length === 1? uniqueorderStamp[0] : 'Multiple';
-  }
-
-  getUniqueCost(orderItems: orderItems[]): number {
-    const uniqueCosts = Array.from(new Set(orderItems.map(item => item.cost)));
-    return uniqueCosts.length === 1 ? uniqueCosts[0] : NaN;
-}
-
-  getOrderFoodImage(foodImage: string): string {
-    const orderItem = this.orderItems.find(item => item.item === foodImage);
-    return orderItem ? orderItem.foodImage : '';
-  }
-
-  getOrderItem(itemName: string): string {
-    const orderItem = this.orderItems.find(item => item.item === itemName);
-    return orderItem ? orderItem.item : '';
   }
 
 }
