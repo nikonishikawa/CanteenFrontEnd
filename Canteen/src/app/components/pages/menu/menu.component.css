@@ -68,6 +68,26 @@ h1#title {
   color: #DA062E;
 }
 
+.header-container .main-header {
+  display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: start;
+}
+
+.header-container .main-header h1 { /* Center the text horizontally */
+  cursor: default;
+    font-weight: bold;
+    margin: 0;
+}
+
+.header-container .main-header p {
+  font-size: 18px;
+  cursor: default;
+  color: #b6b6b6;
+  font-weight: 300;
+}
+
 .main .category {
     font-size: 36px;
     font-weight: bold;
@@ -165,18 +185,22 @@ h1#title {
     text-align: left; /* Align text to the left */
     margin: 0;
     top: 0;
+    cursor: default;
 }
 
 .header-container .item #long-item {
     font-size: 18px;
+    cursor: default;
 }
 
 .header-container .item #short-item {
     font-size: 35px;
+    cursor: default;
 }
 
 .header-container #price {
   font-size: 24px;
+  cursor: default;
   color: #DA062E;
 }
 
@@ -358,6 +382,7 @@ form button {
   
   .item-container {
     width: 100%; /* Adjusted width to accommodate the grid */
+    position: relative;
     height: fit-content;
     display: flex;
     align-self: left;
@@ -394,6 +419,42 @@ form button {
     flex-direction: column;
     justify-self: center;
     width: 60%;
+  }
+
+  .no-stock-filter-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .no-stock-filter-background {
+    position: absolute;
+    cursor: default;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(54, 54, 54, 0.85); /* Red color with 50% opacity */
+    filter: grayscale(100%); /* Apply grayscale filter to the background */
+    border-radius: 8px;
+  }
+  
+  
+  .no-stock-filter-container p {
+    position: absolute;
+    top: 50%; /* Position at 50% from the top */
+    left: 50%; /* Position at 50% from the left */
+    transform: translate(-50%, -50%); /* Center the element both vertically and horizontally */
+    color: white;
+    font-weight: bold;
+    cursor: default;
+    margin: 0; /* Remove default margins */
+    text-align: center; /* Center text horizontally */
   }
 
 #menu-item {

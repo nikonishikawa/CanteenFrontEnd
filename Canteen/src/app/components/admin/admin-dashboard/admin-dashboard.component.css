@@ -4,4 +4,22 @@
     padding: 10px;
     border-radius: 5px;
   }
+
+  .circle {
+    stroke: #915db1;
+    fill: none;
+    stroke-width: 3;
+  }
+  
+  .circle:nth-child(2) {
+    stroke: #e59f3c;
+  }
+  
+  .circle:nth-child(3) {
+    stroke: #5397d6;
+  }
+  
+  .circle:nth-child(4) {
+    stroke: #4cc790;
+  }
   

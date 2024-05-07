@@ -23,14 +23,20 @@
         <div class="main-container">
           <div class="grid-wrapper">
             <div class="item-container" *ngFor="let menuItem of category.value">
+              <div class="no-stock-filter-container" *ngIf="menuItem.stock === 0">
+                <div class="no-stock-filter-background"></div>
+                <p>Out of stock</p>
+              </div>
               <div class="image-container">
                 <img [src]="menuItem.foodImage" alt="Food image">
               </div>
               <div class="header-container">
-                <h1 class="item" [ngStyle]="{'font-size.px': menuItem.item.length > 8 ? 26 : 32}">
-                  {{ menuItem.item }}
-                </h1>
-                <h1>{{ menuItem.stock}}</h1>
+                <div class="main-header">
+                  <h1 class="item" [ngStyle]="{'font-size.px': menuItem.item.length > 8 ? 26 : 32}">
+                    {{ menuItem.item }}
+                  </h1>
+                  <p>{{menuItem.stock}} Left</p>
+                </div>
                 <h1 id="price">₱{{ menuItem.price }}</h1>
                 <div class="action-container">
                   <button type="button" (click)="addToTray(menuItem)">Add to Tray</button>
