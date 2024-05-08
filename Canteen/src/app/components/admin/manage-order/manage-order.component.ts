@@ -61,6 +61,22 @@ export class ManageOrderComponent implements OnInit {
     });
   }
 
+  editStatusCompleted(orderId: number, newStatus: number) {
+    this.orderService.updateOrderStatusCompleted(orderId, newStatus).subscribe({
+      next: (res: any) => {
+        if (res.isSuccess) {
+          console.log("Status updated successfully");
+          this.getOrders(); 
+        } else {
+          console.error("Error updating status:", res.message);
+        }
+      },
+      error: (err) => {
+        console.error("Error updating status:", err);
+      }
+    });
+  }
+
   getOrders() {
     this.orderService.getAllOrders().subscribe({
       next: (res: { isSuccess: boolean, data: orderItems[], message: string }) => {
