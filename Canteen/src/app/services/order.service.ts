@@ -43,6 +43,16 @@ export class OrderService {
     );
   }
 
+  updateOrderStatus(orderId: number, newStatus: number): Observable<any> {
+    const headers = this.getHeaders();
+    return this.http.put<any>(`${this.baseApiUrl}api/OrderStatus/UpdateOrderStatus?orderId=${orderId}&newStatus=${newStatus}`, { headers }).pipe(
+      catchError((error: any) => {
+        console.error('Error updating order status:', error);
+        return throwError('Error updating order status. Please try again later.');
+      })
+    );
+  }
+
   getAllOrders(): Observable<ApiResponseMessage<orderItems[]>> {
     const headers = this.getHeaders();
     return this.http.get<ApiResponseMessage<orderItems[]>>(`${this.baseApiUrl}api/OrderStatus/GetAllOrders`, { headers })
@@ -64,4 +74,6 @@ export class OrderService {
     return this.http.get<ApiResponseMessage<Menu>>(`${this.baseApiUrl}api/Item/GetItem/${itemId}`, { headers })
       .pipe(catchError(this.handleError));
   }
+
+
 }

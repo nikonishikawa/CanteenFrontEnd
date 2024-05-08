@@ -1,4 +1,3 @@
-
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { OrderService } from '../../../services/order.service';
@@ -46,18 +45,33 @@ export class ManageOrderComponent implements OnInit {
     this.getOrders();
   }
 
+  editStatus(orderId: number, newStatus: number) {
+    this.orderService.updateOrderStatus(orderId, newStatus).subscribe({
+      next: (res: any) => {
+        if (res.isSuccess) {
+          console.log("Status updated successfully");
+          this.getOrders(); 
+        } else {
+          console.error("Error updating status:", res.message);
+        }
+      },
+      error: (err) => {
+        console.error("Error updating status:", err);
+      }
+    });
+  }
 
   getOrders() {
     this.orderService.getAllOrders().subscribe({
       next: (res: { isSuccess: boolean, data: orderItems[], message: string }) => {
-        if (res.isSuccess) {  
+        if (res.isSuccess) {
           this.orderItems = res.data;
           console.log("Response", res);
           this.orderItems.forEach(orderItem => {
             this.loadItem(orderItem.item, orderItem);
           });
           if (this.orderItems && this.orderItems.length > 0) {
-            this.preprocessOrderItems(this.orderItems); 
+            this.preprocessOrderItems(this.orderItems);
           } else {
             console.error("Order items array is empty or undefined");
           }
@@ -70,7 +84,7 @@ export class ManageOrderComponent implements OnInit {
       }
     });
   }
-  
+
   loadItem(itemId: string, orderItem: any) {
     this.orderService.getItemById(itemId).subscribe({
       next: (res) => {
@@ -83,7 +97,7 @@ export class ManageOrderComponent implements OnInit {
   openModal(orderId: any) {
     this.openOrderItem = this.openOrderItem === orderId ? null : orderId;
   }
-  
+
   getAllMenus() {
     this.menuService.getAllMenu().subscribe(
       (res) => {
@@ -113,9 +127,9 @@ export class ManageOrderComponent implements OnInit {
       }
     );
   }
-  
+
   getMenuName(item: any) {
-    return item.name; 
+    return item.name;
   }
 
   preprocessOrderItems(orderItems: orderItems[]): void {
@@ -127,31 +141,31 @@ export class ManageOrderComponent implements OnInit {
       }
       orderGroupsMap[orderId].push(orderItem);
     });
-  
+
     this.orderGroups = Object.keys(orderGroupsMap).map(orderId => ({
       orderId: Number(orderId),
       modeOfPayment: this.getUniqueModeOfPayment(orderGroupsMap[Number(orderId)]),
       status: this.getUniqueStatus(orderGroupsMap[Number(orderId)]),
       orderStamp: this.getUniqueOrderStamp(orderGroupsMap[Number(orderId)]),
       cost: orderGroupsMap[Number(orderId)][0].price,
-      firstName: orderGroupsMap[Number(orderId)][0].firstName, 
+      firstName: orderGroupsMap[Number(orderId)][0].firstName,
       orderItems: orderGroupsMap[Number(orderId)]
     }));
   }
-  
+
   getUniqueModeOfPayment(orderItems: orderItems[]): string {
     const uniqueModeOfPayments = Array.from(new Set(orderItems.map(item => item.modeOfPayment)));
     return uniqueModeOfPayments.length === 1 ? uniqueModeOfPayments[0] : 'Multiple';
   }
-  
+
   getUniqueStatus(orderItems: orderItems[]): string {
     const uniqueStatuses = Array.from(new Set(orderItems.map(item => item.status)));
     return uniqueStatuses.length === 1 ? uniqueStatuses[0] : 'Multiple';
   }
 
-  getUniqueOrderStamp (orderItems: orderItems[]): string {
+  getUniqueOrderStamp(orderItems: orderItems[]): string {
     const uniqueorderStamp = Array.from(new Set(orderItems.map(item => item.orderStamp)));
-    return uniqueorderStamp.length === 1? uniqueorderStamp[0] : 'Multiple';
+    return uniqueorderStamp.length === 1 ? uniqueorderStamp[0] : 'Multiple';
   }
 
 }
