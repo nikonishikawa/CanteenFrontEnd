@@ -16,7 +16,7 @@
               <!-- Corrected the method call -->
               <div class="buttons-container" *ngIf="group.status != '3' && group.status != '4'" >
                 <button (click)="editStatus(group.orderId, 3)">Completed</button>
-                <button (click)="editStatus(group.orderId, 2)">Prepped</button>
+                <button (click)="editStatusCompleted(group.orderId, 2)">Prepped</button>
                 <button (click)="editStatus(group.orderId, 4)">Cancelled</button>
               </div>
             </div>
