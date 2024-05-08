@@ -28,6 +28,7 @@ export class ManageMenuComponent implements OnInit {
   groupedMenu: { [key: string]: Menu[] } = {};
   filterSelected: any = null;
   activeIndex: number = 0;
+  newStockValues: { [itemId: number]: number } = {};
   modalOpen: boolean = false;
   addMenu: addMenu = {} as addMenu;
   getCategoryByName: {categoryId: number; category: string} [] = [];
@@ -58,6 +59,7 @@ export class ManageMenuComponent implements OnInit {
       this.addMenu.foodImage,
       this.addMenu.isHalal,
       this.addMenu.price,
+      this.addMenu.stocks,
       this.addMenu.category,
       this.getCategoryName(this.addMenu.category)
     ).subscribe(
@@ -86,7 +88,8 @@ export class ManageMenuComponent implements OnInit {
       foodImage: addMenu.foodImage,
       isHalal: addMenu.isHalal,
       price: addMenu.price,
-      category: addMenu.category 
+      stocks: addMenu.stocks,
+      category: addMenu.category
     };
     this.openModal(); 
   }
@@ -157,12 +160,25 @@ export class ManageMenuComponent implements OnInit {
       const filteredMenus = this.menus.filter(menu => menu.category === this.selectedCategory);
       this.filteredMenu = this.groupByCategory(filteredMenus);
     }
-
-    // console.log('Filtered Menu:', this.filteredMenu);
-    // console.log('All Menus:', this.menus);
-    // console.log('Unique Categories:', uniqueCategories);
   }
 
+  updateStock(itemId: number) {
+    const newStockValue = this.newStockValues[itemId]; 
+    if (newStockValue === undefined || newStockValue === null) {
+      return;
+    }
+
+    this.manageMenuService.updateItemStock(itemId, newStockValue).subscribe(
+      response => {
+        this.loadMenu();
+        console.log(response); 
+        delete this.newStockValues[itemId];
+      },
+      error => {
+        console.error(error); 
+      }
+    );
+  }
   getCategoryName(categoryId: any): any {
     console.log(categoryId);
     const categoryIdNumber = parseInt(categoryId, 10);

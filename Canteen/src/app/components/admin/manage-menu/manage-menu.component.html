@@ -16,6 +16,7 @@
         <div class="header-addmenu-container">
           <input id="item-name" type="text" [(ngModel)]="addMenu.item" placeholder="Item">
           <input id="item-price" type="number" [(ngModel)]="addMenu.price" placeholder="Price">
+          <input id="item-price" type="number" [(ngModel)]="addMenu.stocks" placeholder="Stocks">
         </div>
         <div class="halal-addmenu-container">
           <input id="isHalal" type="checkbox" [(ngModel)]="addMenu.isHalal" (change)="updateHalalValue($event)">
@@ -44,27 +45,31 @@
 
 <div class="main-category-container">
   <ng-container *ngFor="let category of filteredMenu | keyvalue">
-      <div class="category-container">
-        <h1 class="category-name">{{ getCategoryName(category.key) }}</h1>
-        <div class="main-container">
-          <div class="grid-wrapper">
-            <div class="item-container" *ngFor="let menuItem of category.value">
-              <div class="image-container">
-                <img [src]="menuItem.foodImage" alt="Food image">
+    <div class="category-container">
+      <h1 class="category-name">{{ getCategoryName(category.key) }}</h1>
+      <div class="main-container">
+        <div class="grid-wrapper">
+          <div class="item-container" *ngFor="let menuItem of category.value">
+            <div class="image-container">
+              <img [src]="menuItem.foodImage" alt="Food image">
+            </div>
+            <div class="header-container">
+              <div class="main-header">
+                <h1 class="item" [ngStyle]="{'font-size.px': menuItem.item.length > 8 ? 26 : 32}">
+                  {{ menuItem.item }}
+                </h1>
+                <p>{{menuItem.stock}} Left</p>
+                <input type="number" [(ngModel)]="newStockValues[menuItem.itemId]" placeholder="New Stock Value">
+                <button (click)="updateStock(menuItem.itemId)">Update Stock</button>
               </div>
-              <div class="header-container">
-                <div class="main-header">
-                  <h1 class="item" [ngStyle]="{'font-size.px': menuItem.item.length > 8 ? 26 : 32}">
-                    {{ menuItem.item }}
-                  </h1>
-                  <p>{{menuItem.stock}} Left</p>
-                </div>
-                <h1 id="price">₱{{ menuItem.price }}</h1>
-              </div>
+              <h1 id="price">₱{{ menuItem.price }}</h1>
             </div>
           </div>
         </div>
       </div>
+    </div>
   </ng-container>
-  </div>
+</div>
+
+
 </div>

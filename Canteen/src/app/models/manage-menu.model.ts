@@ -6,4 +6,5 @@ export interface addMenu {
     isHalal: number;
     price: number;
     category: number;
+    stocks: number;
   }
