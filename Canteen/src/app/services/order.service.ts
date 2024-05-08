@@ -4,7 +4,7 @@ import { environment } from '../environments/environment';
 import { Observable, catchError, throwError } from 'rxjs';
 import { ApiResponseMessage } from '../models/apiresponsemessage.model';
 import { Menu } from '../models/menu.model';
-import { orderItems } from '../models/orders.model';
+import { orderItems, status } from '../models/orders.model';
 
 @Injectable({
   providedIn: 'root'
@@ -43,9 +43,10 @@ export class OrderService {
     );
   }
 
-  updateOrderStatus(orderId: number, newStatus: number): Observable<any> {
+  
+  updateOrderStatusCompleted(orderId: number, newStatus: number): Observable<any> {
     const headers = this.getHeaders();
-    return this.http.put<any>(`${this.baseApiUrl}api/OrderStatus/UpdateOrderStatus?orderId=${orderId}&newStatus=${newStatus}`, { headers }).pipe(
+    return this.http.post<any>(`${this.baseApiUrl}api/OrderStatus/UpdateOrderStatus?orderId=${orderId}&newStatus=${newStatus}`, { headers }).pipe(
       catchError((error: any) => {
         console.error('Error updating order status:', error);
         return throwError('Error updating order status. Please try again later.');
@@ -53,9 +54,9 @@ export class OrderService {
     );
   }
 
-   updateOrderStatusCompleted(orderId: number, newStatus: number): Observable<any> {
+  updateOrderStatus(orderId: number, newStatus: number): Observable<any> {
     const headers = this.getHeaders();
-    return this.http.post<any>(`${this.baseApiUrl}api/OrderStatus/UpdateOrderCompleted?orderId=${orderId}&newStatus=${newStatus}`, { headers }).pipe(
+    return this.http.put<any>(`${this.baseApiUrl}api/OrderStatus/UpdateOrderStatus?orderId=${orderId}&newStatus=${newStatus}`, { headers }).pipe(
       catchError((error: any) => {
         console.error('Error updating order status:', error);
         return throwError('Error updating order status. Please try again later.');
@@ -79,11 +80,21 @@ export class OrderService {
     );
   }
 
+  getTrayStatus(): Observable<ApiResponseMessage<status[]>> {
+    const headers = this.getHeaders();
+    return this.http.get<ApiResponseMessage<status[]>>(`${this.baseApiUrl}api/TrayStatus/GetAllTrayStatus`, { headers })
+      .pipe(catchError(this.handleError));
+  }
+
   getItemById(itemId: number | string): Observable<ApiResponseMessage<Menu>> {
     const headers = this.getHeaders();
     return this.http.get<ApiResponseMessage<Menu>>(`${this.baseApiUrl}api/Item/GetItem/${itemId}`, { headers })
       .pipe(catchError(this.handleError));
   }
 
-
+  getStatus(itemId: number | string): Observable<ApiResponseMessage<Menu>> {
+    const headers = this.getHeaders();
+    return this.http.get<ApiResponseMessage<Menu>>(`${this.baseApiUrl}api/Item/GetItem/${itemId}`, { headers })
+      .pipe(catchError(this.handleError));
+  }
 }

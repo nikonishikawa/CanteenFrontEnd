@@ -1,7 +1,7 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { OrderService } from '../../../services/order.service';
-import { orderItems, orders } from '../../../models/orders.model';
+import { orderItems, orders, status } from '../../../models/orders.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TrayItemsDTO } from '../../../models/tray.model';
@@ -25,6 +25,7 @@ export class ManageOrderComponent implements OnInit {
   customer: CustomerById = {} as CustomerById;
   tray: TrayItemsDTO = {} as TrayItemsDTO;
   orderItems: orderItems[] =  [];
+  status: status[] = [];
   order: orders = {} as orders;
   menus: Menu[] = [];
   orderItemsMap: { [orderId: number]: orderItems[] } = {};
@@ -43,7 +44,12 @@ export class ManageOrderComponent implements OnInit {
   
   ngOnInit(): void {
     this.getOrders();
+    this.loadStatus();
   }
+
+  // formatDate(originalDate: any): string {
+  //   return this.datePipe.transform(originalDate, 'MMM-dd-yyyy HH:mm') || '';
+  // }  
 
   editStatus(orderId: number, newStatus: number) {
     this.orderService.updateOrderStatus(orderId, newStatus).subscribe({
@@ -99,6 +105,17 @@ export class ManageOrderComponent implements OnInit {
         console.error('Error retrieving orders:', err);
       }
     });
+  }
+
+  loadStatus() {
+    this.orderService.getTrayStatus().subscribe({
+      next: (res: { isSuccess: boolean, data: status[], message: string }) => {
+        if (res.isSuccess){
+          this.status = res.data;
+          console.log("Status", res)
+        }
+      }
+    })
   }
 
   loadItem(itemId: string, orderItem: any) {
