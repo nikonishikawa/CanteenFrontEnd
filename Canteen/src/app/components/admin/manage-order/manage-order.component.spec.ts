@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ManageOrderComponent } from './ManageOrderComponent';
+import { ManageOrderComponent } from './manage-order.component';
 
-describe('ManageOrderComponent', () => {
+describe('manage-order.component', () => {
   let component: ManageOrderComponent;
   let fixture: ComponentFixture<ManageOrderComponent>;
 
