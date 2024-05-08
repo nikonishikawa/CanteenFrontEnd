@@ -46,7 +46,7 @@ export class OrderService {
   
   updateOrderStatusCompleted(orderId: number, newStatus: number): Observable<any> {
     const headers = this.getHeaders();
-    return this.http.post<any>(`${this.baseApiUrl}api/OrderStatus/UpdateOrderStatus?orderId=${orderId}&newStatus=${newStatus}`, { headers }).pipe(
+    return this.http.post<any>(`${this.baseApiUrl}api/OrderStatus/UpdateOrderStatusCompleted?orderId=${orderId}&newStatus=${newStatus}`, { headers }).pipe(
       catchError((error: any) => {
         console.error('Error updating order status:', error);
         return throwError('Error updating order status. Please try again later.');

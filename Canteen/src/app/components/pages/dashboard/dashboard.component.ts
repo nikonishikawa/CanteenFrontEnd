@@ -43,7 +43,12 @@ export class DashboardComponent implements OnInit {
     this.loadDataService.getTopOrder().subscribe({
       next: (res: ApiResponseMessage<Order[]>) => {
         console.log('Received orders:', res);
-        this.orders = res.data;
+        const currentDate = new Date().toLocaleDateString(); 
+        const filteredOrders = res.data.filter(order => {
+          const completedDate = new Date(order.completedStamp).toLocaleDateString();
+          return completedDate === currentDate; 
+        });
+        this.orders = filteredOrders;
         this.calculateDailySales(); 
         this.getMostSoldItems();
       },
@@ -52,6 +57,7 @@ export class DashboardComponent implements OnInit {
       }
     });
   }
+  
 
   loadCustomerData() {
     this.customerService.loadCustomerData().subscribe({
