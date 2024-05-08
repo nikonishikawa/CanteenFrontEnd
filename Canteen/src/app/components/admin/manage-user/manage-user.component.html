@@ -46,7 +46,7 @@
                 <div class="user-details">
                     <img src="https://static.vecteezy.com/system/resources/previews/000/422/799/original/avatar-icon-vector-illustration.jpg"/>
                     <p>{{ user.customerId }}</p>
-                    <p>{{ getUserFirstName(user.cusName) }} {{ getUserMiddleName(user.cusName) }} {{ getUserLastName(user.cusName) }} </p>
+                    <p id="name">{{ getUserFirstName(user.cusName) }} {{ getUserMiddleName(user.cusName) }} {{ getUserLastName(user.cusName) }} </p>
                     <p *ngIf="getMembership(user.membership) === ''" style="color:#8a8a8a">N/A</p>
                     <p *ngIf="getMembership(user.membership) !== ''">{{ getMembership(user.membership) }}</p>
                     <p>{{ getAddress(user.cusAddress) }}</p>

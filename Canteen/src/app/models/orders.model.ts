@@ -40,5 +40,10 @@ export interface orders {
   itemId: number; 
   price: number; 
 }
+
+export interface status {
+  statusId: number;
+  status: string;
+}
 // this.orderItems.Item
 // this.orderItems.Quantity
