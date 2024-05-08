@@ -32,7 +32,7 @@ export class ManageMenuService {
     return throwError('An error occurred. Please try again later.');
   }
 
-  addMenu(item: string, description: string, foodImage: string, isHalal: number, price: number, category: number, categoryName: string): Observable<ApiResponseMessage<string>> {
+  addMenu(item: string, description: string, foodImage: string, isHalal: number, price: number, stocks: number,  category: number, categoryName: string): Observable<ApiResponseMessage<string>> {
     const headers = this.getHeaders();
     const url = `${this.baseApiUrl}api/Item/InsertItem`; 
     const insertMenu = {
@@ -41,10 +41,16 @@ export class ManageMenuService {
       FoodImage: foodImage,
       IsHalal: isHalal,
       Price: price,
+      Stock: stocks,
       Category: category
     };
     return this.http.post<ApiResponseMessage<string>>(url, insertMenu, { headers })
       .pipe(catchError(this.handleError));
+  }
+
+  updateItemStock(itemId: number, newStock: number): Observable<ApiResponseMessage<string>> {
+    const dto = { itemId, stock: newStock };
+    return this.http.put<ApiResponseMessage<string>>(`${this.baseApiUrl}api/Item/UpdateItemById?itemId=${itemId}&newStock=${newStock}`, dto);
   }
   
 }

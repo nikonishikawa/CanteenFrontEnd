@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, catchError, throwError } from 'rxjs';
 import { ApiResponseMessage } from '../models/apiresponsemessage.model';
 import { Membership, UserStatus } from '../models/load-data.model';
+import { Order } from '../models/menu.model';
 
 @Injectable({
   providedIn: 'root'
@@ -41,6 +42,12 @@ export class LoadDataService {
   getMembership(): Observable<ApiResponseMessage<Membership[]>> {
     const headers = this.getHeaders();
     return this.http.get<ApiResponseMessage<Membership[]>>(`${this.baseApiUrl}api/Membership/GetAllMembership`, { headers })
+      .pipe(catchError(this.handleError));
+  }
+
+  getTopOrder(): Observable<ApiResponseMessage<Order[]>> {
+    const headers = this.getHeaders();
+    return this.http.get<ApiResponseMessage<Order[]>>(`${this.baseApiUrl}api/OrderCompleted/GetAllOrderCompleted`, { headers })
       .pipe(catchError(this.handleError));
   }
 }

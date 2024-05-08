@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ManageMenuComponent } from './manage-menu.component';
 
-describe('ManageMenuComponent', () => {
+describe('manage-menu.component', () => {
   let component: ManageMenuComponent;
   let fixture: ComponentFixture<ManageMenuComponent>;
 

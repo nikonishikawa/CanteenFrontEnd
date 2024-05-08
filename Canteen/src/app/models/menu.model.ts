@@ -9,3 +9,15 @@ export interface Menu {
   category: number;
   categoryName: string;
 }
+
+export interface Order {
+  orderCompletedId: number;
+  orderId: number;
+  itemId: number;
+  cusId: number;
+  itemName: string;
+  completedStamp: string;
+  quantity: number;
+  price: number;
+  foodImage: string;
+}
