@@ -14,9 +14,11 @@
               <p>Made by </p>
               <p>{{ group.firstName }}</p>
               <!-- Corrected the method call -->
-              <button (click)="editStatus(group.orderId, 3)">Ready for pick up</button>
-              <button (click)="editStatus(group.orderId, 4)">Completed</button>
-              <button (click)="editStatus(group.orderId, 2)">Cancelled</button>
+              <div class="buttons-container" *ngIf="group.status != '3' && group.status != '4'" >
+                <button (click)="editStatus(group.orderId, 3)">Completed</button>
+                <button (click)="editStatus(group.orderId, 2)">Prepped</button>
+                <button (click)="editStatus(group.orderId, 4)">Cancelled</button>
+              </div>
             </div>
             
           </div>
@@ -25,8 +27,8 @@
           <p id="mop-gcash" *ngIf="group.modeOfPayment == '2'">GCash</p>
         </div>
         <p id="cost">₱{{ group.cost }}</p>
-        <p id="status-pending" *ngIf="group.status == '1'">Pending</p>
-        <p id="status-in-progress" *ngIf="group.status == '2'">In Progress</p>
+        <p id="status-pending" *ngIf="group.status == '1'">Preparing</p>
+        <p id="status-in-progress" *ngIf="group.status == '2'">Prepped</p>
         <p id="status-completed" *ngIf="group.status == '3'">Completed</p>
         <p id="status-cancelled" *ngIf="group.status == '4'">Cancelled</p>
       </div>
