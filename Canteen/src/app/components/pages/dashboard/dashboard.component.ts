@@ -36,7 +36,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.loadCustomerData();
-    this.loadOrders(); // Call method to load orders
+    this.loadOrders(); 
   }
 
   loadOrders() {
@@ -45,6 +45,7 @@ export class DashboardComponent implements OnInit {
         console.log('Received orders:', res);
         this.orders = res.data;
         this.calculateDailySales(); 
+        this.getMostSoldItems();
       },
       error: (error) => {
         console.error('Error loading orders:', error);
