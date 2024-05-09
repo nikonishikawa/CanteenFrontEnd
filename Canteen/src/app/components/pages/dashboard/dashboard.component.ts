@@ -39,8 +39,6 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.loadCustomerData();
-    this.loadOrders(); 
-   
   }
 
   loadOrders() {
@@ -80,6 +78,25 @@ export class DashboardComponent implements OnInit {
       }
     });
   }
+
+  loadUserOrders() {
+    this.loadDataService.getUserOrders(this.customer.customerId).subscribe({
+      next: (res: ApiResponseMessage<Order[]>) => {
+        console.log('Received User Orders:', res);
+        const currentDate = new Date().toLocaleDateString(); 
+        const filteredOrders = res.data.filter(order => {
+          const completedDate = new Date(order.completedStamp).toLocaleDateString();
+          return completedDate === currentDate; 
+        });
+        this.orders = filteredOrders;
+        this.getRecentlySold();
+      },
+      error: (error) => {
+        console.error('Error loading orders:', error);
+      }
+    });
+  }
+  
   
   
 
@@ -88,7 +105,9 @@ export class DashboardComponent implements OnInit {
       next: (res) => {
         console.log('Received customer data:', res);
         this.customer = res.data;
+        this.loadOrders(); 
         this.loadRecentlyOrdered();
+        this.loadUserOrders();
       }
     });
   }
@@ -132,6 +151,23 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  getUserOrders(): { orderId: number; totalPrice: number; items: { itemName: string; price: number; foodImage: string; quantity: number; orderId: number; }[] }[] {
+    const ordersGroupedByOrder= this.groupOrdersByOrder();
+    
+    return ordersGroupedByOrder.map(orderGroup => ({
+      orderId: orderGroup.orderId,
+      totalPrice: orderGroup.price,
+      items: orderGroup.items.map(item => ({
+        itemName: item.itemName,
+        price: item.price,
+        foodImage: item.foodImage,
+        quantity: item.quantity,
+        orderId: item.orderId
+      }))
+    }));
+  }
+  
+
   getRecentlySold(): { orderId: number; totalPrice: number; items: { itemName: string; price: number; foodImage: string; quantity: number; orderId: number; }[] }[] {
     const today = new Date().toLocaleDateString();
     const ordersGroupedByOrderId = this.groupOrdersByOrderId(today);
@@ -172,6 +208,28 @@ export class DashboardComponent implements OnInit {
   
     return groupedOrders;
   }
+  
+  groupOrdersByOrder(): { orderId: number; items: Order[]; price: number }[] {
+    const ordersGroupedByOrder: { [orderId: number]: Order[] } = {};
+  
+    this.orders.forEach(order => {
+      const orderId = order.orderId;
+      if (!ordersGroupedByOrder[orderId]) {
+        ordersGroupedByOrder[orderId] = [];
+      }
+      ordersGroupedByOrder[orderId].push(order);
+    });
+  
+    const groupedOrder: { orderId: number; items: Order[]; price: number }[] = [];
+    Object.keys(ordersGroupedByOrder).forEach(orderId => {
+      const orders = ordersGroupedByOrder[Number(orderId)];
+      const totalPrice = this.getTotalPrice(orders);
+      groupedOrder.push({ orderId: Number(orderId), items: orders, price: totalPrice });
+    });
+  
+    return groupedOrder;
+  }
+  
   
   getTotalPrice(orders: Order[]): number {
     return orders.reduce((total, order) => total + (order.price * order.quantity), 0);
