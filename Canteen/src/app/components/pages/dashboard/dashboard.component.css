@@ -61,11 +61,11 @@
     flex-direction: column;
     height: 50%;
     box-sizing: border-box; /* Include padding and border in the width */
-    border-radius: 50px;
+    border-radius: 30px;
     border: 1px solid rgba(0, 0, 0, 0.15);
     box-shadow: 0 10px 5.4px rgba(0, 0, 0, 0.15);
-    padding: 40px;
-    margin: 30px 0 20px 0; /* Remove margins */
+    padding: 30px;
+    margin: 30px 0 0 0; /* Remove margins */
 }
 
 .standard-container .row-header {
@@ -76,13 +76,83 @@
     align-items: center;
     border: none;
     box-shadow: none;
-    margin: 0;
+    margin: 0 0 10px 0;
     padding: 0;
 }
 
 .standard-container div div a {
     font-size: 24px;
     font-weight: 400;
+}
+
+.menu-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    margin: 0;
+}
+
+.menu-container .body-container {
+    display: flex;
+    flex-direction: row;
+    margin: 0;
+    padding: 0; 
+    background-color: none;
+    border: none;
+    box-shadow: none;
+    height: 100%;
+    width: 100%;
+    overflow-x: auto;
+}
+
+.menu-container .body-container .menu-items-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    margin: 20px 20px 0 20px;
+    height: 90%;
+    width: 20%;
+    padding: 0;
+    border-radius: 30px;
+    margin: 10px;
+}
+
+.menu-container .menu-items-container img {
+    border-radius: 20px;
+    width: 100%;
+    height: 60%;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    margin-bottom: 10px;
+}
+
+.menu-items-container .item-header-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0 10px 10px 10px;
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
+}
+
+.item-header-container h3 {
+    width: 60%;
+}
+
+.item-header-container h3, .item-header-container p {
+    margin: 0;
+}
+
+.item-header-container p {
+    color: rgb(218, 6, 46);
+    font-size: 15px;
+    font-weight: 600;
 }
 
 /* .standard-container p {
