@@ -3,11 +3,11 @@
     <div class="summary-container">
       <div class="items-ordered-container">
         <h1>Recently Ordered</h1>
-        <p>{{getRecentlySold().length}}</p>
+        <p id="recently-sold-count">{{ getRecentlySold().length }}</p>\
       </div>
       <div class="ongoing-orders-container">
         <h1>Ongoing Orders</h1>
-        <p>#</p>
+        <p id="user-orders-count">{{ getUserOrder().length }}</p>
       </div>
     </div>
     <div class="standard-container">
@@ -21,25 +21,21 @@
               <img [src]="item.foodImage" [alt]="item.itemName">
               <div class="item-header-container">
                 <h3 [ngStyle]="{'font-size.px':item.itemName.length > 8 ? 26 : 32}">{{ item.itemName }}</h3> 
-                <p>₱ {{ item.price }}</p>
               </div>
           </div>   
         </div>
-      </div>
-      
+    </div>
+    
       <div class="recent-transactions-container">
         <div class="row-header">
           <h1>Recent Transactions</h1>
           <a [routerLink]="['../order']">See All</a>
         </div>
         <div *ngFor="let orderGroup of getRecentlySold()">
-                  <p id="order-id">{{ orderGroup.orderId }}</p>
-                  <p>Total Price: ₱{{ orderGroup.totalPrice }}</p>
-                  <!-- <div *ngFor="let item of orderGroup.items">
-                    <p>{{ item.itemName }} - ₱{{ item.price }}</p>
-                  </div> -->
-        </div>
-      </div>
-    </div>
-  </div>
+          <p id="order-id">{{ orderGroup.orderId }}</p>
+          <p>Total Price: ₱{{ orderGroup.totalPrice }}</p>
+          <!-- <div *ngFor="let item of orderGroup.items">
+            <p>{{ item.itemName }} - ₱{{ item.price }}</p>
+          </div> -->
 </div>
+      </div>

@@ -84,6 +84,7 @@ export class ManageOrderComponent implements OnInit {
     });
   }
 
+  
   getOrders() {
     this.orderService.getAllOrders().subscribe({
       next: (res: { isSuccess: boolean, data: orderItems[], message: string }) => {

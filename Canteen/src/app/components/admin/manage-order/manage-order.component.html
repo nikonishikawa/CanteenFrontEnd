@@ -11,11 +11,12 @@
         </div>
       </div>
     </div>
-    <div class="orders-container">
-      <ng-container *ngFor="let group of orderGroups">
-        <div class="order-group" (click)="openModal(group.orderId)">
-          <div class="main-info-container">
-            
+  </div>
+  <div class="orders-container">
+    <ng-container *ngFor="let group of orderGroups">
+      <div class="order-group" (click)="openModal(group.orderId)">
+        <div class="main-info-container">
+          
           <p id="status-pending" *ngIf="group.status == '1'">Preparing</p>
           <p id="status-in-progress" *ngIf="group.status == '2'">Prepped</p>
           <p id="status-completed" *ngIf="group.status == '3'">Completed</p>

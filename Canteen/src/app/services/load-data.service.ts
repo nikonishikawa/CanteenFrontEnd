@@ -51,6 +51,12 @@ export class LoadDataService {
       .pipe(catchError(this.handleError));
   }
 
+  getUserOrders(cusId: number): Observable<ApiResponseMessage<Order[]>> {
+    const headers = this.getHeaders();
+    return this.http.get<ApiResponseMessage<Order[]>>(`${this.baseApiUrl}api/OrderStatus/GetOnGoingOrder/${cusId}`, { headers })
+      .pipe(catchError(this.handleError));
+  }
+
   getRecentOrdersById(cusId: number): Observable<ApiResponseMessage<Order[]>> {
     const headers = this.getHeaders();
     return this.http.get<ApiResponseMessage<Order[]>>(`${this.baseApiUrl}api/OrderCompleted/GetRecentOrdersById/${cusId}`, { headers })
