@@ -174,14 +174,13 @@ export class ManageOrderComponent implements OnInit {
       }
       orderGroupsMap[orderId].push(orderItem);
     });
-
+  
     this.orderGroups = Object.keys(orderGroupsMap).map(orderId => ({
       orderId: Number(orderId),
       modeOfPayment: this.getUniqueModeOfPayment(orderGroupsMap[Number(orderId)]),
       status: this.getUniqueStatus(orderGroupsMap[Number(orderId)]),
       orderStamp: this.getUniqueOrderStamp(orderGroupsMap[Number(orderId)]),
-      cost: orderGroupsMap[Number(orderId)][0].price,
-      firstName: orderGroupsMap[Number(orderId)][0].firstName,
+      cost: this.getUniqueCost(orderGroupsMap[Number(orderId)]),
       orderItems: orderGroupsMap[Number(orderId)]
     }));
   }
@@ -201,4 +200,8 @@ export class ManageOrderComponent implements OnInit {
     return uniqueorderStamp.length === 1 ? uniqueorderStamp[0] : 'Multiple';
   }
 
+  getUniqueCost(orderItems: orderItems[]): number {
+    const uniqueCosts = Array.from(new Set(orderItems.map(item => item.cost)));
+    return uniqueCosts.length === 1 ? uniqueCosts[0] : NaN;
+  }
 }
