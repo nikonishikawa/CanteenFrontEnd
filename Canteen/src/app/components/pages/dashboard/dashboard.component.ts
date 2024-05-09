@@ -83,20 +83,14 @@ export class DashboardComponent implements OnInit {
     this.loadDataService.getUserOrders(this.customer.customerId).subscribe({
       next: (res: ApiResponseMessage<Order[]>) => {
         console.log('Received User Orders:', res);
-        const currentDate = new Date().toLocaleDateString(); 
-        const filteredOrders = res.data.filter(order => {
-          const completedDate = new Date(order.completedStamp).toLocaleDateString();
-          return completedDate === currentDate; 
-        });
-        this.orders = filteredOrders;
-        this.getRecentlySold();
+        this.orders = res.data;
+        this.getUserOrders();
       },
       error: (error) => {
         console.error('Error loading orders:', error);
       }
     });
   }
-  
   
   
 
@@ -184,6 +178,22 @@ export class DashboardComponent implements OnInit {
       }))
     }));
   }
+
+  getUserOrder(): { orderId: number; totalPrice: number; items: { itemName: string; price: number; foodImage: string; quantity: number; orderId: number; }[] }[] {
+    const ordersGroupedByOrderId = this.groupOrdersByOrder();
+  
+  return ordersGroupedByOrderId.map(orderGroup => ({
+    orderId: orderGroup.orderId,
+    totalPrice: orderGroup.price,
+    items: orderGroup.items.map(item => ({
+      itemName: item.itemName,
+      price: item.price,
+      foodImage: item.foodImage,
+      quantity: item.quantity,
+      orderId: item.orderId
+    }))
+  }));
+}
   
   groupOrdersByOrderId(date: string): { orderId: number; items: Order[]; price: number }[] {
     const filteredOrders = this.orders.filter(order => new Date(order.completedStamp).toLocaleDateString() === date);
