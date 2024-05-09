@@ -10,10 +10,7 @@
         <p>#</p>
       </div>
     </div>
-
-
     <div class="standard-container">
-
       <div class="menu-container">
         <div class="row-header">  
           <h1>Best Seller</h1>
@@ -21,14 +18,13 @@
         </div>
         <div class="body-container">
           <div class="menu-items-container" *ngFor="let item of getMostSoldItems()">
-              <img [src]="item.foodImage" alt="{{ item.itemName }} Image">
+              <img [src]="item.foodImage" alt="{{ item.itemName }} ">
               <div class="item-header-container">
                 <h3 [ngStyle]="{'font-size.px':item.itemName.length > 8 ? 26 : 32}">{{ item.itemName }}</h3> 
                 <p>₱ {{ item.price }}</p>
               </div>
           </div>   
         </div>
-      
       </div>
       
       <div class="recent-transactions-container">
@@ -36,10 +32,14 @@
           <h1>Recent Transactions</h1>
           <a [routerLink]="['../order']">See All</a>
         </div>
-        <p>Items here</p>
+        <div *ngFor="let orderGroup of getRecentlySold()">
+                  <p id="order-id">{{ orderGroup.orderId }}</p>
+                  <p>Total Price: ₱{{ orderGroup.totalPrice }}</p>
+                  <!-- <div *ngFor="let item of orderGroup.items">
+                    <p>{{ item.itemName }} - ₱{{ item.price }}</p>
+                  </div> -->
+        </div>
       </div>
     </div>
   </div>
-  <div *ngIf="!customer">Loading...</div>
-  <div *ngIf="!customer">Loading...</div>
 </div>
