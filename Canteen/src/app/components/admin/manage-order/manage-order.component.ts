@@ -32,6 +32,8 @@ export class ManageOrderComponent implements OnInit {
   orderGroups: any[] = [];
   openOrderItem: any = null;
   showFirstContent: boolean = false;
+  filteredOrderGroups: any[] = [];
+  selectedStatus: string = 'All';
 
   constructor(
     private route: ActivatedRoute,
@@ -45,11 +47,7 @@ export class ManageOrderComponent implements OnInit {
   ngOnInit(): void {
     this.getOrders();
     this.loadStatus();
-  }
-
-  // formatDate(originalDate: any): string {
-  //   return this.datePipe.transform(originalDate, 'MMM-dd-yyyy HH:mm') || '';
-  // }  
+  }  
 
   editStatus(orderId: number, newStatus: number) {
     this.orderService.updateOrderStatus(orderId, newStatus).subscribe({
