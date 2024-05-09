@@ -137,7 +137,7 @@ h1#title {
   grid-template-columns: repeat(2, 1fr); /* Two columns */
   grid-auto-flow: row;
   max-height: 450px; /* Maximum height */
-  grid-gap: 30px; /* Gap between rows and columns */
+  grid-gap: 20px; /* Gap between rows and columns */
   overflow-y: auto; /* Enable vertical scrolling if content exceeds height */
   max-width: 100%; /* Adjust width based on content */
   overflow-x: hidden; /* Ensure no horizontal overflow */
