@@ -3,7 +3,7 @@
     <div class="summary-container">
       <div class="items-ordered-container">
         <h1>Recently Ordered</h1>
-        <p>#</p>
+        <p>{{getRecentlySold().length}}</p>
       </div>
       <div class="ongoing-orders-container">
         <h1>Ongoing Orders</h1>
@@ -18,7 +18,7 @@
         </div>
         <div class="body-container">
           <div class="menu-items-container" *ngFor="let item of getMostSoldItems()">
-              <img [src]="item.foodImage" alt="{{ item.itemName }} ">
+              <img [src]="item.foodImage" [alt]="item.itemName">
               <div class="item-header-container">
                 <h3 [ngStyle]="{'font-size.px':item.itemName.length > 8 ? 26 : 32}">{{ item.itemName }}</h3> 
                 <p>₱ {{ item.price }}</p>
