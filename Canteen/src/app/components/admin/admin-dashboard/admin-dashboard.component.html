@@ -1,4 +1,5 @@
 <div class="product-count">
+  
     <p>Total # of Products: {{ menus.length }}</p>
 
     <div class="percent">
@@ -17,6 +18,10 @@
               a 15.9155 15.9155 0 0 1 0 -31.831" />
       </svg>
         </div>
-      <p>Total: $2075</p>
+
+      
 </div>
   
+<div>
+  Total Revenue for the Month: {{ totalRevenueForMonth | currency:'PHP':'symbol':'1.2-2' }}
+</div>
