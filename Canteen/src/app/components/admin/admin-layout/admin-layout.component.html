@@ -23,12 +23,30 @@
             <span>Orders</span>
           </a>
         </li>
-        <li [routerLink]="['manage-user']" [ngClass]="{'nav_items': isActive === 3}" (click)="toggleActive(3)">
+        <li [routerLink]="['manage-user']" [ngClass]="{'nav_items-main-users': isActive === 3}" (click)="toggleActive(3)">
           <a>
             <i class="fa-solid fa-qrcode">
               <use xlink:href="#search"></use>
             </i>
             <span>Manage User</span>
+            
+            <div class="triangle"></div>
+          </a>
+        </li>
+        <li [routerLink]="['manage-user']" *ngIf="isActive === 3" [ngClass]="{'nav_items-users': isActive === 3}" (click)="toggleActive(3)">
+          <a>
+            <i class="fa-solid fa-qrcode">
+              <use xlink:href="#search"></use>
+            </i>
+            <span>Vendor</span>
+          </a>
+        </li>
+        <li [routerLink]="['manage-user']" *ngIf="isActive === 3" [ngClass]="{'nav_items-users': isActive === 3}" (click)="toggleActive(3)">
+          <a>
+            <i class="fa-solid fa-qrcode">
+              <use xlink:href="#search"></use>
+            </i>
+            <span>Customers</span>
           </a>
         </li>
         <li [routerLink]="['manage-menu']" [ngClass]="{'nav_items': isActive === 4}" (click)="toggleActive(4)">

@@ -6,7 +6,7 @@ import { CustomerDto, TrayItemsDTO } from '../../../models/tray.model';
 import { CommonModule } from '@angular/common';
 import { OrderService } from '../../../services/order.service';
 import { Customer } from '../../../models/user.model';
-import { orderItems, orders } from '../../../models/orders.model';
+import { orderItems, orders, status } from '../../../models/orders.model';
 import { constants } from 'buffer';
 import { Menu } from '../../../models/menu.model';
 import { MenuService } from '../../../services/menu.service';
@@ -24,6 +24,7 @@ export class OrderComponent {
   customer: Customer = {} as Customer;
   tray: TrayItemsDTO = {} as TrayItemsDTO;
   orderItems: orderItems[] =  [];
+  status: status[] = [];
   order: orders = {} as orders;
   menus: Menu[] = [];
   orderItemsMap: { [orderId: number]: orderItems[] } = {};
@@ -31,6 +32,12 @@ export class OrderComponent {
   orderGroups: any[] = [];
   openOrderItem: any = null;
   showFirstContent: boolean = false;
+  
+  selectedStatus: string = 'All';
+  filterSelected: any = null;
+  currentIndex: number = 0;
+  activeIndex: number = 0;
+  isActive!: number | 1;
  
 
   constructor(
@@ -43,6 +50,7 @@ export class OrderComponent {
   ) { }
 
   ngOnInit(): void {
+    this.loadStatus();
     this.loadCustomerData();
   
   }
@@ -52,12 +60,12 @@ export class OrderComponent {
       next: (res) => {
         this.customer.customerId = res.data.customerId;
         console.log('Received customer data:', res.data.customerId);
-        this.getOrders()
+        this.getOrders(this.selectedStatus, this.currentIndex);
       }
     });
   }
   
-  getOrders() {
+  getOrders(selectedStatus: string, index: number) {
     if (!this.customer.customerId) {
       console.error('Customer ID not found');
       return;
@@ -72,7 +80,8 @@ export class OrderComponent {
             this.loadItem(orderItem.item, orderItem);
           });
           if (this.orderItems && this.orderItems.length > 0) {
-            this.preprocessOrderItems(this.orderItems); 
+            this.preprocessOrderItems(this.orderItems, selectedStatus, index); 
+            console.log("this: " + selectedStatus);
           } else {
             console.error("Order items array is empty or undefined");
           }
@@ -84,6 +93,26 @@ export class OrderComponent {
         console.error('Error retrieving orders:', err);
       }
     });
+  }
+
+  loadStatus() {
+    this.orderService.getTrayStatus().subscribe({
+      next: (res: { isSuccess: boolean, data: status[], message: string }) => {
+        if (res.isSuccess){
+          this.status = res.data;
+          console.log("Status", res)
+        }
+      }
+    })
+  }
+
+  getStatusName(categoryId: any): any {
+    console.log(categoryId);
+    const categoryIdNumber = parseInt(categoryId, 10);
+    const correspondingCategory = this.status.find(cat => cat.statusId === categoryIdNumber);
+    this.isActive = categoryIdNumber;
+    console.log(categoryIdNumber, correspondingCategory);
+    return correspondingCategory ? correspondingCategory.status : categoryId;
   }
   
 
@@ -137,9 +166,18 @@ export class OrderComponent {
     return item.name; 
   }
 
-  preprocessOrderItems(orderItems: orderItems[]): void {
+  preprocessOrderItems(orderItems: orderItems[], selectedStatus: string, index: number): void {
+    let filteredOrderItems: orderItems[];
+    
+    if (selectedStatus === 'All') {
+      filteredOrderItems = orderItems;
+      this.filtSelect(0);
+    } else {
+      filteredOrderItems = this.filterStatus(orderItems, selectedStatus, index);
+    }
+
     const orderGroupsMap: { [orderId: number]: orderItems[] } = {};
-    orderItems.forEach(orderItem => {
+    filteredOrderItems.forEach(orderItem => {
       const orderId = orderItem.orderId;
       if (!orderGroupsMap[orderId]) {
         orderGroupsMap[orderId] = [];
@@ -156,7 +194,21 @@ export class OrderComponent {
       orderItems: orderGroupsMap[Number(orderId)]
     }));
   }
-  
+
+  filterStatus(orderItems: orderItems[], index: string, currentIndex: number): orderItems[] {
+    this.filtSelect(currentIndex);
+    return orderItems.filter(item => item.statusName === index);
+  }
+
+  filtSelect(index: number) {
+    this.filterSelected = index;
+    this.setActiveIndex(this.filterSelected);  
+  }
+
+  setActiveIndex(index: any | 0) {
+    this.activeIndex = index;
+  }
+
   getUniqueModeOfPayment(orderItems: orderItems[]): string {
     const uniqueModeOfPayments = Array.from(new Set(orderItems.map(item => item.modeOfPayment)));
     return uniqueModeOfPayments.length === 1 ? uniqueModeOfPayments[0] : 'Multiple';

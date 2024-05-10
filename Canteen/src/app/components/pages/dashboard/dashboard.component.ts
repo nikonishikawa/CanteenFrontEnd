@@ -163,10 +163,9 @@ export class DashboardComponent implements OnInit {
   
 
   getRecentlySold(): { orderId: number; totalPrice: number; items: { itemName: string; price: number; foodImage: string; quantity: number; orderId: number; }[] }[] {
-    const today = new Date();
-    console.log(today);
+    const today = new Date().toLocaleDateString();
     const ordersGroupedByOrderId = this.groupOrdersByOrderId(today);
-
+    
     return ordersGroupedByOrderId.map(orderGroup => ({
       orderId: orderGroup.orderId,
       totalPrice: orderGroup.price,
@@ -196,17 +195,11 @@ export class DashboardComponent implements OnInit {
   }));
 }
   
-      console.log(formattedDate);
-    // Filter orders based on the formatted date
-    const filteredOrders = this.orders.filter(order => {
-      const orderDate = new Date(order.completedStamp).toISOString().split('T')[0];
-      return orderDate === formattedDate;
-    });
-  
-    // Sort filtered orders by completedStamp
+  groupOrdersByOrderId(date: string): { orderId: number; items: Order[]; price: number }[] {
+    const filteredOrders = this.orders.filter(order => new Date(order.completedStamp).toLocaleDateString() === date);
+    
     filteredOrders.sort((a, b) => new Date(b.completedStamp).getTime() - new Date(a.completedStamp).getTime());
   
-    // Group orders by orderId
     const ordersGroupedByOrderId: { [orderId: number]: Order[] } = {};
     filteredOrders.forEach(order => {
       const orderId = order.orderId;
@@ -216,7 +209,6 @@ export class DashboardComponent implements OnInit {
       ordersGroupedByOrderId[orderId].push(order);
     });
   
-    // Calculate total price for each order group
     const groupedOrders: { orderId: number; items: Order[]; price: number }[] = [];
     Object.keys(ordersGroupedByOrderId).forEach(orderId => {
       const orders = ordersGroupedByOrderId[Number(orderId)];

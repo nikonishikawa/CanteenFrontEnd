@@ -87,6 +87,31 @@ body{
       font-size: 30px;
       padding: 25px 25px 25px 45px;
     }
+
+    .nav li a {
+      display: flex;
+      align-items: center;
+    }
+
+    .nav li a .triangle {
+      margin-left: 20px;
+      width: 0;
+      height: 0;
+      border-left: 7.5px solid transparent; /* Half of the original size */
+      border-right: 7.5px solid transparent; /* Half of the original size */
+      border-top: 15px solid #fff; /* Adjusted size */
+      transform: rotate(90deg);
+    }
+
+    .nav li a .triangle:hover {
+      margin-left: 20px;
+      width: 0;
+      height: 0;
+      border-left: 7.5px solid transparent; /* Half of the original size */
+      border-right: 7.5px solid transparent; /* Half of the original size */
+      border-top: 15px solid #fdbd32; /* Adjusted size */
+      transform: rotate(90deg);
+    }
   
     .nav_cont ul li:hover {
       background-color: rgba(255, 255, 255, 0.2);
@@ -99,8 +124,38 @@ body{
     .nav_cont ul li a:hover {
       background-color: transparent;
     }
+
+    .nav_cont ul li.nav_items-main-users {
+      background: #ac010a;
+      color: #fff;
+      padding: 25px;
+      font-weight: 400;
+      border-top-left-radius: 50px;
+      border-bottom-left-radius: 50px;
+    }
+
+    .nav_cont ul li.nav_items-main-users a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav_cont ul li.nav_items-main-users a .triangle {
+      width: 0;
+      height: 0;
+      border-left: 7.5px solid transparent; /* Half of the original size */
+      border-right: 7.5px solid transparent; /* Half of the original size */
+      border-top: 15px solid #fff; /* Adjusted size */
+      transform: rotate(0deg);
+    }
+
+    .nav_cont ul li.nav_items-users a span {
+      font-size: 26px;
+      padding-left: 30px;
+    }
+    
   
-    .nav_cont ul li.nav_items {
+    .nav_cont ul li.nav_items, .nav_cont ul li.nav_items-users {
       background: #fff;
       color: #DA062E;
       padding: 25px;
@@ -109,7 +164,7 @@ body{
       border-bottom-left-radius: 50px;
     }
     
-    .nav_cont ul li.nav_items::before {
+    .nav_cont ul li.nav_items::before, .nav_cont ul li.nav_items-users::before {
       content: '';
       position: absolute;
       top: -20px;
@@ -121,7 +176,7 @@ body{
       background: transparent;
     }
   
-    .nav_cont ul li.nav_items::after {
+    .nav_cont ul li.nav_items::after, .nav_cont ul li.nav_items-users::after {
       content: '';
       position: absolute;
       bottom: -20px;

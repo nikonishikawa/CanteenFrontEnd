@@ -29,14 +29,17 @@ export class ManageOrderComponent implements OnInit {
   order: orders = {} as orders;
   menus: Menu[] = [];
   orderItemsMap: { [orderId: number]: orderItems[] } = {};
-  
+  activeIndex: number = 0;
   groupedOrder: { [key: string]: orderItems[] } = {};
   orderGroups: any[] = [];
   openOrderItem: any = null;
   showFirstContent: boolean = false;
   filteredOrderGroups: any[] = [];
-  selectedStatus: number = 0;
+  selectedStatus: string = 'All';
   filteredStatus: number = 0;
+  filterSelected: any = null;
+  isActive!: number | 1;
+  currentIndex: number = 0;
 
   constructor(
     private route: ActivatedRoute,
@@ -48,7 +51,9 @@ export class ManageOrderComponent implements OnInit {
   ) { }
   
   ngOnInit(): void {
-    this.getOrders();
+    
+    this.getOrders(this.selectedStatus, this.currentIndex);
+    
     this.loadStatus();
   }  
 
@@ -57,7 +62,7 @@ export class ManageOrderComponent implements OnInit {
       next: (res: any) => {
         if (res.isSuccess) {
           console.log("Status updated successfully");
-          this.getOrders(); 
+          this.getOrders(this.selectedStatus, this.currentIndex); 
         } else {
           console.error("Error updating status:", res.message);
         }
@@ -73,7 +78,7 @@ export class ManageOrderComponent implements OnInit {
       next: (res: any) => {
         if (res.isSuccess) {
           console.log("Status updated successfully");
-          this.getOrders(); 
+          this.getOrders(this.selectedStatus, this.currentIndex); 
         } else {
           console.error("Error updating status:", res.message);
         }
@@ -85,18 +90,20 @@ export class ManageOrderComponent implements OnInit {
   }
 
   
-  getOrders() {
+  getOrders(selectedStatus: string, index: number) {
     this.orderService.getAllOrders().subscribe({
       next: (res: { isSuccess: boolean, data: orderItems[], message: string }) => {
         if (res.isSuccess) {
           this.orderItems = res.data;
-          this.groupedOrder = this.groupByCategory(this.orderItems);
+          
           console.log("Response", res);
           this.orderItems.forEach(orderItem => {
             this.loadItem(orderItem.item, orderItem);
           });
           if (this.orderItems && this.orderItems.length > 0) {
-            this.preprocessOrderItems(this.orderItems);
+            
+            this.preprocessOrderItems(this.orderItems, selectedStatus, index);
+            console.log("this: " + selectedStatus);
           } else {
             console.error("Order items array is empty or undefined");
           }
@@ -121,35 +128,13 @@ export class ManageOrderComponent implements OnInit {
     })
   }
 
-  groupByCategory(orderItems: orderItems[]): { [key: string]: orderItems[] } {
-    return orderItems.reduce((result: { [key: string]: orderItems[] }, orderItems) => {
-      const categoryName = this.getStatusName(orderItems.status);
-      (result[categoryName] = result[categoryName] || []).push(orderItems);
-      return result;
-    }, {});
-  }
-
   getStatusName(categoryId: any): any {
     console.log(categoryId);
     const categoryIdNumber = parseInt(categoryId, 10);
     const correspondingCategory = this.status.find(cat => cat.statusId === categoryIdNumber);
-    
+    this.isActive = categoryIdNumber;
     console.log(categoryIdNumber, correspondingCategory);
     return correspondingCategory ? correspondingCategory.status : categoryId;
-  }
-
-  filterStatus(categoryId: any) {
-    this.filtSelect(categoryId);
-    const uniqueCategories = [...new Set(this.status.map(menu => menu.statusId))];
-    this.status = this.status.filter(cat => uniqueCategories.includes(cat.statusId));
-    this.selectedStatus = categoryId; 
-
-    if (this.selectedStatus === 0) {
-      this.filteredStatus = this.groupByCategory(this.orderItems); 
-    } else {
-      const filteredMenus = this.orderItems.filter(orderItems => this.orderItems === this.selectedStatus);
-      this.filteredStatus = this.groupByCategory(filteredMenus);
-    }
   }
 
   loadItem(itemId: string, orderItem: any) {
@@ -194,14 +179,24 @@ export class ManageOrderComponent implements OnInit {
       }
     );
   }
+  
 
   getMenuName(item: any) {
     return item.name;
   }
 
-  preprocessOrderItems(orderItems: orderItems[]): void {
+  preprocessOrderItems(orderItems: orderItems[], selectedStatus: string, index: number): void {
+    let filteredOrderItems: orderItems[];
+    
+    if (selectedStatus === 'All') {
+      filteredOrderItems = orderItems;
+      this.filtSelect(0);
+    } else {
+      filteredOrderItems = this.filterStatus(orderItems, selectedStatus, index);
+    }
+    
     const orderGroupsMap: { [orderId: number]: orderItems[] } = {};
-    orderItems.forEach(orderItem => {
+    filteredOrderItems.forEach(orderItem => {
       const orderId = orderItem.orderId;
       if (!orderGroupsMap[orderId]) {
         orderGroupsMap[orderId] = [];
@@ -217,6 +212,25 @@ export class ManageOrderComponent implements OnInit {
       cost: this.getUniqueCost(orderGroupsMap[Number(orderId)]),
       orderItems: orderGroupsMap[Number(orderId)]
     }));
+  }
+  
+  
+  filterStatus(orderItems: orderItems[], index: string, currentIndex: number): orderItems[] {
+    this.filtSelect(currentIndex);
+    return orderItems.filter(item => item.statusName === index);
+  }
+
+  filtSelect(index: number) {
+    this.filterSelected = index;
+    this.setActiveIndex(this.filterSelected);  
+  }
+
+  setActiveIndex(index: any | 0) {
+    this.activeIndex = index;
+  }
+
+  getSelectActive(index: number) {
+    this.isActive = index === 6 ? 1 : (index === this.isActive ? 1 : index);
   }
 
   getUniqueModeOfPayment(orderItems: orderItems[]): string {

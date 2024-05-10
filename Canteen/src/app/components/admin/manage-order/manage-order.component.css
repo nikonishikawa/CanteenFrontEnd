@@ -64,6 +64,17 @@
     color: #DA062E;
   }
 
+  .filter-items .active, .filt .active {
+    text-transform: capitalize;
+    margin: 0 15px 0 0;
+    padding: 8px 24px 8px 24px;
+    border-radius: 20px;
+    border: solid 2px #fff;
+    background-color: #DA062E;
+    font-weight: 600;
+    color: #fff;
+  }
+
   .orders-container {
     display: flex;
     flex-direction: row;

@@ -4,7 +4,14 @@
     <input type="text" placeholder="Search" />
   </div>
   <div *ngIf="!customer">Loading...</div>
-
+  <div class="filter-container">
+    <div class="filt">
+      <input type="button" [value]="'All'" [class.active]="filterSelected === 0" (click)="getOrders('All', 0)">
+      <div class="filter-items" *ngFor="let sta of status">
+        <input type="button" [value]="getStatusName(sta.statusId)"  [class.active]="filterSelected === sta.statusId" (click)="getOrders(sta.status, sta.statusId)">
+      </div>
+    </div>
+  </div>
   <div class="orders-container">
     <ng-container *ngFor="let group of orderGroups">
       <div class="order-group" (click)="openModal(group.orderId)">

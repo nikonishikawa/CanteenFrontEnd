@@ -5,20 +5,18 @@
     </div>
     <div class="filter-container">
       <div class="filt">
-        <input type="button" [value]="'All'">
+        <input type="button" [value]="'All'" [class.active]="filterSelected === 0" (click)="getOrders('All', 0)">
         <div class="filter-items" *ngFor="let sta of status">
-          <input type="button" [value]="sta.status">
+          <input type="button" [value]="getStatusName(sta.statusId)"  [class.active]="filterSelected === sta.statusId" (click)="getOrders(sta.status, sta.statusId)">
         </div>
       </div>
     </div>
-  </div>
-  <div class="orders-container">
-    <ng-container *ngFor="let group of orderGroups">
-      <div class="order-group" (click)="openModal(group.orderId)">
-        <div class="main-info-container">
-          
+    <div class="orders-container">
+      <ng-container *ngFor="let group of orderGroups">
+        <div class="order-group" (click)="openModal(group.orderId)">
+          <div class="main-info-container">
           <p id="status-pending" *ngIf="group.status == '1'">Preparing</p>
-          <p id="status-in-progress" *ngIf="group.status == '2'">Prepped</p>
+          <p id="status-in-progress" *ngIf="group.status == '2'">Pickup Ready</p>
           <p id="status-completed" *ngIf="group.status == '3'">Completed</p>
           <p id="status-cancelled" *ngIf="group.status == '4'">Cancelled</p>
             <div class="header-container">
@@ -49,7 +47,7 @@
               </div>
               <div class="buttons-container" *ngIf="group.status != '3' && group.status != '4'" >
                 <button (click)="editStatusCompleted(group.orderId, 3)">Completed</button>
-                <button (click)="editStatus(group.orderId, 2)">Prepped</button>
+                <button (click)="editStatus(group.orderId, 2)">Pickup Ready</button>
                 <button (click)="editStatus(group.orderId, 4)">Cancelled</button>
               </div>
             </div>
