@@ -3,7 +3,7 @@ import { environment } from '../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, catchError, throwError } from 'rxjs';
 import { ApiResponseMessage } from '../models/apiresponsemessage.model';
-import { Membership, UserStatus } from '../models/load-data.model';
+import { Membership, TotalRev, UserStatus } from '../models/load-data.model';
 import { Order } from '../models/menu.model';
 
 @Injectable({
@@ -36,6 +36,12 @@ export class LoadDataService {
   getUserStatus(): Observable<ApiResponseMessage<UserStatus[]>> {
     const headers = this.getHeaders();
     return this.http.get<ApiResponseMessage<UserStatus[]>>(`${this.baseApiUrl}api/UserStatus/GetAllUserStatus`, { headers })
+      .pipe(catchError(this.handleError));
+  }
+
+  getTotalRev(): Observable<ApiResponseMessage<TotalRev[]>> {
+    const headers = this.getHeaders();
+    return this.http.get<ApiResponseMessage<TotalRev[]>>(`${this.baseApiUrl}api/OrderCompleted/GetTotalRev`, { headers })
       .pipe(catchError(this.handleError));
   }
 

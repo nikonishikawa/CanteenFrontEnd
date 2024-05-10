@@ -9,3 +9,13 @@ export interface Membership {
     loyaltyPoints: number;
     Status: string;
   }
+
+  export interface TotalRev {
+    orderCompletedId: number;
+    quantity: number;
+    price: number;
+    category: string;
+    itemName: string;
+    stocks: number;
+    completedStamp: string;
+  }
