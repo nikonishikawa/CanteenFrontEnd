@@ -16,6 +16,7 @@ import { CommonModule } from '@angular/common';
 })
 export class AdminLayoutComponent implements OnInit {
   isActive!: number | 1;
+  isSubActive!: number | 1;
   admin: Admin = {} as Admin;
   adminName: AdminName = {} as AdminName;
 
@@ -29,9 +30,13 @@ export class AdminLayoutComponent implements OnInit {
   }
 
   toggleActive(index: number) {
-    this.isActive = index === 6 ? 1 : (index === this.isActive ? 1 : index);
+    this.isActive = index === 7 ? 1 : (index === this.isActive ? 1 : index);
     this.layoutService.setActiveIndex(this.isActive);
-  }  
+  }
+  
+  toggleSubActive(index: number) {
+    this.isSubActive = index;
+  }
 
   navigateTo(route: string, index: number) {
     this.router.navigate([route]);

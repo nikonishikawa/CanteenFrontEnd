@@ -33,23 +33,25 @@
             <div class="triangle"></div>
           </a>
         </li>
-        <li [routerLink]="['manage-user']" *ngIf="isActive === 3" [ngClass]="{'nav_items-users': isActive === 3}" (click)="toggleActive(3)">
-          <a>
-            <i class="fa-solid fa-qrcode">
-              <use xlink:href="#search"></use>
-            </i>
-            <span>Vendor</span>
-          </a>
-        </li>
-        <li [routerLink]="['manage-user']" *ngIf="isActive === 3" [ngClass]="{'nav_items-users': isActive === 3}" (click)="toggleActive(3)">
-          <a>
-            <i class="fa-solid fa-qrcode">
-              <use xlink:href="#search"></use>
-            </i>
-            <span>Customers</span>
-          </a>
-        </li>
-        <li [routerLink]="['manage-menu']" [ngClass]="{'nav_items': isActive === 4}" (click)="toggleActive(4)">
+        <ul *ngIf="isActive === 3">
+          <li [routerLink]="['manage-user']" [ngClass]="{'nav_items-users': isSubActive === 1}" (click)="toggleSubActive(1)">
+            <a>
+              <i class="fa-solid fa-qrcode">
+                <use xlink:href="#search"></use>
+              </i>
+              <span>Vendor</span>
+            </a>
+          </li>
+          <li [routerLink]="['manage-user']" [ngClass]="{'nav_items-users': isSubActive === 2}" (click)="toggleSubActive(2)">
+            <a>
+              <i class="fa-solid fa-qrcode">
+                <use xlink:href="#search"></use>
+              </i>
+              <span>Customers</span>
+            </a>
+          </li>
+        </ul>
+        <li [routerLink]="['manage-menu']" [ngClass]="{'nav_items': isActive === 6}" (click)="toggleActive(6)">
           <a>
             <i class="fa-solid fa-receipt">
               <use xlink:href="#history"></use>
@@ -57,7 +59,7 @@
             <span>Manage Menu</span>
           </a>
         </li>
-      <li [routerLink]="['logout']" [ngClass]="{'nav_items': isActive === 5}" (click)="logout()">
+      <li [routerLink]="['logout']" [ngClass]="{'nav_items': isActive === 7}" (click)="logout()">
         <a>
           <i class="fa-solid fa-receipt">
             <use xlink:href="#history"></use>
