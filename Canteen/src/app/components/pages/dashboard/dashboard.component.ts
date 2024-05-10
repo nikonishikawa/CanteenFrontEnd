@@ -11,7 +11,7 @@ import { CustomerService } from '../../../services/customer.service';
 import { LoadDataService } from '../../../services/load-data.service';
 import { Order } from '../../../models/menu.model';
 import { ApiResponseMessage } from '../../../models/apiresponsemessage.model';
-import { orderItems } from '../../../models/orders.model';
+import { UserOrderData, orderItems } from '../../../models/orders.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -28,6 +28,8 @@ export class DashboardComponent implements OnInit {
   dailySales: Map<string, Map<string, number>> = new Map();
   openOrderItem: number | null = null;
   orderItems: orderItems[] =  [];
+  userOrders: UserOrderData[] = [];
+  userTransaction: UserOrderData[] = [];
   
 
   constructor(
@@ -38,7 +40,8 @@ export class DashboardComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.loadCustomerData();
+    this.loadOrders(); 
+    this. loadCustomerData();
   }
 
   loadOrders() {
@@ -63,14 +66,7 @@ export class DashboardComponent implements OnInit {
   loadRecentlyOrdered() {
     this.loadDataService.getRecentOrdersById(this.customer.customerId).subscribe({
       next: (res: ApiResponseMessage<Order[]>) => {
-        console.log('Received RecentlyOrdered:', res);
-        const currentDate = new Date().toLocaleDateString(); 
-        const filteredOrders = res.data.filter(order => {
-          const completedDate = new Date(order.completedStamp).toLocaleDateString();
-          return completedDate === currentDate; 
-        });
-        const firstFiveOrders = filteredOrders.slice(0, 5); 
-        this.orders = firstFiveOrders;
+        console.log('Received Recently Ordered:', res);
         this.getRecentlySold();
       },
       error: (error) => {
@@ -83,8 +79,22 @@ export class DashboardComponent implements OnInit {
     this.loadDataService.getUserOrders(this.customer.customerId).subscribe({
       next: (res: ApiResponseMessage<Order[]>) => {
         console.log('Received User Orders:', res);
-        this.orders = res.data;
-        this.getUserOrders();
+        this.userOrders = this.getUserOrders(res.data); 
+      },
+      error: (error) => {
+        console.error('Error loading orders:', error);
+      }
+    });
+  }
+
+  loadUserRecentTransactions(){
+    this.loadDataService.getRecentUserTransaction(this.customer.customerId).subscribe({
+      next: (res: ApiResponseMessage<Order[]>) => {
+        console.log('Received User Recent Transaction:', res);
+        const sortedTransactions = res.data.sort((a, b) => {
+          return new Date(b.orderStamp).getTime() - new Date(a.orderStamp).getTime();
+        });
+        this.userTransaction = this.getUserOrders(sortedTransactions.slice(0, 5));
       },
       error: (error) => {
         console.error('Error loading orders:', error);
@@ -92,19 +102,6 @@ export class DashboardComponent implements OnInit {
     });
   }
   
-  
-
-  loadCustomerData() {
-    this.customerService.loadCustomerData().subscribe({
-      next: (res) => {
-        console.log('Received customer data:', res);
-        this.customer = res.data;
-        this.loadOrders(); 
-        this.loadRecentlyOrdered();
-        this.loadUserOrders();
-      }
-    });
-  }
 
   calculateDailySales(): void {
     this.orders.forEach(order => {
@@ -124,7 +121,6 @@ export class DashboardComponent implements OnInit {
     });
   }
   
-
   getMostSoldItems(): { itemName: string; price: number; foodImage: string; orderId: number;}[] {
     const today = new Date().toLocaleDateString();
     const topItems = this.getMostSoldItemsForDate(today);
@@ -145,8 +141,25 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  getUserOrders(): { orderId: number; totalPrice: number; items: { itemName: string; price: number; foodImage: string; quantity: number; orderId: number; }[] }[] {
-    const ordersGroupedByOrder= this.groupOrdersByOrder();
+  getRecentlySold(): { orderId: number; totalPrice: number; items: { itemName: string; price: number; foodImage: string; quantity: number; orderId: number; }[] }[] {
+    const today = new Date().toLocaleDateString();
+    const ordersGroupedByOrderId = this.groupOrdersByOrderId(today);
+    
+    return ordersGroupedByOrderId.map(orderGroup => ({
+      orderId: orderGroup.orderId,
+      totalPrice: orderGroup.price,
+      items: orderGroup.items.map(item => ({
+        itemName: item.itemName,
+        price: item.price,
+        foodImage: item.foodImage,
+        quantity: item.quantity,
+        orderId: item.orderId
+      }))
+    }));
+  }
+
+  getUserOrders(data: Order[]): { orderId: number; totalPrice: number; items: { itemName: string; price: number; foodImage: string; quantity: number; orderId: number; }[] }[] {
+    const ordersGroupedByOrder = this.groupOrdersByOrder(data); 
     
     return ordersGroupedByOrder.map(orderGroup => ({
       orderId: orderGroup.orderId,
@@ -161,52 +174,11 @@ export class DashboardComponent implements OnInit {
     }));
   }
   
-
-  getRecentlySold(): { orderId: number; totalPrice: number; items: { itemName: string; price: number; foodImage: string; quantity: number; orderId: number; }[] }[] {
-    const today = new Date();
-    console.log(today);
-    const ordersGroupedByOrderId = this.groupOrdersByOrderId(today);
-
-    return ordersGroupedByOrderId.map(orderGroup => ({
-      orderId: orderGroup.orderId,
-      totalPrice: orderGroup.price,
-      items: orderGroup.items.map(item => ({
-        itemName: item.itemName,
-        price: item.price,
-        foodImage: item.foodImage,
-        quantity: item.quantity,
-        orderId: item.orderId
-      }))
-    }));
-  }
-
-  getUserOrder(): { orderId: number; totalPrice: number; items: { itemName: string; price: number; foodImage: string; quantity: number; orderId: number; }[] }[] {
-    const ordersGroupedByOrderId = this.groupOrdersByOrder();
-  
-  return ordersGroupedByOrderId.map(orderGroup => ({
-    orderId: orderGroup.orderId,
-    totalPrice: orderGroup.price,
-    items: orderGroup.items.map(item => ({
-      itemName: item.itemName,
-      price: item.price,
-      foodImage: item.foodImage,
-      quantity: item.quantity,
-      orderId: item.orderId
-    }))
-  }));
-}
-  
-      console.log(formattedDate);
-    // Filter orders based on the formatted date
-    const filteredOrders = this.orders.filter(order => {
-      const orderDate = new Date(order.completedStamp).toISOString().split('T')[0];
-      return orderDate === formattedDate;
-    });
-  
-    // Sort filtered orders by completedStamp
+  groupOrdersByOrderId(date: string): { orderId: number; items: Order[]; price: number }[] {
+    const filteredOrders = this.orders.filter(order => new Date(order.completedStamp).toLocaleDateString() === date);
+    
     filteredOrders.sort((a, b) => new Date(b.completedStamp).getTime() - new Date(a.completedStamp).getTime());
   
-    // Group orders by orderId
     const ordersGroupedByOrderId: { [orderId: number]: Order[] } = {};
     filteredOrders.forEach(order => {
       const orderId = order.orderId;
@@ -216,7 +188,6 @@ export class DashboardComponent implements OnInit {
       ordersGroupedByOrderId[orderId].push(order);
     });
   
-    // Calculate total price for each order group
     const groupedOrders: { orderId: number; items: Order[]; price: number }[] = [];
     Object.keys(ordersGroupedByOrderId).forEach(orderId => {
       const orders = ordersGroupedByOrderId[Number(orderId)];
@@ -227,28 +198,6 @@ export class DashboardComponent implements OnInit {
     return groupedOrders;
   }
   
-  groupOrdersByOrder(): { orderId: number; items: Order[]; price: number }[] {
-    const ordersGroupedByOrder: { [orderId: number]: Order[] } = {};
-  
-    this.orders.forEach(order => {
-      const orderId = order.orderId;
-      if (!ordersGroupedByOrder[orderId]) {
-        ordersGroupedByOrder[orderId] = [];
-      }
-      ordersGroupedByOrder[orderId].push(order);
-    });
-  
-    const groupedOrder: { orderId: number; items: Order[]; price: number }[] = [];
-    Object.keys(ordersGroupedByOrder).forEach(orderId => {
-      const orders = ordersGroupedByOrder[Number(orderId)];
-      const totalPrice = this.getTotalPrice(orders);
-      groupedOrder.push({ orderId: Number(orderId), items: orders, price: totalPrice });
-    });
-  
-    return groupedOrder;
-  }
-  
-  
   getTotalPrice(orders: Order[]): number {
     return orders.reduce((total, order) => total + (order.price * order.quantity), 0);
   }
@@ -258,5 +207,39 @@ export class DashboardComponent implements OnInit {
     if (!itemSales) return [];
     const sortedItems = Array.from(itemSales.entries()).sort((a, b) => b[1] - a[1]); 
     return sortedItems.slice(0, 5).map(([item, quantity]) => item); 
+  }
+
+  groupOrdersByOrder(data: Order[]): { orderId: number; items: Order[]; price: number }[] {
+    const ordersGroupedByOrder: { [orderId: number]: Order[] } = {};
+
+    data.forEach(order => { 
+      const orderId = order.orderId;
+      if (!ordersGroupedByOrder[orderId]) {
+        ordersGroupedByOrder[orderId] = [];
+      }
+      ordersGroupedByOrder[orderId].push(order);
+    });
+
+    const groupedOrders: { orderId: number; items: Order[]; price: number }[] = [];
+    Object.keys(ordersGroupedByOrder).forEach(orderId => {
+      const orders = ordersGroupedByOrder[Number(orderId)];
+      const totalPrice = this.getTotalPrice(orders);
+      groupedOrders.push({ orderId: Number(orderId), items: orders, price: totalPrice });
+    });
+
+    return groupedOrders;
+  }
+  
+  loadCustomerData() {
+    this.customerService.loadCustomerData().subscribe({
+      next: (res) => {
+        console.log('Received customer data:', res);
+        this.customer = res.data;
+        this.loadOrders(); 
+        this.loadRecentlyOrdered();
+        this.loadUserOrders();
+        this.loadUserRecentTransactions();
+      }
+    });
   }
 }
