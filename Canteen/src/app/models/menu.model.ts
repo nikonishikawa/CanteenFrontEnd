@@ -20,4 +20,5 @@ export interface Order {
   quantity: number;
   price: number;
   foodImage: string;
+  orderStamp: string;
 }

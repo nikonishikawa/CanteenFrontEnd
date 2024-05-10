@@ -35,11 +35,8 @@ export class ManageOrderComponent implements OnInit {
   openOrderItem: any = null;
   showFirstContent: boolean = false;
   filteredOrderGroups: any[] = [];
-  selectedStatus: string = 'All';
+  selectedStatus: number = 0;
   filteredStatus: number = 0;
-  filterSelected: any = null;
-  isActive!: number | 1;
-  currentIndex: number = 0;
 
   constructor(
     private route: ActivatedRoute,
@@ -90,12 +87,12 @@ export class ManageOrderComponent implements OnInit {
   }
 
   
-  getOrders(selectedStatus: string, index: number) {
+  getOrders() {
     this.orderService.getAllOrders().subscribe({
       next: (res: { isSuccess: boolean, data: orderItems[], message: string }) => {
         if (res.isSuccess) {
           this.orderItems = res.data;
-          
+          this.groupedOrder = this.groupByCategory(this.orderItems);
           console.log("Response", res);
           this.orderItems.forEach(orderItem => {
             this.loadItem(orderItem.item, orderItem);
@@ -128,13 +125,35 @@ export class ManageOrderComponent implements OnInit {
     })
   }
 
+  groupByCategory(orderItems: orderItems[]): { [key: string]: orderItems[] } {
+    return orderItems.reduce((result: { [key: string]: orderItems[] }, orderItems) => {
+      const categoryName = this.getStatusName(orderItems.status);
+      (result[categoryName] = result[categoryName] || []).push(orderItems);
+      return result;
+    }, {});
+  }
+
   getStatusName(categoryId: any): any {
     console.log(categoryId);
     const categoryIdNumber = parseInt(categoryId, 10);
     const correspondingCategory = this.status.find(cat => cat.statusId === categoryIdNumber);
-    this.isActive = categoryIdNumber;
+    
     console.log(categoryIdNumber, correspondingCategory);
     return correspondingCategory ? correspondingCategory.status : categoryId;
+  }
+
+  filterStatus(categoryId: any) {
+    this.filtSelect(categoryId);
+    const uniqueCategories = [...new Set(this.status.map(menu => menu.statusId))];
+    this.status = this.status.filter(cat => uniqueCategories.includes(cat.statusId));
+    this.selectedStatus = categoryId; 
+
+    if (this.selectedStatus === 0) {
+      this.filteredStatus = this.groupByCategory(this.orderItems); 
+    } else {
+      const filteredMenus = this.orderItems.filter(orderItems => this.orderItems === this.selectedStatus);
+      this.filteredStatus = this.groupByCategory(filteredMenus);
+    }
   }
 
   loadItem(itemId: string, orderItem: any) {

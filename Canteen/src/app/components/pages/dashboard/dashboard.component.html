@@ -7,7 +7,7 @@
       </div>
       <div class="ongoing-orders-container">
         <h1>Ongoing Orders</h1>
-        <p id="user-orders-count">{{ getUserOrder().length }}</p>
+        <p id="user-orders-count">{{ userOrders.length }}</p>
       </div>
     </div>
     <div class="standard-container">
@@ -26,16 +26,16 @@
         </div>
     </div>
     
-      <div class="recent-transactions-container">
-        <div class="row-header">
-          <h1>Recent Transactions</h1>
-          <a [routerLink]="['../order']">See All</a>
-        </div>
-        <div *ngFor="let orderGroup of getRecentlySold()">
-          <p id="order-id">{{ orderGroup.orderId }}</p>
-          <p>Total Price: ₱{{ orderGroup.totalPrice }}</p>
-          <!-- <div *ngFor="let item of orderGroup.items">
-            <p>{{ item.itemName }} - ₱{{ item.price }}</p>
-          </div> -->
-</div>
+    <div class="recent-transactions-container">
+      <div class="row-header">
+        <h1>Recent Transactions</h1>
+        <a [routerLink]="['../order']">See All</a>
       </div>
+      <div *ngFor="let orderGroup of userTransaction">
+        <p id="order-id">{{ orderGroup.orderId }}</p>
+        <p>Total Price: ₱{{ orderGroup.totalPrice }}</p>
+        <!-- <div *ngFor="let item of orderGroup.items">
+          <p>{{ item.itemName }} - ₱{{ item.price }}</p>
+        </div> -->
+      </div>
+    </div>

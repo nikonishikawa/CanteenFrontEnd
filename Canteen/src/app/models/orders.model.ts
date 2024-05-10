@@ -45,5 +45,15 @@ export interface status {
   statusId: number;
   status: string;
 }
-// this.orderItems.Item
-// this.orderItems.Quantity
+
+export interface UserOrderData {
+  orderId: number;
+  totalPrice: number;
+  items: {
+    itemName: string;
+    price: number;
+    foodImage: string;
+    quantity: number;
+    orderId: number;
+  }[];
+}
