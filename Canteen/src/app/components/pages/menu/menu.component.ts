@@ -37,7 +37,7 @@ export class MenuComponent implements OnInit {
   OrderID: number = 0;
   selectedCategory: number = 0;
   groupedMenu: { [key: string]: Menu[] } = {};
-  filterSelected: any = null;
+  filterSelected: number = 0;
   activeIndex: number = 0;
 
 
@@ -160,7 +160,7 @@ export class MenuComponent implements OnInit {
   }
 
   filtSelect(index: number) {
-    this.filterSelected = index === 0 ? index : (index === this.filterSelected ? 1 : index);
+    this.filterSelected = index;
     this.setActiveIndex(this.filterSelected);  
   }
 
