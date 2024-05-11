@@ -25,3 +25,23 @@
 <div>
   Total Revenue for the Month: {{ totalRevenueForMonth | currency:'PHP':'symbol':'1.2-2' }}
 </div>
+
+<div>
+  <h2>Sales Per Product for Current Month</h2>
+  <table class="sales-table">
+    <thead>
+      <tr>
+        <th>Product Name</th>
+        <th>Sales</th>
+        <th>No. of Items Sold</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let product of salesPerProduct | keyvalue">
+        <td>{{ product.value.name }}</td>
+        <td>{{ product.value.price }}</td>
+        <td>{{ product.value.quantitySold }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
