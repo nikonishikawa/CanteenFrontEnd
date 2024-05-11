@@ -1,7 +1,7 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { OrderService } from '../../../services/order.service';
-import { orderItems, orders, status } from '../../../models/orders.model';
+import { loadItem, orderGroupsDto, orderItems, orders, status } from '../../../models/orders.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TrayItemsDTO } from '../../../models/tray.model';
@@ -25,19 +25,19 @@ export class ManageOrderComponent implements OnInit {
   customer: CustomerById = {} as CustomerById;
   tray: TrayItemsDTO = {} as TrayItemsDTO;
   orderItems: orderItems[] =  [];
+  orderItem: loadItem[] = [];
   status: status[] = [];
   order: orders = {} as orders;
   menus: Menu[] = [];
   orderItemsMap: { [orderId: number]: orderItems[] } = {};
   activeIndex: number = 0;
   groupedOrder: { [key: string]: orderItems[] } = {};
-  orderGroups: any[] = [];
-  openOrderItem: any = null;
+  orderGroups: orderGroupsDto[] = [];
+  openOrderItem: number = 0;
   showFirstContent: boolean = false;
-  filteredOrderGroups: any[] = [];
   selectedStatus: string = 'All';
   filteredStatus: number = 0;
-  filterSelected: any = null;
+  filterSelected: number = 0;
   isActive!: number | 1;
   currentIndex: number = 0;
 
@@ -59,7 +59,7 @@ export class ManageOrderComponent implements OnInit {
 
   editStatus(orderId: number, newStatus: number) {
     this.orderService.updateOrderStatus(orderId, newStatus).subscribe({
-      next: (res: any) => {
+      next: (res) => {
         if (res.isSuccess) {
           console.log("Status updated successfully");
           this.getOrders(this.selectedStatus, this.currentIndex); 
@@ -67,15 +67,15 @@ export class ManageOrderComponent implements OnInit {
           console.error("Error updating status:", res.message);
         }
       },
-      error: (err) => {
-        console.error("Error updating status:", err);
+      error: (error) => {
+        console.error("Error updating status:", error);
       }
     });
   }
-
+  
   editStatusCompleted(orderId: number, newStatus: number) {
     this.orderService.updateOrderStatusCompleted(orderId, newStatus).subscribe({
-      next: (res: any) => {
+      next: (res) => {
         if (res.isSuccess) {
           console.log("Status updated successfully");
           this.getOrders(this.selectedStatus, this.currentIndex); 
@@ -83,16 +83,16 @@ export class ManageOrderComponent implements OnInit {
           console.error("Error updating status:", res.message);
         }
       },
-      error: (err) => {
-        console.error("Error updating status:", err);
+      error: (error) => {
+        console.error("Error updating status:", error);
       }
     });
   }
-
+  
   
   getOrders(selectedStatus: string, index: number) {
     this.orderService.getAllOrders().subscribe({
-      next: (res: { isSuccess: boolean, data: orderItems[], message: string }) => {
+      next: (res) => {
         if (res.isSuccess) {
           this.orderItems = res.data;
           
@@ -119,7 +119,7 @@ export class ManageOrderComponent implements OnInit {
 
   loadStatus() {
     this.orderService.getTrayStatus().subscribe({
-      next: (res: { isSuccess: boolean, data: status[], message: string }) => {
+      next: (res) => {
         if (res.isSuccess){
           this.status = res.data;
           console.log("Status", res)
@@ -137,7 +137,7 @@ export class ManageOrderComponent implements OnInit {
     return correspondingCategory ? correspondingCategory.status : categoryId;
   }
 
-  loadItem(itemId: string, orderItem: any) {
+  loadItem(itemId: string, orderItem: loadItem) {
     this.orderService.getItemById(itemId).subscribe({
       next: (res) => {
         orderItem.foodImage = res.data.foodImage;
@@ -146,8 +146,8 @@ export class ManageOrderComponent implements OnInit {
     });
   }
 
-  openModal(orderId: any) {
-    this.openOrderItem = this.openOrderItem === orderId ? null : orderId;
+  openModal(orderId: number) {
+    this.openOrderItem = this.openOrderItem === orderId ? 0 : orderId;
   }
 
   getAllMenus() {
@@ -180,11 +180,6 @@ export class ManageOrderComponent implements OnInit {
     );
   }
   
-
-  getMenuName(item: any) {
-    return item.name;
-  }
-
   preprocessOrderItems(orderItems: orderItems[], selectedStatus: string, index: number): void {
     let filteredOrderItems: orderItems[];
     
@@ -210,9 +205,11 @@ export class ManageOrderComponent implements OnInit {
       status: this.getUniqueStatus(orderGroupsMap[Number(orderId)]),
       orderStamp: this.getUniqueOrderStamp(orderGroupsMap[Number(orderId)]),
       cost: this.getUniqueCost(orderGroupsMap[Number(orderId)]),
-      orderItems: orderGroupsMap[Number(orderId)]
+      orderItems: orderGroupsMap[Number(orderId)],
+      firstName: String(orderGroupsMap[Number(orderId)][0].firstName) 
     }));
   }
+  
   
   
   filterStatus(orderItems: orderItems[], index: string, currentIndex: number): orderItems[] {
@@ -225,7 +222,7 @@ export class ManageOrderComponent implements OnInit {
     this.setActiveIndex(this.filterSelected);  
   }
 
-  setActiveIndex(index: any | 0) {
+  setActiveIndex(index: number | 0) {
     this.activeIndex = index;
   }
 

@@ -49,7 +49,7 @@ export class TransactionComponent implements OnInit{
   }
   getAllTransaction() {
     this.transactionService.getAllTransaction(this.customerId).subscribe(
-      (response: any) => {
+      (response) => {
         if (response.isSuccess) {
           this.transaction = response.data;
           console.log("Response", response);

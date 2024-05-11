@@ -34,8 +34,8 @@ export class RegisterService {
     return throwError('An error occurred. Please try again later.');
   }
 
-  RegisterIn(RegisterUser: Register): Observable<Register> {
-    return this.http.post<Register>(this.baseApiUrl + 'api/UserCredential/RegisterUser', RegisterUser);
+  RegisterIn(RegisterUser: Register): Observable<ApiResponseMessage<Register>> {
+    return this.http.post<ApiResponseMessage<Register>>(this.baseApiUrl + 'api/UserCredential/RegisterUser', RegisterUser);
   }
 
   getAddress(): Observable<ApiResponseMessage<Address[]>> {

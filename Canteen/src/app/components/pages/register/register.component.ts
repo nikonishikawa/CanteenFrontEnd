@@ -26,7 +26,7 @@ export class RegisterComponent implements OnInit {
 
   onRegister() {
     this.registerService.RegisterIn(this.registernUser).subscribe(
-      (res: any) => {
+      (res) => {
         if (res && res.isSuccess) {
           this.toaster.success('Registration Successful'); 
         } else {

@@ -164,7 +164,7 @@ export class MenuComponent implements OnInit {
     this.setActiveIndex(this.filterSelected);  
   }
 
-  setActiveIndex(index: any | 0) {
+  setActiveIndex(index: number | 0) {
     this.activeIndex = index;
   }
 
@@ -198,15 +198,20 @@ export class MenuComponent implements OnInit {
 
   addToTray(menuItem: Menu) {
     if (menuItem.stock > 0) {
-      const trayItem = {
-        item: menuItem.itemId,
-        quantity: 1,
-        addStamp: new Date().toISOString()
-      };
-      this.insertDataToTray(trayItem);
+      const isItemAlreadyInTray = this.trayItems.some(item => item.item === menuItem.item);
+      if (!isItemAlreadyInTray) {
+        const trayItem = {
+          item: menuItem.itemId,
+          quantity: 1,
+          addStamp: new Date().toISOString()
+        };
+        this.insertDataToTray(trayItem);
+      } else {
+        this.toastr.warning('Item is already in the tray');
+      }
     } 
   }
-
+  
   insertDataToTray(trayItem: any) {
     const data = {
       items: [trayItem], 
@@ -225,6 +230,7 @@ export class MenuComponent implements OnInit {
       }
     );
   }
+  
   
   fetchTrayItems() {
     if (typeof localStorage !== 'undefined') {
@@ -269,8 +275,6 @@ export class MenuComponent implements OnInit {
   
   }
   
-  
-
   orderNow() {
     const orderStamp = new Date().toISOString();
   
@@ -316,12 +320,24 @@ export class MenuComponent implements OnInit {
     );
   }
   
-  
   increaseQuantity(trayItem: trayItemTest) {
-    trayItem.quantity++; 
-    this.updateTrayItemQuantity(trayItem.trayItemTempId, trayItem.quantity); 
-    this.calculateTotal();
-    this.toastr.success('Added item quantity successfully');
+    console.log('trayItem:', trayItem);
+    const menuItem = this.menus.find(menu => menu.itemId === trayItem.item);
+    console.log('menuItem:', menuItem);
+    
+    if (!menuItem) {
+      this.toastr.warning('Menu item not found.');
+      return;
+    }
+    
+    if (trayItem.quantity < menuItem.stock) {
+      trayItem.quantity++; 
+      this.updateTrayItemQuantity(trayItem.trayItemTempId, trayItem.quantity); 
+      this.calculateTotal();
+      this.toastr.success('Added item quantity successfully');
+    } else {
+      this.toastr.warning('Cannot exceed available stock.');
+    }
   }
   
   decreaseQuantity(trayItem: trayItemTest) {
@@ -362,17 +378,21 @@ export class MenuComponent implements OnInit {
   );
 }
 
-  fetchTrayItemDetails() {
-    this.trayItems.forEach(trayItem => {
-      const menuItem = this.menus.find(menu => menu.itemId === trayItem.item);
-      if (menuItem) {
-        trayItem.itemiD = menuItem.itemId;
-        trayItem.item = menuItem.item;
-        trayItem.foodImage = menuItem.foodImage;
-        trayItem.price = menuItem.price;
-      }
-    });
-  }
+fetchTrayItemDetails() {
+  this.trayItems.forEach(trayItem => {
+    const menuItem = this.menus.find(menu => menu.itemId === trayItem.item);
+    if (menuItem) {
+      trayItem.itemiD = menuItem.itemId;
+      trayItem.item = menuItem.item;
+      trayItem.foodImage = menuItem.foodImage;
+      trayItem.price = menuItem.price;
+      trayItem.stock = menuItem.stock;
+    } else {
+      console.warn(`Menu item not found for tray item with ID ${trayItem.item}`);
+    }
+  });
+}
+
 
   calculateTotal() {
     this.order.subTotal = this.trayItems.reduce((total, item) => total + (item.price * item.quantity), 0);

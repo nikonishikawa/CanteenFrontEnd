@@ -72,7 +72,7 @@ export class OrderComponent {
     }
   
     this.orderService.getOrders(this.customer.customerId).subscribe({
-      next: (res: { isSuccess: boolean, data: orderItems[], message: string }) => {
+      next: (res) => {
         if (res.isSuccess) {  
           this.orderItems = res.data;
           console.log("Response", res);
@@ -114,7 +114,6 @@ export class OrderComponent {
     console.log(categoryIdNumber, correspondingCategory);
     return correspondingCategory ? correspondingCategory.status : categoryId;
   }
-  
 
   loadItem(itemId: string, orderItem: any) {
     this.orderService.getItemById(itemId).subscribe({
@@ -126,7 +125,6 @@ export class OrderComponent {
       }
     });
   }
-  
   
   openModal(orderId: any) {
     this.openOrderItem = this.openOrderItem === orderId ? null : orderId;

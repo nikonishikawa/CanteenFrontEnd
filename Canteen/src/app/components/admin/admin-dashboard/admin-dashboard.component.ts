@@ -21,6 +21,7 @@ export class AdminDashboardComponent implements OnInit {
   totalRevenueForMonth: number = 0;
   salesPerProduct: SalesData = {}; 
   sortedSalesPerProduct: SalesProductDTO[] = [];
+  highestSalesProduct: { name: string, price: number, quantitySold: number } = { name: '', price: 0, quantitySold: 0 };
 
   constructor(
     private menuService: MenuService,
@@ -103,6 +104,11 @@ export class AdminDashboardComponent implements OnInit {
     });
   
     this.salesPerProduct = salesData;
+
+    const sortedProducts = Object.values(this.salesPerProduct).sort((a, b) => b.price - a.price);
+    if (sortedProducts.length > 0) {
+      this.highestSalesProduct = sortedProducts[0];
   }
   }
 
+}

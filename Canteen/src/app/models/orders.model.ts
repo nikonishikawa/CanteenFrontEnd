@@ -10,6 +10,7 @@ export interface MOP {
     quantity: number;
     trayItemTempId: number;
     trayTempId: number;
+    stock: number;
   }
 
   export interface orderItems {
@@ -56,4 +57,24 @@ export interface UserOrderData {
     quantity: number;
     orderId: number;
   }[];
+}
+
+export interface orderGroupsDto {
+  orderId: number;
+  modeOfPayment: string;
+  status: string;
+  orderStamp: string;
+  cost: number;
+  firstName: string;
+  orderItems: {
+    foodImage: string;
+    item: string;
+    quantity: number;
+    price: number;
+  }[];
+}
+
+export interface loadItem {
+  foodImage: string;
+  item: string;
 }

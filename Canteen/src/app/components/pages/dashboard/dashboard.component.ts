@@ -46,7 +46,7 @@ export class DashboardComponent implements OnInit {
 
   loadOrders() {
     this.loadDataService.getTopOrder().subscribe({
-      next: (res: ApiResponseMessage<Order[]>) => {
+      next: (res) => {
         console.log('Received orders:', res);
         const currentDate = new Date().toLocaleDateString(); 
         const filteredOrders = res.data.filter(order => {
@@ -65,7 +65,7 @@ export class DashboardComponent implements OnInit {
 
   loadRecentlyOrdered() {
     this.loadDataService.getRecentOrdersById(this.customer.customerId).subscribe({
-      next: (res: ApiResponseMessage<Order[]>) => {
+      next: (res) => {
         console.log('Received Recently Ordered:', res);
         this.getRecentlySold();
       },
@@ -77,7 +77,7 @@ export class DashboardComponent implements OnInit {
 
   loadUserOrders() {
     this.loadDataService.getUserOrders(this.customer.customerId).subscribe({
-      next: (res: ApiResponseMessage<Order[]>) => {
+      next: (res) => {
         console.log('Received User Orders:', res);
         this.userOrders = this.getUserOrders(res.data); 
       },
@@ -89,7 +89,7 @@ export class DashboardComponent implements OnInit {
 
   loadUserRecentTransactions(){
     this.loadDataService.getRecentUserTransaction(this.customer.customerId).subscribe({
-      next: (res: ApiResponseMessage<Order[]>) => {
+      next: (res) => {
         console.log('Received User Recent Transaction:', res);
         const sortedTransactions = res.data.sort((a, b) => {
           return new Date(b.orderStamp).getTime() - new Date(a.orderStamp).getTime();

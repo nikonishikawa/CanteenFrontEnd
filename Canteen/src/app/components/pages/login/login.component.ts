@@ -21,7 +21,7 @@ export class LoginComponent {
   constructor(private loginService: LoginService, private router: Router) {}
 
   onLogin() {
-    this.loginService.SignIn(this.loginUser).subscribe((res: LoginResponse) => {
+    this.loginService.SignIn(this.loginUser).subscribe((res) => {
       if (res.isSuccess) {
         localStorage.setItem('loginToken', res.data.userToken); 
         this.toaster.success('Login successful'); 

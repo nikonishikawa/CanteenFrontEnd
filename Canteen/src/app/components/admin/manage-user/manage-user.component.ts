@@ -9,6 +9,7 @@ import { Register } from '../../../models/register.model';
 import { RegisterService } from '../../../services/register.service';
 import { LoadDataService } from '../../../services/load-data.service';
 import { UserStatus, Membership } from '../../../models/load-data.model';
+import { ApiResponseMessage } from '../../../models/apiresponsemessage.model';
 
 @Component({
   selector: 'app-manage-user',
@@ -160,7 +161,7 @@ export class ManageUserComponent implements OnInit {
       
       onRegister() {
         this.registerService.RegisterIn(this.registernUser).subscribe(
-          (res: any) => {
+          (res) => {
             if (res && res.isSuccess) {
               this.toastr.success('Registration Successful'); 
               this.modalUserOpen = false;
@@ -223,15 +224,6 @@ export class ManageUserComponent implements OnInit {
       });
     }
     
-
-
-
-
-
-
-
-
-
       getUserFirstName(cusName: number): string {
         const user = this.userNames.find(u => u.cusName === cusName);
         return user ? user.firstName : '';
