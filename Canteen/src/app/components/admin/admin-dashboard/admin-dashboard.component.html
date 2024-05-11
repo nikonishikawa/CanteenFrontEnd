@@ -1,47 +1,86 @@
-<div class="product-count">
-  
-    <p>Total # of Products: {{ menus.length }}</p>
+<div class="admin-dashboard">
+  <div class="summary-count">
+    <div class="highest-count">
+      <div class="summary-count-main">
+        <p>Highest Sale</p>
+        <p>#</p>
+      </div>
+      <div class="summary-count-icon-container">
 
-    <div class="percent">
-      <svg viewBox="0 0 36 36" class="circular-chart">
-            <path class="circle" stroke-dasharray="100, 100" d="M18 2.0845
-              a 15.9155 15.9155 0 0 1 0 31.831
-              a 15.9155 15.9155 0 0 1 0 -31.831" />
-            <path class="circle" stroke-dasharray="85, 100" d="M18 2.0845
-              a 15.9155 15.9155 0 0 1 0 31.831
-              a 15.9155 15.9155 0 0 1 0 -31.831" />
-            <path class="circle" stroke-dasharray="60, 100" d="M18 2.0845
-              a 15.9155 15.9155 0 0 1 0 31.831
-              a 15.9155 15.9155 0 0 1 0 -31.831" />
-            <path class="circle" stroke-dasharray="10, 100" d="M18 2.0845
-              a 15.9155 15.9155 0 0 1 0 31.831
-              a 15.9155 15.9155 0 0 1 0 -31.831" />
-      </svg>
+      </div>
+    </div>
+    <div class="product-count">
+      <div class="summary-count-main">
+        <p>Total # of Products </p>
+        <p>{{ menus.length }}</p>
+      </div>
+      <div class="summary-count-icon-container">
+        
+      </div>
+    </div>
+    <div class="month-sold-count">
+      <div class="summary-count-main">
+        <p>Monthly Total Revenue</p>
+        <p>₱ {{ totalRevenueForMonth }}</p>
+      </div>
+      <div class="summary-count-icon-container">
+        
+      </div>
+    </div>
+  </div>
+  <div class="sales">
+    <div class="products">
+      <h1>Sales Per Product</h1>
+      <h2>Overview of latest month</h2>
+      <table class="sales-table">
+        <thead>
+          <tr>
+            <th>Product Name</th>
+            <th>Sales</th>
+            <th>No. of Items Sold</th>
+          </tr>
+        </thead>
+        <tbody *ngIf="salesPerProduct === null">
+          <tr>
+            <td></td>
+            <td>No datas found</td>
+            <td></td>
+          </tr>
+        </tbody>
+        <tbody *ngIf="salesPerProduct !== null">
+          <tr *ngFor="let product of salesPerProduct | keyvalue">
+            <td>{{ product.value.name }}</td>
+            <td>{{ product.value.price }}</td>
+            <td>{{ product.value.quantitySold }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="month-count-bar">
+      <p>Statistics</p>
+    </div>
+  </div>
+  <div class="others">
+    <div class="stocks-count">
+      <h1>Stocks</h1>
+      <div class="diagram">
+        <div class="legend">
+          <div class="test" *ngFor="let stocks of menus">
+            <div id="color-code"></div>
+            <p>{{stocks.item}}</p>
+          </div>
         </div>
+        <div class="percent">
+          <svg viewBox="0 0 36 36" class="circular-chart">
+                <path class="circle" stroke-dasharray="100, 100" d="M18 2.0845
+                  a 15.9155 15.9155 0 0 1 0 31.831
+                  a 15.9155 15.9155 0 0 1 0 -31.831" />
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div class="user-summary">
 
-      
-</div>
-  
-<div>
-  Total Revenue for the Month: {{ totalRevenueForMonth | currency:'PHP':'symbol':'1.2-2' }}
-</div>
-
-<div>
-  <h2>Sales Per Product for Current Month</h2>
-  <table class="sales-table">
-    <thead>
-      <tr>
-        <th>Product Name</th>
-        <th>Sales</th>
-        <th>No. of Items Sold</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let product of salesPerProduct | keyvalue">
-        <td>{{ product.value.name }}</td>
-        <td>{{ product.value.price }}</td>
-        <td>{{ product.value.quantitySold }}</td>
-      </tr>
-    </tbody>
-  </table>
+    </div>
+  </div>
 </div>

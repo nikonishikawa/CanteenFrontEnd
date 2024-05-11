@@ -1,9 +1,209 @@
-.product-count {
-    background-color: red;
-    color: white;
-    padding: 10px;
-    border-radius: 5px;
-  }
+.admin-dashboard {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.admin-dashboard div div div p {
+  font-family: 'Helvetica';
+}
+
+.admin-dashboard .summary-count {
+  flex: 1;
+}
+
+.admin-dashboard .sales {
+  flex: 2;
+}
+
+.summary-count {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 38px;
+}
+
+.summary-count div{
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0;
+  background-color: #DA062E;
+  color: white;
+  border-radius: 5px;
+}
+
+.summary-count div .summary-count-main {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+
+.summary-count div .summary-count-icon-container {
+  flex: 1;
+}
+
+.summary-count div .summary-count-main{
+  text-align: left;
+  font-size: 20px;
+  margin: 0;
+  padding: 0;
+}
+
+.summary-count div:nth-child(2) {
+  margin: 0 40px 0 40px;
+}
+
+.summary-count div .summary-count-main p:first-child {
+  margin: 18px 0 0 28px;
+}
+
+.summary-count div .summary-count-main p:last-child {
+  font-weight: 700;
+  margin: 11px 0 51px 28px;
+}
+
+.sales {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  height: 100%;
+}
+
+.sales div {
+  border: 1px solid #f1f1f1;
+  border-radius: 20px;
+  padding: 0 0 20px 0;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: 100%;
+}
+
+.sales .products {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin-right: 40px;
+}
+
+.sales .products h1, .sales .products h2 {
+  display: inline-block;
+  line-height: normal;
+  color: #40595A;
+}
+
+.sales .products h1 {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 31px 0 0 35px;
+}
+
+.sales .products h2{
+  font-size: 16px;
+  font-weight: 400;
+  margin: 0 0 0 35px;
+}
+
+.sales .products .sales-table {
+  text-align: center;
+  font-size: 16px;
+  margin-top: 25px;
+}
+
+.sales .products .sales-table thead tr th, .sales .products .sales-table tbody tr td {
+  padding: 25px 0 25px 0;
+  color: #40595A;
+}
+
+.sales .products .sales-table thead tr th, .sales .products .sales-table tbody tr {
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 1px dashed #40595A;
+}
+
+.sales .products .sales-table tbody tr:last-child{
+  padding: 25px 0 25px 0;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: none;
+}
+
+.sales .month-count-bar {
+  flex: 1;
+  height: 100%;
+}
+
+.others {
+  display: flex;
+}
+
+.others .stocks-count {
+  flex: 1;
+  border: 1px solid #f1f1f1;
+  border-radius: 20px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: 100%;
+  margin-right: 40px;
+  margin-bottom: 26px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-bottom: 81px;
+}
+
+.stocks-count h1 {
+  width: 100%;
+  font-size: 20px;
+  font-weight: 700;
+  padding: 31px 0 28px 27px;
+  margin: 0;
+}
+
+.stocks-count .diagram {
+  display: flex;
+  padding-left: 27px;
+}
+
+.stocks-count .diagram .legend .test {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.stocks-count .diagram .legend .test #color-code {
+  background-color: #915db1;
+  border-radius: 100%;
+  width: 10px;
+  height: 10px;
+}
+
+.stocks-count .diagram .legend .test p {
+  margin: 0 0 0 10px;
+  flex: 1;
+}
+
+.stocks-count .percent {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.circular-chart {
+  width: 212px;
+  height: 212px;
+}
 
   .circle {
     stroke: #915db1;
@@ -21,5 +221,15 @@
   
   .circle:nth-child(4) {
     stroke: #4cc790;
+  }
+
+  .others .user-summary {
+    flex: 2;
+    border: 1px solid #f1f1f1;
+    border-radius: 20px;
+    padding: 0 0 20px 0;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    height: 100%;
   }
   
