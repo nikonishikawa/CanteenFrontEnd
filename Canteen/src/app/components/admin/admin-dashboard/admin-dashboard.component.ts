@@ -167,16 +167,22 @@ export class AdminDashboardComponent implements OnInit {
   
     const ctx = document.getElementById('monthlyQuantityChart') as HTMLCanvasElement;
     new Chart(ctx, {
-      type: 'line',
+      type: 'bar',
       data: {
         labels: labels,
         datasets: [
           {
             label: 'Total Sold Items',
             data: totalQuantityData,
-            fill: false,
-            borderColor: 'rgba(75, 192, 192, 1)',
-            tension: 0.1
+            backgroundColor: [
+              'rgba(255, 99, 132, 0.2)',
+              'rgba(255, 159, 64, 0.2)',
+              'rgba(255, 205, 86, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
+              'rgba(153, 102, 255, 0.2)',
+              'rgba(201, 203, 207, 0.2)'
+            ],
           }
         ]
       },
@@ -221,20 +227,16 @@ export class AdminDashboardComponent implements OnInit {
   
     const ctx = document.getElementById('monthlyPriceChart') as HTMLCanvasElement;
     new Chart(ctx, {
-      type: 'polarArea',
+      type: 'line',
       data: {
         labels: labels,
         datasets: [
           {
             label: 'Total Sales',
             data: totalPriceData,
-            backgroundColor: [
-              'rgba(255, 99, 132, 0.6)',
-              'rgba(54, 162, 235, 0.6)',
-              'rgba(255, 206, 86, 0.6)',
-              'rgba(75, 192, 192, 0.6)',
-              'rgba(153, 102, 255, 0.6)'
-            ]
+            fill: false,
+            borderColor: 'rgba(75, 192, 192, 1)',
+            tension: 0.1
           }
         ]
       },
