@@ -62,8 +62,21 @@
   </div>
   <div class="others">
     <div class="stocks-count">
-      <h1>Stocks</h1>
+      <div class="stocks-header-container">
+        <h1>Stocks</h1>
+        <select [(ngModel)]="selectedCategoryId" (ngModelChange)="onCategoryChange($event)">
+          <option [value]="0">All</option>
+          <option *ngFor="let cat of category" [value]="cat.categoryId">{{ cat.category }}</option>
+        </select>                    
+      </div>
       <div class="diagram">
+        <div class="legend">
+          <div class="legend-items" *ngFor="let stock of filteredMenus; let i = index">
+            <div id="color-code" style="background-color: {{colors[i]}};"></div>
+            <p>({{stock.stock}}) {{stock.item}}</p>
+          </div>
+                  
+        </div>
         <div class="percent">
           <canvas id="menuStockChart"></canvas>
         </div>
