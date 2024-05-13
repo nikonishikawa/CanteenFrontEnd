@@ -273,22 +273,19 @@ export class MenuComponent implements OnInit {
   
   orderNow() {
     const orderStamp = new Date().toISOString();
-  
-    this.menus.forEach(menu => {
-      console.log(menu.stock); 
-    });
 
+    // Iterate over trayItems
     if (this.customer.customerId && this.trayTempId && this.modeOfPaymentId && this.trayItems) {
-    this.trayItems.forEach(trayItem => {
-    const menuItem = this.menus.find(menu => menu.itemId === trayItem.itemiD);
-    if (menuItem && trayItem.quantity !== undefined) {
-      const newStock = menuItem.stock - trayItem.quantity;
-      this.updateMenuStock(trayItem.itemiD, newStock);
-    }
-  });
+      this.trayItems.forEach(trayItem => {
+        const menuItem = this.menus.find(menu => menu.itemId === trayItem.itemId); // Corrected property name here
+        if (menuItem && trayItem.quantity !== undefined) {
+          const newStock = menuItem.stock - trayItem.quantity;
+          this.updateMenuStock(trayItem.itemId, newStock); // Corrected property name here
+        }
+      });
 
-      const orderItems = this.trayItems.map(item => ({ itemId: item.itemiD.itemId, quantity: item.quantity }));
-  
+      const orderItems = this.trayItems.map(item => ({ itemId: item.itemId, quantity: item.quantity })); // Corrected property name here
+
       this.menuService.insertTempToNotTemp(this.customer.customerId, this.trayTempId, orderStamp, this.order.Cost, this.modeOfPaymentId, orderItems).subscribe(
         (response) => {
           this.toastr.success('Item transported to tray successfully');
@@ -304,6 +301,7 @@ export class MenuComponent implements OnInit {
       console.error('Customer Id or Tray Temp Id is missing.');
     }
   }
+
   
   updateMenuStock(itemId: number, newStock: number) {
     this.menuService.updateMenu(itemId, newStock).subscribe(
