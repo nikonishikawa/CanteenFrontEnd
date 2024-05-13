@@ -26,7 +26,7 @@ export class ManageMenuComponent implements OnInit {
   trayTempId: string | null = null; 
   selectedCategory: number = 0;
   groupedMenu: { [key: string]: Menu[] } = {};
-  filterSelected: any = null;
+  filterSelected: number = 0;
   activeIndex: number = 0;
   newStockValues: { [itemId: number]: number } = {};
   modalOpen: boolean = false;
@@ -135,7 +135,7 @@ export class ManageMenuComponent implements OnInit {
   }
 
   filtSelect(index: number) {
-    this.filterSelected = index === 0 ? index : (index === this.filterSelected ? 1 : index);
+    this.filterSelected = index;
     this.setActiveIndex(this.filterSelected);  
   }
 

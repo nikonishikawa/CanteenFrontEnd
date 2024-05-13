@@ -56,16 +56,19 @@ export class AdminDashboardComponent implements OnInit {
   loadChart() {
     const totalStock = this.calculateTotalStock();
 
+    const filteredMenus = this.menus.filter(menu => menu.stock !== 0);
     // Prepare data for the doughnut chart
     const data = {
-      labels: this.menus.map(menu => menu.item),
+      labels: filteredMenus.map(menu => menu.item),
       datasets: [{
         label: 'Stock',
-        data: this.menus.map(menu => menu.stock), // Calculate percentage of total stock
-        backgroundColor: this.getRandomColors(this.menus.length), // Generate random colors for each menu
-        hoverOffset: 24
+        data: filteredMenus.map(menu => menu.stock), // Calculate percentage of total stock
+        backgroundColor: this.getRandomColors(filteredMenus.length), // Generate random colors for each menu
+        hoverOffset: 20
       }]
     };
+
+    data.labels.sort((a, b) => a.localeCompare(b));
 
     // Render doughnut chart
     const ctx = document.getElementById('menuStockChart') as HTMLCanvasElement;
@@ -81,7 +84,7 @@ export class AdminDashboardComponent implements OnInit {
               usePointStyle: true,
               pointStyle: 'circle',
               boxWidth: 8,
-              padding: 8
+              padding: 8,
             }
           }
         }
@@ -95,17 +98,21 @@ export class AdminDashboardComponent implements OnInit {
 
   getRandomColors(count: number): string[] {
     const colors = [];
-    const minRed = 100; // Minimum red value
-    const maxRed = 255; // Maximum red value
+    const minRed = 255; // Minimum red value (to create yellow)
+    const maxRed = 255; // Maximum red value (to create red)
+    const minGreen = 0; // Minimum green value (to create yellow)
+    const maxGreen = 255; // Maximum green value (to create yellow)
     const alpha = 0.6; // Alpha value for transparency
   
     for (let i = 0; i < count; i++) {
-      const red = Math.floor(Math.random() * (maxRed - minRed + 1)) + minRed; // Generate random red value
-      colors.push(`rgba(${red}, 0, 0, ${alpha})`); // Add the color to the array with zero green and blue
+        const red = Math.floor(Math.random() * (maxRed - minRed + 1)) + minRed; // Generate random red value
+        const green = Math.floor(Math.random() * (maxGreen - minGreen + 1)) + minGreen; // Generate random green value
+        colors.push(`rgba(${red}, ${green}, 0, ${alpha})`); // Add the color to the array
     }
     
     return colors;
-  }
+}
+
 
   loadTotalRevData() {
     this.loadDataService.getTotalRev().subscribe({
