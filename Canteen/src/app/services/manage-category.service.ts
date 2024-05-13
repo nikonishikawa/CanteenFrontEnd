@@ -3,12 +3,12 @@ import { environment } from '../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, catchError, throwError } from 'rxjs';
 import { ApiResponseMessage } from '../models/apiresponsemessage.model';
-import { Address } from '../models/manage-address.model';
+import { CategoryDto } from '../models/manage-category.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ManageAddressService {
+export class ManageCategoryService {
 
   private baseApiUrl: string = environment.baseApiUrl;
   constructor(private http: HttpClient) { }
@@ -32,25 +32,25 @@ export class ManageAddressService {
     return throwError('An error occurred. Please try again later.');
   }
 
-  getAllAddress(): Observable<ApiResponseMessage<Address[]>> {
+  getAllCategory(): Observable<ApiResponseMessage<CategoryDto[]>> {
     const headers = this.getHeaders();
-    return this.http.get<ApiResponseMessage<Address[]>>(`${this.baseApiUrl}api/Address/GetAllAddress`, { headers })
+    return this.http.get<ApiResponseMessage<CategoryDto[]>>(`${this.baseApiUrl}api/Category/GetAllCategory`, { headers })
       .pipe(catchError(this.handleError));
   }
 
-  addAddress(AddAddress: Address): Observable<ApiResponseMessage<Address[]>> {
+  addCategory(AddCategory: CategoryDto): Observable<ApiResponseMessage<CategoryDto[]>> {
     const headers = this.getHeaders();
-    return this.http.post<ApiResponseMessage<Address[]>>(`${this.baseApiUrl}api/Address/AddAddress`,  AddAddress);
+    return this.http.post<ApiResponseMessage<CategoryDto[]>>(`${this.baseApiUrl}api/Category/InsertCategory`,  AddCategory);
   }
 
-  editAddress(UpdateAddress: Address): Observable<ApiResponseMessage<Address[]>> {
+  editCategory(UpdateCategory: CategoryDto): Observable<ApiResponseMessage<CategoryDto[]>> {
     const headers = this.getHeaders();
-    return this.http.put<ApiResponseMessage<Address[]>>(`${this.baseApiUrl}api/Address/UpdateAddress`,  UpdateAddress);
+    return this.http.put<ApiResponseMessage<CategoryDto[]>>(`${this.baseApiUrl}api/Category/UpdateCategory`,  UpdateCategory);
   }
 
   
-  deleteAddress(AddressId: number): Observable<ApiResponseMessage<Address>> {
+  deleteCategory(categoryId: number): Observable<ApiResponseMessage<CategoryDto>> {
     const headers = new HttpHeaders(); 
-    return this.http.delete<ApiResponseMessage<Address>>(`${this.baseApiUrl}api/Address/DeleteAddress/${AddressId}`, { headers });
+    return this.http.delete<ApiResponseMessage<CategoryDto>>(`${this.baseApiUrl}api/Category/DeleteCategory/${categoryId}`, { headers });
   }
 }

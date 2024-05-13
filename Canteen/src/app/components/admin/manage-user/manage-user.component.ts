@@ -191,11 +191,6 @@ export class ManageUserComponent implements OnInit {
       });
     }
 
-
-
-
-
-
     loadStatus(): void {
       this.loadDataService.getUserStatus().subscribe({
         next: (res) => {
