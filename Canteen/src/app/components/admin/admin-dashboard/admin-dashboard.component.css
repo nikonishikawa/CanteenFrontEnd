@@ -157,14 +157,13 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-bottom: 81px;
 }
 
 .stocks-count h1 {
   width: 100%;
   font-size: 20px;
   font-weight: 700;
-  padding: 31px 0 28px 27px;
+  padding: 31px 0 0 27px;
   margin: 0;
 }
 
@@ -196,6 +195,14 @@
 .diagram .percent {
   width: fit-content;
   height: fit-content;
+}
+
+.percent #menuStockChart {
+  display: block;
+  width: fit-content;
+  height: fit-content;
+  padding: 0;
+  margin: 0;
 }
 
 

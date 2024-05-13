@@ -58,17 +58,21 @@
                 <h1 class="item" [ngStyle]="{'font-size.px': menuItem.item.length > 8 ? 26 : 32}">
                   {{ menuItem.item }}
                 </h1>
-                <p>{{menuItem.stock}} Left</p>
-                <input type="number" [(ngModel)]="newStockValues[menuItem.itemId]" placeholder="New Stock Value">
-                <button (click)="updateStock(menuItem.itemId)">Update Stock</button>
-                <button (click)="updateStockToZero(menuItem.itemId)">Update to Zero</button>
-                <button (click)="increaseStockBy1(menuItem.itemId)">Increase Stock by 1</button>
-                <button (click)="increaseStockBy5(menuItem.itemId)">Increase Stock by 5</button>
-                <button (click)="increaseStockBy10(menuItem.itemId)">Increase Stock by 10</button>
-                <button (click)="decreaseStockBy1(menuItem.itemId)">Decrease Stock by 1</button>
-                <button (click)="decreaseStockBy5(menuItem.itemId)">Decrease Stock by 5</button>
-                <button (click)="decreaseStockBy10(menuItem.itemId)">Decrease Stock by 10</button>
-
+                <p *ngIf="menuItem.stock !== 0">{{menuItem.stock}} Left</p>
+                <p *ngIf="menuItem.stock === 0" style="color: #DA062E;">No Stock</p>
+                <div class="stock-custom-container">
+                  <input type="number" [(ngModel)]="newStockValues[menuItem.itemId]" placeholder="New Stock Value">
+                  <input type="button" (click)="updateStock(menuItem.itemId)" value="Custom"/>
+                </div>
+                <div class="stock-action-button-container">
+                  <input type="button" (click)="decreaseStockBy10(menuItem.itemId)" value="-10"/>
+                  <input type="button" (click)="decreaseStockBy5(menuItem.itemId)" value="-5"/>
+                  <input type="button" (click)="decreaseStockBy1(menuItem.itemId)" value="-1"/>
+                  <input type="button" (click)="updateStockToZero(menuItem.itemId)" value="0"/>
+                  <input type="button" (click)="increaseStockBy1(menuItem.itemId)" value="+1"/>
+                  <input type="button" (click)="increaseStockBy5(menuItem.itemId)" value="+5"/>
+                  <input type="button" (click)="increaseStockBy10(menuItem.itemId)" value="+10"/>
+                </div>
               </div>
               <h1 id="price">₱{{ menuItem.price }}</h1>
             </div>
