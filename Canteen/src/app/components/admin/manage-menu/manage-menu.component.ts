@@ -75,7 +75,6 @@ export class ManageMenuComponent implements OnInit {
     this.closeModal(); 
   }
 
-  
   updateHalalValue(event: any) {
     this.addMenu.isHalal = event.target.checked ? 1 : 0;
   }
@@ -179,6 +178,118 @@ export class ManageMenuComponent implements OnInit {
       }
     );
   }
+
+  updateStockToZero(itemId: number) {
+    this.manageMenuService.updateItemStock(itemId, 0).subscribe(
+      response => {
+        this.loadMenu();
+        console.log(response);
+      },
+      error => {
+        console.error(error);
+      }
+    );
+  }
+
+  increaseStockBy1(itemId: number) {
+    let currentStock = parseInt(localStorage.getItem(`stock_${itemId}`) || '0');
+    const newStockValue = currentStock + 1;
+    localStorage.setItem(`stock_${itemId}`, newStockValue.toString());
+  
+    this.manageMenuService.updateItemStock(itemId, newStockValue).subscribe(
+      response => {
+        this.loadMenu();
+        console.log(response);
+      },
+      error => {
+        console.error(error);
+      }
+    );
+  }
+  
+  increaseStockBy5(itemId: number) {
+    let currentStock = parseInt(localStorage.getItem(`stock_${itemId}`) || '0');
+    const newStockValue = currentStock + 5;
+    localStorage.setItem(`stock_${itemId}`, newStockValue.toString());
+  
+    this.manageMenuService.updateItemStock(itemId, newStockValue).subscribe(
+      response => {
+        this.loadMenu();
+        console.log(response);
+      },
+      error => {
+        console.error(error);
+      }
+    );
+  }
+  
+
+  increaseStockBy10(itemId: number) {
+    let currentStock = parseInt(localStorage.getItem(`stock_${itemId}`) || '0');
+    const newStockValue = currentStock + 10;
+    localStorage.setItem(`stock_${itemId}`, newStockValue.toString());
+  
+    this.manageMenuService.updateItemStock(itemId, newStockValue).subscribe(
+      response => {
+        this.loadMenu();
+        console.log(response);
+      },
+      error => {
+        console.error(error);
+      }
+    );
+  }
+  
+  decreaseStockBy1(itemId: number) {
+    let currentStock = parseInt(localStorage.getItem(`stock_${itemId}`) || '0');
+    const newStockValue = Math.max(0, currentStock - 1); 
+    localStorage.setItem(`stock_${itemId}`, newStockValue.toString());
+  
+    this.manageMenuService.updateItemStock(itemId, newStockValue).subscribe(
+      response => {
+        this.loadMenu();
+        console.log(response);
+      },
+      error => {
+        console.error(error);
+      }
+    );
+  }
+  
+  decreaseStockBy5(itemId: number) {
+    let currentStock = parseInt(localStorage.getItem(`stock_${itemId}`) || '0');
+    const newStockValue = Math.max(0, currentStock - 5); 
+    localStorage.setItem(`stock_${itemId}`, newStockValue.toString());
+  
+    this.manageMenuService.updateItemStock(itemId, newStockValue).subscribe(
+      response => {
+        this.loadMenu();
+        console.log(response);
+      },
+      error => {
+        console.error(error);
+      }
+    );
+  }
+  
+  decreaseStockBy10(itemId: number) {
+    let currentStock = parseInt(localStorage.getItem(`stock_${itemId}`) || '0');
+    const newStockValue = Math.max(0, currentStock - 10);
+    localStorage.setItem(`stock_${itemId}`, newStockValue.toString());
+  
+    this.manageMenuService.updateItemStock(itemId, newStockValue).subscribe(
+      response => {
+        this.loadMenu();
+        console.log(response);
+      },
+      error => {
+        console.error(error);
+      }
+    );
+  }
+  
+
+ 
   getCategoryName(categoryId: any): any {
     console.log(categoryId);
     const categoryIdNumber = parseInt(categoryId, 10);

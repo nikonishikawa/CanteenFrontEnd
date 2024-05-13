@@ -37,7 +37,7 @@ export class MenuComponent implements OnInit {
   OrderID: number = 0;
   selectedCategory: number = 0;
   groupedMenu: { [key: string]: Menu[] } = {};
-  filterSelected: number = 0;
+  filterSelected: any = null;
   activeIndex: number = 0;
 
 
@@ -123,7 +123,6 @@ export class MenuComponent implements OnInit {
     });
   }
   
-  
   loadCategory() {
     this.menuService.getAllCaetegory().subscribe({
       next: (res) => {
@@ -160,7 +159,7 @@ export class MenuComponent implements OnInit {
   }
 
   filtSelect(index: number) {
-    this.filterSelected = index;
+    this.filterSelected = index === 0 ? index : (index === this.filterSelected ? 1 : index);
     this.setActiveIndex(this.filterSelected);  
   }
 
@@ -231,7 +230,6 @@ export class MenuComponent implements OnInit {
     );
   }
   
-  
   fetchTrayItems() {
     if (typeof localStorage !== 'undefined') {
       const storedTrayItems = localStorage.getItem('trayItems');
@@ -271,8 +269,6 @@ export class MenuComponent implements OnInit {
       }
       return shouldKeepItem;
     });
-  
-  
   }
   
   orderNow() {
@@ -319,26 +315,22 @@ export class MenuComponent implements OnInit {
       }
     );
   }
-  
-  increaseQuantity(trayItem: trayItemTest) {
-    console.log('trayItem:', trayItem);
-    const menuItem = this.menus.find(menu => menu.itemId === trayItem.item);
-    console.log('menuItem:', menuItem);
-    
-    if (!menuItem) {
-      this.toastr.warning('Menu item not found.');
-      return;
-    }
-    
-    if (trayItem.quantity < menuItem.stock) {
+
+  increaseQuantity(trayItem: any) {
+    const menuItem = this.menus.find(menu => menu.itemId === trayItem.itemId);
+    console.log('menuItem:', menuItem); 
+    if (menuItem && trayItem.quantity < menuItem.stock) {
       trayItem.quantity++; 
+      this.loadMenu();
       this.updateTrayItemQuantity(trayItem.trayItemTempId, trayItem.quantity); 
       this.calculateTotal();
       this.toastr.success('Added item quantity successfully');
     } else {
-      this.toastr.warning('Cannot exceed available stock.');
+      this.toastr.error('Cannot increase quantity, stock limit reached');
     }
   }
+  
+  
   
   decreaseQuantity(trayItem: trayItemTest) {
     if (trayItem.quantity > 1) {
@@ -382,16 +374,18 @@ fetchTrayItemDetails() {
   this.trayItems.forEach(trayItem => {
     const menuItem = this.menus.find(menu => menu.itemId === trayItem.item);
     if (menuItem) {
-      trayItem.itemiD = menuItem.itemId;
+      trayItem.itemId = menuItem.itemId;
       trayItem.item = menuItem.item;
       trayItem.foodImage = menuItem.foodImage;
       trayItem.price = menuItem.price;
       trayItem.stock = menuItem.stock;
+      console.log("menuItemresult:", menuItem)
     } else {
       console.warn(`Menu item not found for tray item with ID ${trayItem.item}`);
     }
   });
 }
+
 
 
   calculateTotal() {
