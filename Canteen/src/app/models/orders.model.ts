@@ -78,3 +78,13 @@ export interface loadItem {
   foodImage: string;
   item: string;
 }
+
+export interface trayItems {
+  itemId: number; 
+  item: string;
+  foodImage: string;
+  price: number;
+  stock: number;
+  quantity: number;
+  trayItemTempId: number;
+}

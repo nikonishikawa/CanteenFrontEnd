@@ -15,6 +15,7 @@ import { AdminProfileComponent } from './components/admin/admin-profile/admin-pr
 import { ManageUserComponent } from './components/admin/manage-user/manage-user.component';
 import { ManageMenuComponent } from './components/admin/manage-menu/manage-menu.component';
 import { ManageOrderComponent } from './components/admin/manage-order/manage-order.component';
+import { ManageAddressComponent } from './components/admin/manage-address/manage-address.component';
 
 export const routes: Routes = [
   {
@@ -98,7 +99,11 @@ export const routes: Routes = [
         component: ManageMenuComponent,
         canActivate: [AuthGuard]
       },
-    
+      {
+        path: 'manage-address',
+        component: ManageAddressComponent,
+        canActivate: [AuthGuard]
+      },
       {
         path: 'menu',
         component: MenuComponent,

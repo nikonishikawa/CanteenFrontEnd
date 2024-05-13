@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule, NgModel } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Login, LoginResponse } from '../../../models/login.model';
@@ -14,11 +14,15 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   loginUser: Login = {} as Login;
   toaster=inject(ToastrService);
   
   constructor(private loginService: LoginService, private router: Router) {}
+  ngOnInit(): void {
+    localStorage.removeItem('trayTempId');
+    localStorage.removeItem('loginToken');
+  }
 
   onLogin() {
     this.loginService.SignIn(this.loginUser).subscribe((res) => {
