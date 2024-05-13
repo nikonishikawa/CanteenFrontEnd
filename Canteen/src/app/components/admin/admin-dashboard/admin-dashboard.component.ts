@@ -7,7 +7,7 @@
   import { LoadDataService } from '../../../services/load-data.service';
   import { SalesData, SalesProductDTO, TotalRev } from '../../../models/load-data.model';
   import { CommonModule } from '@angular/common';
-  import Chart from 'chart.js/auto';
+  import Chart, {registerables} from 'chart.js/auto';
 import { FormsModule } from '@angular/forms';
 
   @Component({
@@ -37,7 +37,7 @@ import { FormsModule } from '@angular/forms';
       private toastr: ToastrService,
       private router: Router,
       private loadDataService: LoadDataService
-    ) { }
+    ) { Chart.register(...registerables) }
 
     ngOnInit(): void {
       this.loadCategory();
@@ -102,7 +102,6 @@ import { FormsModule } from '@angular/forms';
       this.selectedCategoryId = selectedValue;
       this.loadMenu();
     }
-    
 
     loadChart() {
       const totalStock = this.calculateTotalStock();
@@ -189,13 +188,131 @@ import { FormsModule } from '@angular/forms';
           if (res && res.data) {
             this.totalRev = res.data;
             console.log("Total Rev Data", this.totalRev);
-
+            this.renderMonthlyQuantityChart();
+            this.renderMonthlyPriceChart();
             this.calculateTotalRevenueForMonth();
             this.calculateSalesPerProduct(); 
           }
         },
         error: (error) => {
           console.error('Error fetching Rev Data:', error);
+        }
+      });
+    }
+
+    renderMonthlyQuantityChart() {
+      const currentDate = new Date();
+      const last5Months = [];
+      for (let i = 0; i < 5; i++) {
+        last5Months.push({
+          month: currentDate.getMonth() + 1,
+          year: currentDate.getFullYear()
+        });
+        currentDate.setMonth(currentDate.getMonth() - 1);
+      }
+    
+      const monthlyData = last5Months.map(month => {
+        const ordersForMonth = this.totalRev.filter(order => {
+          const orderDate = new Date(order.completedStamp);
+          return orderDate.getMonth() + 1 === month.month && orderDate.getFullYear() === month.year;
+        });
+    
+        const totalQuantity = ordersForMonth.reduce((total, order) => total + order.quantity, 0);
+    
+        return {
+          month: month.month,
+          year: month.year,
+          totalQuantity: totalQuantity
+        };
+      });
+    
+      const labels = monthlyData.map(data => {
+        const monthIndex = data.month - 1; // Months are zero-indexed in JavaScript Date objects
+        const monthAbbreviation = new Date(2022, monthIndex).toLocaleString('default', { month: 'short' });
+        return `${monthAbbreviation}`;
+      });
+      
+      const totalQuantityData = monthlyData.map(data => data.totalQuantity);
+      
+    
+      const ctx = document.getElementById('monthlyQuantityChart') as HTMLCanvasElement;
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: 'Total Sold Items (2024)',
+              data: totalQuantityData,
+              borderColor: 'rgba(75, 192, 192, 1)',
+              barThickness: 10,
+            }
+          ]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+    }
+    
+    renderMonthlyPriceChart() {
+      const currentDate = new Date();
+      const last5Months = [];
+      for (let i = 0; i < 5; i++) {
+        last5Months.push({
+          month: currentDate.getMonth() + 1,
+          year: currentDate.getFullYear()
+        });
+        currentDate.setMonth(currentDate.getMonth() - 1);
+      }
+    
+      const monthlyData = last5Months.map(month => {
+        const ordersForMonth = this.totalRev.filter(order => {
+          const orderDate = new Date(order.completedStamp);
+          return orderDate.getMonth() + 1 === month.month && orderDate.getFullYear() === month.year;
+        });
+    
+        const totalPrice = ordersForMonth.reduce((total, order) => total + order.price, 0);
+    
+        return {
+          month: month.month,
+          year: month.year,
+          totalPrice: totalPrice
+        };
+      });
+    
+      const labels = monthlyData.map(data => `${data.month}/${data.year}`);
+      const totalPriceData = monthlyData.map(data => data.totalPrice);
+    
+      const ctx = document.getElementById('monthlyPriceChart') as HTMLCanvasElement;
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: 'Total Sales',
+              data: totalPriceData,
+              backgroundColor: [
+                'rgba(255, 99, 132, 0.6)',
+                'rgba(54, 162, 235, 0.6)',
+                'rgba(255, 206, 86, 0.6)',
+                'rgba(75, 192, 192, 0.6)',
+                'rgba(153, 102, 255, 0.6)'
+              ]
+            }
+          ]
+        },
+        options: {
+          scales: {
+            r: {
+              suggestedMin: 0
+            }
+          }
         }
       });
     }
