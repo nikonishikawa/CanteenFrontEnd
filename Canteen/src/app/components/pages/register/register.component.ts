@@ -14,6 +14,7 @@ import { Address } from '../../../models/manage-user.model';
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
+
 export class RegisterComponent implements OnInit {
   toaster=inject(ToastrService);
   registernUser: Register = new Register();

@@ -1,1 +1,14 @@
-<p>manage-address works!</p>
+<button (click)="openAddAddressModal()">Add Address</button>
+
+<div class="modal" *ngIf="isModalOpen">
+  <div class="modal-content">
+    <span class="close" (click)="closeModal()">&times;</span>
+    <h2>Add Address</h2>
+    <form>
+      <input type="text" name="barangay" [(ngModel)]="onAddress.barangay" placeholder="Barangay" required>
+      <input type="text" name="postalCode" [(ngModel)]="onAddress.postalCode" placeholder="Postal Code" required>
+      <input type="text" name="region" [(ngModel)]="onAddress.region" placeholder="Region" required>
+      <button type="button" (click)="submitAddress()">Add Address</button>
+    </form>
+  </div>
+</div>

@@ -288,7 +288,6 @@ export class ManageMenuComponent implements OnInit {
     );
   }
   
-
  
   getCategoryName(categoryId: any): any {
     console.log(categoryId);
