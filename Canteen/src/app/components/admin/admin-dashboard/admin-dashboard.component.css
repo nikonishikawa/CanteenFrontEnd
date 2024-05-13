@@ -80,7 +80,7 @@
   border-radius: 20px;
   padding: 0 0 20px 0;
   background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
   height: 100%;
 }
 
@@ -150,7 +150,7 @@
   border: 1px solid #f1f1f1;
   border-radius: 20px;
   background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
   height: 100%;
   margin-right: 40px;
   margin-bottom: 26px;
@@ -171,6 +171,7 @@
 .stocks-count .diagram {
   display: flex;
   padding-left: 27px;
+  padding-right: 27px;
 }
 
 .stocks-count .diagram .legend .test {
@@ -192,6 +193,12 @@
   flex: 1;
 }
 
+.diagram .percent {
+  width: fit-content;
+  height: fit-content;
+}
+
+
 .stocks-count .percent {
   width: 100%;
   display: flex;
@@ -200,36 +207,13 @@
   align-items: center;
 }
 
-.circular-chart {
-  width: 212px;
-  height: 212px;
-}
-
-  .circle {
-    stroke: #915db1;
-    fill: none;
-    stroke-width: 3;
-  }
-  
-  .circle:nth-child(2) {
-    stroke: #e59f3c;
-  }
-  
-  .circle:nth-child(3) {
-    stroke: #5397d6;
-  }
-  
-  .circle:nth-child(4) {
-    stroke: #4cc790;
-  }
-
   .others .user-summary {
     flex: 2;
     border: 1px solid #f1f1f1;
     border-radius: 20px;
     padding: 0 0 20px 0;
     background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
     height: 100%;
   }
   
