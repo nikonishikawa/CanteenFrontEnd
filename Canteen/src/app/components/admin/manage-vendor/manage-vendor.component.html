@@ -1,0 +1,86 @@
+<div class="manage-user-container">
+    <div class="addUser">
+      <input type="button" (click)="addVendorModal()" value="Add Vendor">
+    </div>
+  
+    <div class="modal" [class.open]="modalVendorOpen">
+      <div class="modal-content">
+        <form class="register">
+          <div class="register-header-container">
+            <h1>Add Vendor</h1>
+            <button id="close-btn" (click)="closeModal()">X</button>
+          </div>
+          <input type="name" id="username" name="username" [(ngModel)]="vendorRegister.username" placeholder="username" required="">
+          <input type="name" id="email" name="email" [(ngModel)]="vendorRegister.info.email" placeholder="email" required="">
+          <input type="password" id="password" name="password" [(ngModel)]="vendorRegister.password" placeholder="password" required="">
+          <div class="register-name-container">
+            <input type="text" name="firstName" [(ngModel)]="vendorRegister.info.firstName" placeholder="first name" required="">
+            <input type="text" name="middleName" [(ngModel)]="vendorRegister.info.middleName" placeholder="middle name" required="">
+            <input type="text" name="lastName" [(ngModel)]="vendorRegister.info.lastName" placeholder="last name" required="">
+          </div>
+          <div class="register-address-container">
+            <select name="addressId" [(ngModel)]="vendorRegister.info.addressId" required>
+              <option *ngFor="let addr of address" [value]="addr.addressId">{{ addr.barangay }}</option>
+            </select>
+            <input type="text" name="contactNumber" [(ngModel)]="vendorRegister.info.contactNumber" placeholder="phone number" required="">
+          </div>
+          <button type="button" (click)="onRegister()">Register</button>
+        </form>
+      </div>
+    </div>
+  
+    <div class="modal" [class.open]="modalOpen">
+        <div class="modal-content">
+          <form class="edit">
+            <div class="header-container">
+              <h1>Edit Vendor</h1>
+              <button id="close-btn" (click)="closeModal()">X</button>
+            </div>
+            <input type="text" [(ngModel)]="editedVendor.firstName" name="firstName" placeholder="First Name">
+            <input type="text" [(ngModel)]="editedVendor.middleName" name="middleName" placeholder="Middle Name">
+            <input type="text" [(ngModel)]="editedVendor.lastName" name="lastName" placeholder="Last Name">
+            <input type="text" [(ngModel)]="editedVendor.position" name="position" placeholder="Position">
+            <input type="text" [(ngModel)]="editedVendor.address" name="address" placeholder="Address">
+            <input type="email" [(ngModel)]="editedVendor.email" name="email" placeholder="Email">
+            <input type="text" [(ngModel)]="editedVendor.contactNumber" name="contactNumber" placeholder="Contact Number">
+            <div class="action-button-container">
+              <!-- <button type="button" (click)="saveVendor()">Save</button> -->
+            </div>
+          </form>
+        </div>
+      </div>
+      
+  
+    <div class="users-container">
+      <div class="user-list">
+        <div class="user-item">
+          <div class="user-details">
+            <img src="https://static.vecteezy.com/system/resources/previews/000/422/799/original/avatar-icon-vector-illustration.jpg"/>
+            <p id="customer-id-label">Vendor ID</p>
+            <p id="name-label">Name</p>
+            <p id="membership-label">Status</p>
+            <p id="address-label">Position</p>
+            <p id="status-label">Address</p>
+            <p id="address-label">Email</p>
+            <p id="status-label">Contact Number</p>
+            <p id="action-label">Action</p>
+          </div>
+        </div>
+        <div class="user-item" *ngFor="let vendor of vendors">
+          <div class="user-details">
+            <p>{{ vendor.vendorId }}</p>
+            <p id="name">{{ vendor.firstName }} {{ vendor.middleName }} {{ vendor.lastName }}</p>
+            <p *ngIf="vendor.status == '' " style="color:#8a8a8a">N/A</p>
+            <p *ngIf="vendor.status !== ''">{{ vendor.status }}</p>
+            <p>{{ vendor.position }}</p>
+            <p>{{ vendor.address }}</p>
+            <p>{{ vendor.email }}</p>
+            <p>{{ vendor.contactNumber }}</p>
+            <button (click)="openEditModal(vendor)">Edit</button>
+            <button>Archive</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

@@ -1,4 +1,4 @@
-  import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
   import { Menu } from '../../../models/menu.model';
   import { Category } from '../../../models/category.model';
   import { MenuService } from '../../../services/menu.service';
@@ -376,5 +376,3 @@ import { FormsModule } from '@angular/forms';
     }
     
   }
-
-
