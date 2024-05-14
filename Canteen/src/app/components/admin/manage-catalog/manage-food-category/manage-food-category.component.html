@@ -1,0 +1,41 @@
+<div class="manage-user-container">
+    <div class="addCategory">
+        <input type="button" (click)="addCatModal()" value="Add Category">
+    </div>
+        <div class="modal" [class.open]="addCategoryModal">
+        <div class="modal-content">
+            <form class="register">
+                <div class="register-header-container">
+                    <h1>Add Category</h1>
+                    <button id="close-btn" (click)="closeCatModal()">X</button>
+                </div>
+                    <div class="register-name-container">
+                        <input type="text" name="category name" [(ngModel)]="onCategory.category" placeholder="category name" required="">
+                        <input type="text" name="description" [(ngModel)]="onCategory.description" placeholder="description" required="">
+                </div>
+                <button type="button" (click)="onCategoryRegistration()">Add Category</button>
+            </form>
+        </div>
+    </div>  
+<div class="data-container">
+    <div class="data-list">
+      <div class="data-item">
+        <div class="data-details">
+            <p id="item-id-label">CategoryId</p>
+          <p id="item-id-label">Category</p>
+          <p id="category-label">Description</p>
+          <p id="description-label">Action</p>
+          <p id="description-label">Delete</p>
+      </div>
+      <div class="data-item" *ngFor="let item of category">
+        <div class="data-details">
+          <p>{{ item.categoryId }}</p>
+          <p>{{ item.category }}</p>
+          <p>{{ item.description }}</p>
+          <button (click)="openEditCatModal(item)">Edit</button>
+          <button (click)="deleteCategory(item.categoryId)">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>

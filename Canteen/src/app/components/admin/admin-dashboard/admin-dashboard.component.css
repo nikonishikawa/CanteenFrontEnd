@@ -1,4 +1,4 @@
-.admin-dashboard {
+div.admin-dashboard {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -8,26 +8,17 @@
   font-family: 'Helvetica';
 }
 
-.admin-dashboard .summary-count {
-  flex: 1;
-}
-
-.admin-dashboard .sales {
-  flex: 2;
-}
-
 .summary-count {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    width: 100%;
+    justify-content: space-between; 
     margin-bottom: 38px;
 }
 
 .summary-count div{
+  flex: 1;
   display: flex;
   flex-direction: row;
-  flex: 1;
   justify-content: space-between;
   align-items: center;
   padding: 0;
@@ -85,15 +76,15 @@
 }
 
 .sales .products {
-  width: 50%;
   padding: 20px;
   display: flex;
   flex-direction: column;
   padding: 0;
   margin-right: 30px;
+  width: 50%;
 }
 
-.sales .products h1, .sales .products h2 {
+.sales .products h1, .sales .products h2, .sales .month-count-bar h1 {
   display: inline-block;
   line-height: normal;
   color: #40595A;
@@ -103,6 +94,11 @@
   font-size: 20px;
   font-weight: 700;
   margin: 31px 0 0 35px;
+}
+
+.sales .month-count-bar h1 {
+  font-size: 20px;
+  font-weight: 700;
 }
 
 .sales .products h2{
@@ -139,7 +135,8 @@
 
 .sales .month-count-bar {
   height: 100%;
-  width: 35%;
+  width: 40%;
+  padding: 20px 27px 20px 27px;
 }
 
 .month-count-bar canvas {
@@ -148,32 +145,36 @@
 
 .others {
   display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 20px;
 }
 
 .others .stocks-count {
-  flex: 1;
   border: 1px solid #f1f1f1;
   border-radius: 20px;
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+  width: 40%;
   height: 100%;
-  margin-right: 40px;
-  margin-bottom: 26px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  padding: 20px 27px 20px 27px;
 }
 
 .stocks-count .stocks-header-container {
   display: flex;
-  padding: 31px 27px 0 27px;
+  height: 100%;
 }
 
-.stocks-count .stocks-header-container h1 {
+.stocks-count .stocks-header-container h1, .user-summary .month-count-bar h1 {
   width: 100%;
   font-size: 20px;
   font-weight: 700;
   margin: 0;
+  
+  color: #40595A;
 }
 
 .stocks-count .stocks-header-container select {
@@ -184,8 +185,7 @@
 
 .stocks-count .diagram {
   display: flex;
-  padding-left: 27px;
-  padding-right: 27px;
+  align-items: center;
 }
 
 .stocks-count .diagram .legend {
@@ -212,22 +212,16 @@
   flex: 1;
 }
 
-.diagram .percent {
-  width: fit-content;
-  height: fit-content;
-}
-
 .percent #menuStockChart {
   display: block;
   width: fit-content;
   height: fit-content;
-  padding: 20px;
   margin: 0;
 }
 
 
 .stocks-count .percent {
-  width: 100%;
+  width: fit-content;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -235,12 +229,20 @@
 }
 
   .others .user-summary {
-    flex: 2;
+    display: flex;
+    flex-direction: column;
     border: 1px solid #f1f1f1;
     border-radius: 20px;
-    padding: 0 0 20px 0;
+    padding: 20px 27px 20px 27px;
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
     height: 100%;
+    width: 50%;
   }
-  
+
+  .others .user-summary .month-count-bar #monthlyPriceChart {
+    display: block;
+    width: fit-content;
+    height: fit-content;
+    margin: 0;
+  }

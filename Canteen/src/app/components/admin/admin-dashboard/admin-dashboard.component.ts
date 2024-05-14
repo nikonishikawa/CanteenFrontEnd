@@ -285,7 +285,11 @@ import { FormsModule } from '@angular/forms';
         };
       });
     
-      const labels = monthlyData.map(data => `${data.month}/${data.year}`);
+      const labels = monthlyData.map(data => {
+        const monthIndex = data.month - 1; // Months are zero-indexed in JavaScript Date objects
+        const monthAbbreviation = new Date(2022, monthIndex).toLocaleString('default', { month: 'short' });
+        return `${monthAbbreviation}`;
+      });
       const totalPriceData = monthlyData.map(data => data.totalPrice);
     
       const ctx = document.getElementById('monthlyPriceChart') as HTMLCanvasElement;
@@ -295,7 +299,7 @@ import { FormsModule } from '@angular/forms';
           labels: labels,
           datasets: [
             {
-              label: 'Total Sales',
+              label: 'Total Sales (2024)',
               data: totalPriceData,
               backgroundColor: [
                 'rgba(255, 99, 132, 0.6)',

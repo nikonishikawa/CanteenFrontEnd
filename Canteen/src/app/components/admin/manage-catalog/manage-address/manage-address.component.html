@@ -19,5 +19,30 @@
         </div>
     </div>
 </div>  
-
+<div class="data-container">
+    <div class="data-list">
+      <div class="data-item">
+        <div class="data-details">
+          <p id="item-id-label">addressId</p>
+          <p id="category-label">barangay</p>
+          <p id="description-label">postalCode</p>
+          <p id="address-label">region</p>
+          <p id="action-label">Action</p>
+          <p id="action-label">Delete</p>
+        </div>
+      </div>
+      <div class="data-item" *ngFor="let item of address">
+        <div class="data-details">
+          <p>{{ item.addressId }}</p>
+          <p>{{ item.barangay }}</p>
+          <p>{{ item.postalCode }}</p>
+          <p>{{ item.region }}</p>
+          <button (click)="openEditAddressModal(item)">Edit</button>
+          <button (click)="deleteAddress(item.addressId)">Delete</button>
+          <div class="data-details-buttons-container">
+          </div>
+        </div>
+      </div>
+    </div>
+</div>    
 

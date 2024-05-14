@@ -84,7 +84,7 @@ body{
       list-style: none;
       height: fit-content;
       color: #fff;
-      font-size: 30px;
+      font-size: 24px;
       padding: 25px 25px 25px 45px;
     }
 
@@ -125,7 +125,7 @@ body{
       background-color: transparent;
     }
 
-    .nav_cont ul li.nav_items-main-users {
+    .nav_cont ul li.nav_items-main-sub {
       background: #ac010a;
       color: #fff;
       padding: 25px;
@@ -134,13 +134,12 @@ body{
       border-bottom-left-radius: 50px;
     }
 
-    .nav_cont ul li.nav_items-main-users a {
+    .nav_cont ul li.nav_items-main-sub a {
       display: flex;
       align-items: center;
-      justify-content: space-between;
     }
 
-    .nav_cont ul li.nav_items-main-users a .triangle {
+    .nav_cont ul li.nav_items-main-sub a .triangle {
       width: 0;
       height: 0;
       border-left: 7.5px solid transparent; /* Half of the original size */
@@ -150,12 +149,12 @@ body{
     }
 
     .nav_cont ul li.nav_items-users a span {
-      font-size: 26px;
+      font-size: 20px;
       padding-left: 30px;
     }
     
   
-    .nav_cont ul li.nav_items, .nav_cont ul li.nav_items-users {
+    .nav_cont ul li.nav_items, .nav_cont ul li.nav_items-sub {
       background: #fff;
       color: #DA062E;
       padding: 25px;
@@ -164,7 +163,7 @@ body{
       border-bottom-left-radius: 50px;
     }
     
-    .nav_cont ul li.nav_items::before, .nav_cont ul li.nav_items-users::before {
+    .nav_cont ul li.nav_items::before, .nav_cont ul li.nav_items-sub::before {
       content: '';
       position: absolute;
       top: -20px;
@@ -176,7 +175,7 @@ body{
       background: transparent;
     }
   
-    .nav_cont ul li.nav_items::after, .nav_cont ul li.nav_items-users::after {
+    .nav_cont ul li.nav_items::after, .nav_cont ul li.nav_items-sub::after {
       content: '';
       position: absolute;
       bottom: -20px;

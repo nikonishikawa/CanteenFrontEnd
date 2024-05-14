@@ -57,7 +57,7 @@
       </table>
     </div>
     <div class="month-count-bar">
-        <p>Total Sold Items</p>
+        <h1>Total Sold Items</h1>
         <canvas id="monthlyQuantityChart"></canvas>
     </div>
   </div>
@@ -73,7 +73,7 @@
       <div class="diagram">
         <div class="legend">
           <div class="legend-items" *ngFor="let stock of filteredMenus; let i = index">
-            <div id="color-code" style="background-color: {{colors[i]}};"></div>
+            <div id="color-code" style="background-color: {{colors[i]}}"></div>
             <p>({{stock.stock}}) {{stock.item}}</p>
           </div>
                   
@@ -85,30 +85,9 @@
     </div>
     <div class="user-summary">
       <div class="month-count-bar">
-        <p>Total Sales</p>
+        <h1>Total Sales</h1>
         <canvas id="monthlyPriceChart"></canvas>
     </div>
     </div>
   </div>
 </div>
-<!-- 
-<div>
-  <h2>Highest Sales Product for Current Month</h2>
-  <table class="sales-table">
-    <thead>
-      <tr>
-        <th>Product Name</th>
-        <th>Sales</th>
-        <th>No. of Items Sold</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>{{ highestSalesProduct.name }}</td>
-        <td></td>
-        <td>{{ highestSalesProduct.quantitySold }}</td>
-      </tr>
-    </tbody>
-  </table>
-</div> -->
-

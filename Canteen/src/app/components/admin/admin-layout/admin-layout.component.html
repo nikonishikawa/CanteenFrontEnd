@@ -21,7 +21,8 @@
             <span>Orders</span>
           </a>
         </li>
-        <li [routerLink]="['manage-user']" [ngClass]="{'nav_items-main-users': isActive === 3}" (click)="toggleActive(3)">
+        <li [routerLink]="['manage-user']" [ngClass]="{'nav_items-main-sub': isActive === 3}"
+        (click)="toggleActive(3)">
           <a>
             <i class="fa-solid fa-qrcode">
             </i>
@@ -31,14 +32,14 @@
           </a>
         </li>
         <ul *ngIf="isActive === 3">
-          <li [routerLink]="['manage-user']" [ngClass]="{'nav_items-users': isSubActive === 1}" (click)="toggleSubActive(1)">
+          <li [routerLink]="['manage-user']" [ngClass]="{'nav_items-sub': isSubActive === 1}" (click)="toggleSubActive(1)">
             <a>
               <i class="fa-solid fa-qrcode">
               </i>
               <span>Vendor</span>
             </a>
           </li>
-          <li [routerLink]="['manage-user']" [ngClass]="{'nav_items-users': isSubActive === 2}" (click)="toggleSubActive(2)">
+          <li [routerLink]="['manage-user']" [ngClass]="{'nav_items-sub': isSubActive === 2}" (click)="toggleSubActive(2)">
             <a>
               <i class="fa-solid fa-qrcode">
               </i>
@@ -53,13 +54,31 @@
             <span>Manage Menu</span>
           </a>
         </li>
-        <li [routerLink]="['manage-catalog']" [ngClass]="{'nav_items': isActive === 7}" (click)="toggleActive(7)">
+        <li [routerLink]="['manage-catalog-category']" [ngClass]="{'nav_items-main-sub': isActive === 7}" (click)="toggleActive(7)">
           <a>
             <i class="fa-solid fa-receipt">
             </i>
-            <span>Manage Catalog</span>
+            <span>Manage Catalogs</span>
+
+            <div class="triangle"></div>
           </a>
         </li>
+        <ul *ngIf="isActive === 7">
+          <li [routerLink]="['manage-catalog-category']" [ngClass]="{'nav_items-sub': isSubActive === 1}" (click)="toggleSubActive(1)">
+            <a>
+              <i class="fa-solid fa-qrcode">
+              </i>
+              <span>Food Category</span>
+            </a>
+          </li>
+          <li [routerLink]="['manage-catalog-address']" [ngClass]="{'nav_items-sub': isSubActive === 2}" (click)="toggleSubActive(2)">
+            <a>
+              <i class="fa-solid fa-qrcode">
+              </i>
+              <span>Address</span>
+            </a>
+          </li>
+        </ul>
       <li [routerLink]="['logout']" [ngClass]="{'nav_items': isActive === 8}" (click)="logout()">
         <a>
           <i class="fa-solid fa-receipt">
