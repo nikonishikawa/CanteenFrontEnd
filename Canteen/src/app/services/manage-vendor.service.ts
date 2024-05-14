@@ -1,17 +1,15 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../environments/environment';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, catchError, throwError } from 'rxjs';
-import { Register } from '../models/register.model';
 import { ApiResponseMessage } from '../models/apiresponsemessage.model';
-import { Address } from '../models/manage-user.model';
+import { getAllVendor } from '../models/manage-vendor.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class RegisterService {
-  
-  
+export class ManageVendorService {
+
   private baseApiUrl: string = environment.baseApiUrl;
   constructor(private http: HttpClient) { }
 
@@ -34,17 +32,9 @@ export class RegisterService {
     return throwError('An error occurred. Please try again later.');
   }
 
-  RegisterIn(RegisterUser: Register): Observable<ApiResponseMessage<Register>> {
-    return this.http.post<ApiResponseMessage<Register>>(this.baseApiUrl + 'api/UserCredential/RegisterUser', RegisterUser);
-  }
-
-  getAddress(): Observable<ApiResponseMessage<Address[]>> {
-    return this.http.get<ApiResponseMessage<Address[]>>(`${this.baseApiUrl}api/Address/GetAllAddress`)
+  getAllVendor(): Observable<ApiResponseMessage<getAllVendor[]>> {
+    const headers = this.getHeaders();
+    return this.http.get<ApiResponseMessage<getAllVendor[]>>(`${this.baseApiUrl}api/Vendor/GetAllVendorList`, { headers })
       .pipe(catchError(this.handleError));
   }
-
-  RegisterVendor(RegisterVendor: Register): Observable<ApiResponseMessage<Register>> {
-    return this.http.post<ApiResponseMessage<Register>>(this.baseApiUrl + 'api/UserCredential/RegisterVendor', RegisterVendor);
-  }
-
 }

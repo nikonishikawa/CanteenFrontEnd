@@ -16,6 +16,7 @@ import { ManageUserComponent } from './components/admin/manage-user/manage-user.
 import { ManageMenuComponent } from './components/admin/manage-menu/manage-menu.component';
 import { ManageOrderComponent } from './components/admin/manage-order/manage-order.component';
 import { ManageCatalogComponent } from './components/admin/manage-catalog/manage-catalog.component';
+import { ManageVendorComponent } from './components/admin/manage-vendor/manage-vendor.component';
 
 export const routes: Routes = [
   {
@@ -92,6 +93,11 @@ export const routes: Routes = [
       {
         path: 'manage-user',
         component: ManageUserComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'manage-vendor',
+        component: ManageVendorComponent,
         canActivate: [AuthGuard]
       },
       {

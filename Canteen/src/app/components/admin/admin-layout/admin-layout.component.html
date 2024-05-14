@@ -21,7 +21,7 @@
             <span>Orders</span>
           </a>
         </li>
-        <li [routerLink]="['manage-user']" [ngClass]="{'nav_items-main-users': isActive === 3}" (click)="toggleActive(3)">
+        <li  [ngClass]="{'nav_items-main-users': isActive === 3}" (click)="toggleActive(3)">
           <a>
             <i class="fa-solid fa-qrcode">
             </i>
@@ -31,7 +31,7 @@
           </a>
         </li>
         <ul *ngIf="isActive === 3">
-          <li [routerLink]="['manage-user']" [ngClass]="{'nav_items-users': isSubActive === 1}" (click)="toggleSubActive(1)">
+          <li [routerLink]="['manage-vendor']" [ngClass]="{'nav_items-users': isSubActive === 1}" (click)="toggleSubActive(1)">
             <a>
               <i class="fa-solid fa-qrcode">
               </i>
