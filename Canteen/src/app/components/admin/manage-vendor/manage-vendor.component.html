@@ -55,7 +55,6 @@
       <div class="user-list">
         <div class="user-item">
           <div class="user-details">
-            <img src="https://static.vecteezy.com/system/resources/previews/000/422/799/original/avatar-icon-vector-illustration.jpg"/>
             <p id="customer-id-label">Vendor ID</p>
             <p id="name-label">Name</p>
             <p id="membership-label">Status</p>
@@ -76,8 +75,10 @@
             <p>{{ vendor.address }}</p>
             <p>{{ vendor.email }}</p>
             <p>{{ vendor.contactNumber }}</p>
-            <button (click)="openEditModal(vendor)">Edit</button>
-            <button>Archive</button>
+            <div class="action-button-container">
+              <button (click)="openEditModal(vendor)">Edit</button>
+              <button>Archive</button>
+            </div>
           </div>
         </div>
       </div>
