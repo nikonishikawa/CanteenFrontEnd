@@ -18,6 +18,23 @@ export interface getAllUser {
     customerName?: string;
   }
 
+  export interface getAllCustomer {
+    customerId: number;
+    nameId: number;
+    genAdressId: number;
+    addressId: number;
+    membershipId: number;
+    statusId: number;
+    firstName: string;
+    middleName: string;
+    lastName: string;
+    status: string;
+    address: string;
+    email: string;
+    contactNumber: string;
+    membership: string;
+  }
+
   export interface userName {
     firstName: string;
     middleName: string;

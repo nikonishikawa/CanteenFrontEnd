@@ -1,6 +1,6 @@
 export interface UserStatus {
     userStatusId: number;
-    Status: string;
+    status: string;
   }
 
 export interface Membership {

@@ -3,7 +3,7 @@ import { environment } from '../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, catchError, throwError } from 'rxjs';
 import { ApiResponseMessage } from '../models/apiresponsemessage.model';
-import { Address, Membership, genAddress, getAllUser, userStatus } from '../models/manage-user.model';
+import { Address, Membership, genAddress, getAllCustomer, getAllUser, userStatus } from '../models/manage-user.model';
 import { Menu } from '../models/menu.model';
 
 @Injectable({
@@ -33,9 +33,9 @@ export class ManageUserService {
     return throwError('An error occurred. Please try again later.');
   }
 
-  getAllUser(): Observable<ApiResponseMessage<getAllUser[]>> {
+  getAllUser(): Observable<ApiResponseMessage<getAllCustomer[]>> {
     const headers = this.getHeaders();
-    return this.http.get<ApiResponseMessage<getAllUser[]>>(`${this.baseApiUrl}api/Customer/GetAllCustomer`, { headers })
+    return this.http.get<ApiResponseMessage<getAllCustomer[]>>(`${this.baseApiUrl}api/Customer/GetCustomerList`, { headers })
       .pipe(catchError(this.handleError));
   }
 
