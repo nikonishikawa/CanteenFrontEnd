@@ -5,6 +5,7 @@ import { Observable, catchError, throwError } from 'rxjs';
 import { ApiResponseMessage } from '../models/apiresponsemessage.model';
 import { Address, Membership, genAddress, getAllCustomer, getAllUser, userStatus } from '../models/manage-user.model';
 import { Menu } from '../models/menu.model';
+import { UpdateCustomerDto } from '../models/load-data.model';
 
 @Injectable({
   providedIn: 'root'
@@ -39,27 +40,9 @@ export class ManageUserService {
       .pipe(catchError(this.handleError));
   }
 
-  getItemById(itemID: number): Observable<ApiResponseMessage<Menu>> {
+  updateCustomer(updateCustomerDto: UpdateCustomerDto): Observable<ApiResponseMessage<UpdateCustomerDto>> {
     const headers = this.getHeaders();
-    return this.http.get<ApiResponseMessage<Menu>>(`${this.baseApiUrl}api/Item/GetItem?itemId=/${itemID}`, { headers })
-      .pipe(catchError(this.handleError));
-  }
-
-  getMembershipById(MemberShipId: number): Observable<ApiResponseMessage<Membership>> {
-    const headers = this.getHeaders();
-    return this.http.get<ApiResponseMessage<Membership>>(`${this.baseApiUrl}api/Membership/GetMembership/${MemberShipId}`, { headers })
-      .pipe(catchError(this.handleError));
-  }
-
-  getAddressById(genAddressId: number): Observable<ApiResponseMessage<genAddress>> {
-    const headers = this.getHeaders();
-    return this.http.get<ApiResponseMessage<genAddress>>(`${this.baseApiUrl}api/GeneralAddress/GetGeneralAddress/${genAddressId}`, { headers })
-      .pipe(catchError(this.handleError));
-  }
-
-  getUserStatusId(userStatusId: number): Observable<ApiResponseMessage<userStatus>> {
-    const headers = this.getHeaders();
-    return this.http.get<ApiResponseMessage<userStatus>>(`${this.baseApiUrl}api/UserStatus/GetUserStatus/${userStatusId}`, { headers })
+    return this.http.post<ApiResponseMessage<UpdateCustomerDto>>(`${this.baseApiUrl}api/Customer/UpdateCustomer`, updateCustomerDto, { headers })
       .pipe(catchError(this.handleError));
   }
 }

@@ -8,7 +8,7 @@ import { CustomerService } from '../../../services/customer.service';
 import { Register } from '../../../models/register.model';
 import { RegisterService } from '../../../services/register.service';
 import { LoadDataService } from '../../../services/load-data.service';
-import { UserStatus, Membership } from '../../../models/load-data.model';
+import { UserStatus, Membership, UpdateCustomerDto } from '../../../models/load-data.model';
 import { ApiResponseMessage } from '../../../models/apiresponsemessage.model';
 
 @Component({
@@ -48,6 +48,36 @@ export class ManageUserComponent implements OnInit {
   openEditModal(getUser: getAllCustomer) {
       this.modalOpen = true;
       this.editedUser = { ...getUser };
+  }
+
+  saveCustomer() {
+    const updateCustomerDto: UpdateCustomerDto = {
+      customerId: this.editedUser.customerId,
+      firstName: this.editedUser.firstName,
+      middleName: this.editedUser.middleName,
+      lastName: this.editedUser.lastName,
+      membershipId: this.editedUser.membershipId,
+      statusId: this.editedUser.statusId,
+      addressId: this.editedUser.addressId,
+      phoneNumber: this.editedUser.contactNumber,
+      email: this.editedUser.email
+    };
+
+    this.manageUserService.updateCustomer(updateCustomerDto).subscribe(
+      (res) => {
+        if (res && res.isSuccess) {
+          this.toastr.success('Customer updated successfully');
+          this.modalOpen = false;
+          this.getAllUsers();
+        } else {
+          alert(res && res.message ? res.message : 'Update failed');
+        }
+      },
+      (error) => {
+        console.error('Update failed:', error);
+        this.toastr.error('An error occurred during the update');
+      }
+    );
   }
 
   updateUser() {

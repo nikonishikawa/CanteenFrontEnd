@@ -1,0 +1,57 @@
+<div class="catalog-category">
+    <div class="manage-user-container">
+      <div class="addCategory">
+        <input type="button" (click)="openModal()" value="Add Position">
+      </div>
+      <div class="modal" [class.open]="addPositionModal">
+        <div class="modal-content">
+          <form class="register">
+            <div class="register-header-container">
+              <h1>Add Category</h1>
+              <button id="close-btn" type="button" (click)="closeModal()">X</button>
+            </div>
+            <div class="register-name-container">
+              <input type="text" name="position" [(ngModel)]="onPosition.position" placeholder="Position" required>
+            </div>
+            <button type="button" (click)="onPositionRegistration()">Add Data</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+<div class="data-container">
+    <div class="data-list">
+      <div class="data-item">
+        <div class="data-details">
+          <p id="item-id-label">PositionId</p>
+          <p id="category-label">Position</p>
+          <p id="action-label">Action</p>
+        </div>
+      </div>
+      <div class="data-item" *ngFor="let pos of position">
+        <div class="data-details">
+          <p>{{ pos.positionId }}</p>
+          <p>{{ pos.position }}</p>
+          <div class="user-details-buttons-container"> 
+            <button (click)="openEditPositionModal(pos)">Edit</button>
+            <button (click)="deletePosition(pos.positionId)">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" [class.open]="editPositionModal">
+    <div class="modal-content">
+      <div class="header-container">
+        <h1>Edit Position</h1>
+      </div>
+      <input type="text" [(ngModel)]="onPosition.positionId" name="positionId" placeholder="positionId">
+      <input type="text" [(ngModel)]="onPosition.position" name="position" placeholder="position">
+      <div class="action-button-container">
+        <button (click)="savePosition()">Update</button>
+        <button (click)="closeModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>

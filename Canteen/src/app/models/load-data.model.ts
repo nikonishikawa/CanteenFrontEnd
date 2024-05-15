@@ -3,6 +3,36 @@ export interface UserStatus {
     status: string;
   }
 
+export interface Position {
+    positionId: number;
+    position: string;
+  }
+
+  export interface UpdateVendorDto {
+    vendorId: number;
+    firstName: string;
+    middleName: string;
+    lastName: string;
+    positionId: number;
+    statusId: number;
+    addressId: number;
+    email: string;
+    phoneNumber: string;
+  }
+
+  export interface UpdateCustomerDto {
+    customerId: number;
+    firstName: string;
+    middleName: string;
+    lastName: string;
+    membershipId: number;
+    statusId: number;
+    addressId: number;
+    email: string;
+    phoneNumber: string;
+  }
+  
+
 export interface Membership {
     memberShipId: number;
     membership: string;
@@ -34,3 +64,4 @@ export interface Membership {
     price: number;
     quantitySold: number;
   }
+

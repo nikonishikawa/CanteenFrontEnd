@@ -21,7 +21,7 @@
             <span>Orders</span>
           </a>
         </li>
-        <li [ngClass]="{'nav_items-main-sub': isActive === 3}"
+        <li [routerLink]="['manage-vendor']" [ngClass]="{'nav_items-main-sub': isActive === 3}"
         (click)="toggleActive(3)">
           <a>
             <i class="fa-solid fa-qrcode">
@@ -75,6 +75,20 @@
               <i class="fa-solid fa-qrcode">
               </i>
               <span>Address</span>
+            </a>
+          </li>
+          <li [routerLink]="['manage-catalog-position']" [ngClass]="{'nav_items-sub': isSubActive === 3}" (click)="toggleSubActive(3)">
+            <a>
+              <i class="fa-solid fa-qrcode">
+              </i>
+              <span>Position</span>
+            </a>
+          </li>
+          <li [routerLink]="['manage-catalog-membership']" [ngClass]="{'nav_items-sub': isSubActive === 4}" (click)="toggleSubActive(4)">
+            <a>
+              <i class="fa-solid fa-qrcode">
+              </i>
+              <span>Membership</span>
             </a>
           </li>
         </ul>

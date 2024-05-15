@@ -73,7 +73,7 @@
     background-color: #BF0525;
   }
   
-  select {
+  input, select {
     margin: 10px 0;
     padding: 10px;
     border: 1px solid #ccc;
@@ -146,19 +146,21 @@
   }
   
   .user-details {
+    font-size: 20px;
     font-size: 15px;
     display: flex;
     height: 100px;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    padding: 0 0 0 30px;
     padding: 0 0 0 0;
     border-radius: 20px;
     border: 1px solid rgba(0, 0, 0, 0.15);
     box-shadow: 0 10px 5.4px rgba(0, 0, 0, 0.15);
   }
   
-  .user-details p, .user-details button{
+  .user-details p, .user-details button {
     flex: 1;
     width: 0;
     margin: 0;
@@ -205,3 +207,211 @@
     text-transform: capitalize;
   }
   
+  .manage-user-container {
+      width: 100%;
+      height: 100%;
+    }
+    
+    .addUser input {
+      margin: 0 15px 0 0;
+      padding: 8px 24px 8px 24px;
+      border-radius: 20px;
+      border: solid 2px #DA062E;
+      background-color: #fff;
+      font-weight: 600;
+      color: #DA062E;
+    }
+    
+    .addUser {
+      margin: 0 0 30px 0;
+    }
+    
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.4);
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .modal.open {
+      display: flex;
+    }
+    
+    .modal-content {
+      background-color: #fefefe;
+      padding: 20px;
+      border-radius: 10px;
+      width: 50%;
+      max-width: 600px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+    
+    .register, .edit {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .header-container, .register-header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .action-button-container {
+      display: flex;
+      justify-content: flex-end;
+    }
+    
+    button {
+      margin: 5px;
+      padding: 10px 20px;
+      background-color: #DA062E;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    
+    button:hover {
+      background-color: #BF0525;
+    }
+    
+    input, select {
+      margin: 10px 0;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      width: 100%;
+    }
+    
+    .register, .edit {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+    
+    .register h1, .edit h1 {
+      margin: 20px 0 30px 0;
+    }
+    
+    .register input, .edit input {
+      width: 100%;
+      padding: 17px;
+      font-size: 18px;
+      margin: 0;
+      height: 40px;
+      margin-bottom: 15px;
+      border-radius: 15px;
+      border: 1px solid #9ba0a3;
+      color: #000;
+    }
+    
+    .register-header-container, .header-container {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+    }
+    
+    #close-btn {
+      width: fit-content;
+      height: fit-content;
+      background-color: transparent;
+      border: transparent;
+      color: #DA062E;
+    }
+    
+    .register button, .action-button-container button {
+      width: 100%;
+      padding: 15px 30px;
+      color: #fff;
+      font-size: 21px;
+      font-weight: 600;
+      background-color: #DA062E;
+      border-radius: 20px;
+      border: 1px solid #DA062E;
+      margin-top: 10px;
+    }
+    
+    .users-container {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .user-list {
+      justify-content: space-between;
+    }
+    
+    .user-item {
+      width: 100%;
+      margin-bottom: 50px;
+    }
+    
+    .user-details {
+      font-size: 20px;
+      font-size: 15px;
+      display: flex;
+      height: 100px;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 0 0 30px;
+      padding: 0 0 0 0;
+      border-radius: 20px;
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      box-shadow: 0 10px 5.4px rgba(0, 0, 0, 0.15);
+    }
+    
+    .user-details p, .user-details button {
+      flex: 1;
+      width: 0;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      justify-self: center;
+    }
+    
+    .user-details img {
+      width: 50px;
+      background-color: #fff;
+      border-radius: 100%;
+      padding: 15px;
+      border: 1px solid #8a8a8a;
+    }
+  
+    .user-details .action-button-container {
+      display: flex;
+      flex-direction: column;
+      padding: 15px;
+      width: 170px;
+    }
+  
+    .action-button-container button{
+    flex: 1;
+    width: 100%;
+    font-size: 15px;
+    padding: 6px;
+    }
+  
+    .action-button-container button:first-child {
+      margin-bottom: 10px;
+      background-color: #ecad00;
+      border-radius: 20px;
+      border: 1px solid #ecad00;
+      color: #fff;
+    }
+    
+    #customer-id-label, #name-label, #membership-label, #address-label, #status-label, #action-label {
+      font-weight: 800;
+    }
+    
+    .user-details #name {
+      text-transform: capitalize;
+    }

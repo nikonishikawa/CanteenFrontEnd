@@ -1,0 +1,66 @@
+<div class="catalog-category">
+    <div class="manage-user-container">
+      <div class="addCategory">
+        <input type="button" (click)="openModal()" value="Add Membesrhip">
+      </div>
+      <div class="modal" [class.open]="addMembershipModal">
+        <div class="modal-content">
+          <form class="register">
+            <div class="register-header-container">
+              <h1>Add Category</h1>
+              <button id="close-btn" type="button" (click)="closeModal()">X</button>
+            </div>
+            <div class="register-name-container">
+              <input type="text" name="membership"  placeholder="membership name" required>
+              <input type="text" name="loyaltyPoints"  placeholder="loyaltyPoints" required>
+              <input type="text" name="status"  placeholder="status" required>
+            </div>
+            <button type="button" (click)="onMembershipRegistration()">Add Membership</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+     
+    <div class="data-container">
+        <div class="data-list">
+          <div class="data-item">
+            <div class="data-details">
+              <p id="item-id-label">MembershipId</p>
+              <p id="category-label">MembershipName</p>
+              <p id="description-label">loyaltyPoints/p>
+                <p id="description-label">Status/p>
+              <p id="action-label">Action</p>
+            </div>
+          </div>
+          <div class="data-item" *ngFor="let memb of membership">
+            <div class="data-details">
+              <p>{{ memb.memberShipId }}</p>
+              <p>{{ memb.membership }}</p>
+              <p>{{ memb.loyaltyPoints }}</p>
+              <p>{{ memb.status }}</p>
+              <div class="user-details-buttons-container">
+                <button (click)="openEditMembershipModal(memb)">Edit</button>
+                <button (click)="deleteMembership(memb.memberShipId)">Delete</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div class="modal" [class.open]="editMembershipModal">
+          <div class="modal-content">
+            <div class="header-container">
+              <h1>Edit Membership</h1>
+            </div>
+            <input type="text" [(ngModel)]="onMembership.memberShipId" name="memberShipId" placeholder="memberShipId">
+            <input type="text" [(ngModel)]="onMembership.membership" name="membership" placeholder="membership">
+            <input type="text" [(ngModel)]="onMembership.loyaltyPoints" name="loyaltyPoints" placeholder="loyaltyPoints">
+            <input type="text" [(ngModel)]="onMembership.status" name="status" placeholder="status">
+            <div class="action-button-container">
+              <button (click)="saveMembership()">Update</button>
+              <button (click)="closeModal()">Cancel</button>
+            </div>
+          </div>
+        </div>
+</div>

@@ -11,15 +11,16 @@
                     <button id="close-btn" (click)="closeModal()">X</button>
                 </div>
                 <div class="register-name-container">
-                    <input type="text" name="firstName" [(ngModel)]="onAddress.barangay" placeholder="barangay" required="">
-                    <input type="text" name="middleName" [(ngModel)]="onAddress.postalCode" placeholder="postal code" required="">
-                    <input type="text" name="lastName" [(ngModel)]="onAddress.region" placeholder="region" required="">
+                    <input type="text" name="firstName"  placeholder="barangay" required="">
+                    <input type="text" name="middleName"  placeholder="postal code" required="">
+                    <input type="text" name="lastName"  placeholder="region" required="">
                 </div>
                 <button type="button" (click)="onAddressRegistration()">Add Address</button>
             </form>
         </div>
     </div>
-  </div>  
+</div>  
+ 
   <div class="data-container">
     <div class="data-list">
       <div class="data-item">
@@ -44,6 +45,21 @@
         </div>
       </div>
     </div> 
-  </div>  
+  </div> 
+  
+  <div class="modal" [class.open]="editAddressModal">
+    <div class="modal-content">
+      <div class="header-container">
+        <h1>Edit Address</h1>
+      </div>
+      <input type="text" [(ngModel)]="onAddress.barangay" name="barangay" placeholder="barangay">
+      <input type="text" [(ngModel)]="onAddress.region" name="region" placeholder="region">
+      <input type="text" [(ngModel)]="onAddress.postalCode" name="postalCode" placeholder="postalCode">
+      <div class="action-button-container">
+        <button (click)="saveCustomer()">Update</button>
+        <button (click)="closeModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
 </div>  
 

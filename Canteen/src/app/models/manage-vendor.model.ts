@@ -3,6 +3,8 @@ export interface getAllVendor {
     nameId: number;
     genAdressId: number;
     addressId: number;
+    positionId: number;
+    statusId: number;
     firstName: string;
     middleName: string;
     lastName: string;
