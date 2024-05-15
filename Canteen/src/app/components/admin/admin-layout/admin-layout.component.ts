@@ -32,6 +32,7 @@ export class AdminLayoutComponent implements OnInit {
   toggleActive(index: number) {
     this.isActive = index === 8 ? 1 : (index === this.isActive ? 1 : index);
     this.isSubActive = 1;
+    this.toggleSubActive(1);
     this.layoutService.setActiveIndex(this.isActive);
   }
   

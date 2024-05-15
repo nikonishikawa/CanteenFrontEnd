@@ -1,4 +1,5 @@
-<div class="manage-user-container">
+<div class="catalog-address">
+  <div class="manage-user-container">
     <div class="addAddress">
         <input type="button" (click)="addUserModal()" value="Add Address">
     </div>
@@ -18,17 +19,16 @@
             </form>
         </div>
     </div>
-</div>  
-<div class="data-container">
+  </div>  
+  <div class="data-container">
     <div class="data-list">
       <div class="data-item">
         <div class="data-details">
-          <p id="item-id-label">addressId</p>
+          <p id="item-id-label">address Id</p>
           <p id="category-label">barangay</p>
           <p id="description-label">postalCode</p>
           <p id="address-label">region</p>
           <p id="action-label">Action</p>
-          <p id="action-label">Delete</p>
         </div>
       </div>
       <div class="data-item" *ngFor="let item of address">
@@ -37,12 +37,13 @@
           <p>{{ item.barangay }}</p>
           <p>{{ item.postalCode }}</p>
           <p>{{ item.region }}</p>
-          <button (click)="openEditAddressModal(item)">Edit</button>
-          <button (click)="deleteAddress(item.addressId)">Delete</button>
           <div class="data-details-buttons-container">
+            <button (click)="openEditAddressModal(item)">Edit</button>
+            <button (click)="deleteAddress(item.addressId)">Delete</button>
           </div>
         </div>
       </div>
-    </div>
-</div>    
+    </div> 
+  </div>  
+</div>  
 
