@@ -6,7 +6,6 @@ import { ManageAddressService } from '../../../../services/manage-address.servic
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ManageCategoryService } from '../../../../services/manage-category.service';
-import { CategoryDto } from '../../../../models/manage-category.model';
 
 @Component({
   selector: 'app-manage-address',
@@ -18,11 +17,10 @@ import { CategoryDto } from '../../../../models/manage-category.model';
 
 export class ManageAddressComponent implements OnInit {
   address: Address[] = [];
+  addAddress: Address = {} as Address;
   onAddress: Address = {} as Address;
-  category: CategoryDto[] = [];
-  onCategory: CategoryDto = {} as CategoryDto;
   addAddressModal: boolean = false;
-  addCategoryModal: boolean = false;
+  editAddressModal: boolean = false;
 
   constructor(
     private manageAddressService: ManageAddressService,
@@ -55,10 +53,11 @@ export class ManageAddressComponent implements OnInit {
   }
   closeModal() {
     this.addAddressModal = false;
+    this.editAddressModal = false;
   }
 
   onAddressRegistration() {
-    this.manageAddressService.addAddress(this.onAddress).subscribe(
+    this.manageAddressService.addAddress(this.addAddress).subscribe(
       (res) => {
         if (res && res.isSuccess) {
           this.toastr.success('Address Registration Successful'); 
@@ -74,14 +73,35 @@ export class ManageAddressComponent implements OnInit {
       }
     );
   }
-  openEditAddressModal(address: Address){
-    this.addCategoryModal = true;
-    this.onAddress = {
-      addressId: address.addressId,
-      barangay:  address.barangay,
-      postalCode: address.postalCode,
-      region: address.region
-    }
+
+  openEditAddressModal(adress: Address){
+    this.onAddress = { ...adress}
+    this.editAddressModal = true;
+  }
+
+  saveCustomer() {
+    const updateAddress: Address = {
+      addressId: this.onAddress.addressId,
+      barangay: this.onAddress.barangay,
+      region: this.onAddress.region,
+      postalCode: this.onAddress.postalCode
+    };
+
+    this.manageAddressService.editAddress(updateAddress).subscribe(
+      (res) => {
+        if (res && res.isSuccess) {
+          this.toastr.success('Address updated successfully');
+          this.loadAddress();
+          this.editAddressModal = false;
+        } else {
+          alert(res && res.message ? res.message : 'Update failed');
+        }
+      },
+      (error) => {
+        console.error('Update failed:', error);
+        this.toastr.error('An error occurred during the update');
+      }
+    );
   }
 
   deleteAddress(AddressId: number) {

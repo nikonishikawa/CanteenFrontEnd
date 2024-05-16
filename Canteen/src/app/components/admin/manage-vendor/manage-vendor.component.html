@@ -39,22 +39,29 @@
             <input type="text" [(ngModel)]="editedVendor.firstName" name="firstName" placeholder="First Name">
             <input type="text" [(ngModel)]="editedVendor.middleName" name="middleName" placeholder="Middle Name">
             <input type="text" [(ngModel)]="editedVendor.lastName" name="lastName" placeholder="Last Name">
-            <input type="text" [(ngModel)]="editedVendor.position" name="position" placeholder="Position">
-            <input type="text" [(ngModel)]="editedVendor.address" name="address" placeholder="Address">
-            <input type="email" [(ngModel)]="editedVendor.email" name="email" placeholder="Email">
-            <input type="text" [(ngModel)]="editedVendor.contactNumber" name="contactNumber" placeholder="Contact Number">
+            <select name="positionId" [(ngModel)]="editedVendor.positionId" required>
+              <option *ngFor="let pos of loadPos" [value]="pos.positionId">{{ pos.position }}</option>
+            </select>
+            <select name="statusId" [(ngModel)]="editedVendor.statusId" required>
+              <option *ngFor="let stat of loadStat" [value]="stat.userStatusId">{{ stat.status }}</option>
+            </select>
+            <select name="addressId" [(ngModel)]="editedVendor.addressId" required>
+              <option *ngFor="let add of address" [value]="add.addressId">{{ add.barangay }}</option>
+            </select>
+            <input type="email"name="email"  [(ngModel)]="editedVendor.email" placeholder="Email">
+            <input type="text" name="contactNumber" [(ngModel)]="editedVendor.contactNumber" placeholder="phone number" required="">
             <div class="action-button-container">
-              <!-- <button type="button" (click)="saveVendor()">Save</button> -->
+              <button type="button" (click)="saveVendor()">Save</button>
             </div>
           </form>
         </div>
       </div>
       
-  
     <div class="users-container">
       <div class="user-list">
         <div class="user-item">
           <div class="user-details">
+            <img src="https://static.vecteezy.com/system/resources/previews/000/422/799/original/avatar-icon-vector-illustration.jpg"/>
             <p id="customer-id-label">Vendor ID</p>
             <p id="name-label">Name</p>
             <p id="membership-label">Status</p>
@@ -75,10 +82,8 @@
             <p>{{ vendor.address }}</p>
             <p>{{ vendor.email }}</p>
             <p>{{ vendor.contactNumber }}</p>
-            <div class="action-button-container">
-              <button (click)="openEditModal(vendor)">Edit</button>
-              <button>Archive</button>
-            </div>
+            <button (click)="openEditModal(vendor)">Edit</button>
+            <button>Archive</button>
           </div>
         </div>
       </div>

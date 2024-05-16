@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, catchError, throwError } from 'rxjs';
 import { ApiResponseMessage } from '../models/apiresponsemessage.model';
 import { getAllVendor } from '../models/manage-vendor.model';
+import { UpdateVendorDto } from '../models/load-data.model';
 
 @Injectable({
   providedIn: 'root'
@@ -37,4 +38,21 @@ export class ManageVendorService {
     return this.http.get<ApiResponseMessage<getAllVendor[]>>(`${this.baseApiUrl}api/Vendor/GetAllVendorList`, { headers })
       .pipe(catchError(this.handleError));
   }
+
+  updateVendor(updateVendorDto: UpdateVendorDto): Observable<ApiResponseMessage<UpdateVendorDto>> {
+    const headers = this.getHeaders();
+    return this.http.post<ApiResponseMessage<UpdateVendorDto>>(`${this.baseApiUrl}api/Vendor/UpdateVendor`, updateVendorDto, { headers })
+      .pipe(catchError(this.handleError));
+  }
 }
+
+
+// <select name="positionId" [(ngModel)]="editedVendor.positionId" required>
+// <option *ngFor="let pos of loadPos" [value]="pos.positionId">{{ pos.position }}</option>
+// </select>
+// <div class="register-address-container">
+// <select name="addressId" [(ngModel)]="editedVendor.addressId" required>
+//   <option *ngFor="let addr of address" [value]="addr.addressId">{{ addr.barangay }}</option>
+// </select>
+// <input type="text" name="contactNumber" [(ngModel)]="editedVendor.contactNumber" placeholder="phone number" required="">
+// </div>

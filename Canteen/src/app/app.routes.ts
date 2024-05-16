@@ -19,6 +19,8 @@ import { ManageCatalogComponent } from './components/admin/manage-catalog/manage
 import { ManageFoodCategoryComponent } from './components/admin/manage-catalog/manage-food-category/manage-food-category.component';
 import { ManageAddressComponent } from './components/admin/manage-catalog/manage-address/manage-address.component';
 import { ManageVendorComponent } from './components/admin/manage-vendor/manage-vendor.component';
+import { ManagePositionComponent } from './components/admin/manage-catalog/manage-position/manage-position.component';
+import { ManageMembershipComponent } from './components/admin/manage-catalog/manage-membership/manage-membership.component';
 
 export const routes: Routes = [
   {
@@ -120,6 +122,16 @@ export const routes: Routes = [
       {
         path: 'manage-catalog-address',
         component: ManageAddressComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'manage-catalog-position',
+        component: ManagePositionComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'manage-catalog-membership',
+        component: ManageMembershipComponent,
         canActivate: [AuthGuard]
       },
       {

@@ -27,7 +27,6 @@
             <i class="fa-solid fa-qrcode">
             </i>
             <span>Manage User</span>
-            
             <div class="triangle"></div>
           </a>
         </li>
@@ -41,7 +40,7 @@
           </li>
           <li [routerLink]="['manage-user']" [ngClass]="{'nav_items-sub': isSubActive === 2}" (click)="toggleSubActive(2)">
             <a>
-              <i class="fa-solid fa-qrcode">
+              <i class="fa-solid fa-qrcode"> 
               </i>
               <span>Customers</span>
             </a>
@@ -76,6 +75,20 @@
               <i class="fa-solid fa-qrcode">
               </i>
               <span>Address</span>
+            </a>
+          </li>
+          <li [routerLink]="['manage-catalog-position']" [ngClass]="{'nav_items-sub': isSubActive === 3}" (click)="toggleSubActive(3)">
+            <a>
+              <i class="fa-solid fa-qrcode">
+              </i>
+              <span>Position</span>
+            </a>
+          </li>
+          <li [routerLink]="['manage-catalog-membership']" [ngClass]="{'nav_items-sub': isSubActive === 4}" (click)="toggleSubActive(4)">
+            <a>
+              <i class="fa-solid fa-qrcode">
+              </i>
+              <span>Membership</span>
             </a>
           </li>
         </ul>

@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, catchError, throwError } from 'rxjs';
+import { Observable, throwError, catchError } from 'rxjs';
 import { ApiResponseMessage } from '../models/apiresponsemessage.model';
-import { CategoryDto } from '../models/manage-catalog.model';
+import { MembershipDto } from '../models/manage-catalog.model';
 
 @Injectable({
   providedIn: 'root'
 })
-
-export class ManageCategoryService {
+export class ManageMembershipService {
 
   private baseApiUrl: string = environment.baseApiUrl;
   constructor(private http: HttpClient) { }
@@ -33,24 +32,24 @@ export class ManageCategoryService {
     return throwError('An error occurred. Please try again later.');
   }
 
-  getAllCategory(): Observable<ApiResponseMessage<CategoryDto[]>> {
+  getAllMembership(): Observable<ApiResponseMessage<MembershipDto[]>> {
     const headers = this.getHeaders();
-    return this.http.get<ApiResponseMessage<CategoryDto[]>>(`${this.baseApiUrl}api/Category/GetAllCategory`, { headers })
+    return this.http.get<ApiResponseMessage<MembershipDto[]>>(`${this.baseApiUrl}api/Membership/GetAllMembership`, { headers })
       .pipe(catchError(this.handleError));
   }
 
-  addCategory(AddCategory: CategoryDto): Observable<ApiResponseMessage<CategoryDto[]>> {
+  addMembership(AddMembership: MembershipDto): Observable<ApiResponseMessage<MembershipDto[]>> {
     const headers = this.getHeaders();
-    return this.http.post<ApiResponseMessage<CategoryDto[]>>(`${this.baseApiUrl}api/Category/InsertCategory`,  AddCategory);
+    return this.http.post<ApiResponseMessage<MembershipDto[]>>(`${this.baseApiUrl}api/Membership/InsertMembership`,  AddMembership);
   }
 
-  editCategory(UpdateCategory: CategoryDto): Observable<ApiResponseMessage<CategoryDto[]>> {
+  editMembership(UpdateMembership: MembershipDto): Observable<ApiResponseMessage<MembershipDto[]>> {
     const headers = this.getHeaders();
-    return this.http.post<ApiResponseMessage<CategoryDto[]>>(`${this.baseApiUrl}api/Category/UpdateCategory`,  UpdateCategory);
+    return this.http.post<ApiResponseMessage<MembershipDto[]>>(`${this.baseApiUrl}api/Membership/UpdateMembership`,  UpdateMembership);
   }
 
-  deleteCategory(categoryId: number): Observable<ApiResponseMessage<CategoryDto>> {
+  deleteMembership(membershipId: number): Observable<ApiResponseMessage<MembershipDto>> {
     const headers = new HttpHeaders(); 
-    return this.http.delete<ApiResponseMessage<CategoryDto>>(`${this.baseApiUrl}api/Category/DeleteCategory/${categoryId}`, { headers });
+    return this.http.delete<ApiResponseMessage<MembershipDto>>(`${this.baseApiUrl}api/Membership/DeleteMembership/${membershipId}`, { headers });
   }
 }

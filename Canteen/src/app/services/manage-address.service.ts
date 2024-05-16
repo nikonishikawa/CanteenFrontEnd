@@ -45,7 +45,7 @@ export class ManageAddressService {
 
   editAddress(UpdateAddress: Address): Observable<ApiResponseMessage<Address[]>> {
     const headers = this.getHeaders();
-    return this.http.put<ApiResponseMessage<Address[]>>(`${this.baseApiUrl}api/Address/UpdateAddress`,  UpdateAddress);
+    return this.http.post<ApiResponseMessage<Address[]>>(`${this.baseApiUrl}api/Address/UpdateAddress`,  UpdateAddress);
   }
 
   

@@ -6,7 +6,7 @@ import { ManageAddressService } from '../../../../services/manage-address.servic
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ManageCategoryService } from '../../../../services/manage-category.service';
-import { CategoryDto } from '../../../../models/manage-category.model';
+import { CategoryDto } from '../../../../models/manage-catalog.model';
 
 @Component({
   selector: 'app-manage-food-category',
@@ -17,15 +17,13 @@ import { CategoryDto } from '../../../../models/manage-category.model';
 })
 
 export class ManageFoodCategoryComponent implements OnInit {
-  address: Address[] = [];
-  onAddress: Address = {} as Address;
   category: CategoryDto[] = [];
+  addCategory: CategoryDto = {} as CategoryDto;
   onCategory: CategoryDto = {} as CategoryDto;
-  addAddressModal: boolean = false;
   addCategoryModal: boolean = false;
+  editCategoryModal: boolean = false;
 
   constructor(
-    private manageAddressService: ManageAddressService,
     private manageCategoryService: ManageCategoryService,
     private router: Router,
     private toastr: ToastrService
@@ -35,12 +33,54 @@ export class ManageFoodCategoryComponent implements OnInit {
     this.loadCategory();
   }
 
-  loadCategory() {
+  
+
+  addCatModal(): void {
+    this.addCategoryModal = true;
+  }
+
+  closeModal(): void {
+    this.addCategoryModal = false;
+    this.editCategoryModal = false;
+  }
+
+
+  openEditCatModal(category: CategoryDto): void {
+    this.onCategory = { ...category };
+    this.editCategoryModal = true; 
+  }
+  
+
+  saveCustomer() {
+    const updateCategory: CategoryDto = {
+      categoryId: this.onCategory.categoryId,
+      category: this.onCategory.category,
+      description: this.onCategory.description,
+    };
+
+    this.manageCategoryService.editCategory(updateCategory).subscribe(
+      (res) => {
+        if (res && res.isSuccess) {
+          this.toastr.success('Category updated successfully');
+          this.editCategoryModal = false;
+          this.loadCategory();
+        } else {
+          alert(res && res.message ? res.message : 'Update failed');
+        }
+      },
+      (error) => {
+        console.error('Update failed:', error);
+        this.toastr.error('An error occurred during the update');
+      }
+    );
+  }
+  
+  loadCategory(): void {
     this.manageCategoryService.getAllCategory().subscribe({
       next: (res) => {
         if (res && res.data) {
           this.category = res.data;
-          console.log("load category", this.category);
+          console.log('load category', this.category);
         }
       },
       error: (error) => {
@@ -48,56 +88,40 @@ export class ManageFoodCategoryComponent implements OnInit {
       }
     });
   }
-  
-  addCatModal() {
-    this.addCategoryModal = true;
-    
-  }
-  closeCatModal() {
-    this.addCategoryModal = false;
-  }
 
-  onCategoryRegistration() {
-    this.manageCategoryService.addCategory(this.onCategory).subscribe(
-      (res) => {
+  
+  onCategoryRegistration(): void {
+    this.manageCategoryService.addCategory(this.addCategory).subscribe({
+      next: (res) => {
         if (res && res.isSuccess) {
-          this.toastr.success('Category Registration Successful'); 
+          this.toastr.success('Category Registration Successful');
           this.addCategoryModal = false;
           this.loadCategory();
         } else {
           alert(res && res.message ? res.message : 'Category Registration failed');
         }
       },
-      (error) => {
+      error: (error) => {
         console.error('Category Registration failed:', error);
         this.toastr.error('An error occurred during Category Registration');
       }
-    );
+    });
   }
 
-  openEditCatModal(category: CategoryDto){
-    this.addCategoryModal = true;
-    this.onCategory = {
-      categoryId: category.categoryId,
-      category:  category.category,
-      description: category.description
-
-    }
-  }
-
-  deleteCategory(categoryId: number) {
-      this.manageCategoryService.deleteCategory(categoryId).subscribe(
-        (res) => {
-          if (res && res.isSuccess) {
-            this.toastr.warning('Category Deletion Successful');
-          } else {
-            alert(res && res.message ? res.message : 'Category Deletion failed');
-          }
-        },
-        (error) => {
-          console.error('Category Deletion failed:', error);
-          this.toastr.error('An error occurred during Category Deletion');
+  deleteCategory(categoryId: number): void {
+    this.manageCategoryService.deleteCategory(categoryId).subscribe({
+      next: (res) => {
+        if (res && res.isSuccess) {
+          this.toastr.warning('Category Deletion Successful');
+          this.loadCategory();
+        } else {
+          alert(res && res.message ? res.message : 'Category Deletion failed');
         }
-      );
-    }
+      },
+      error: (error) => {
+        console.error('Category Deletion failed:', error);
+        this.toastr.error('An error occurred during Category Deletion');
+      }
+    });
+  }
 }
