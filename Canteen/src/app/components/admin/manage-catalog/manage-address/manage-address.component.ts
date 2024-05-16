@@ -17,6 +17,7 @@ import { ManageCategoryService } from '../../../../services/manage-category.serv
 
 export class ManageAddressComponent implements OnInit {
   address: Address[] = [];
+  addAddress: Address = {} as Address;
   onAddress: Address = {} as Address;
   addAddressModal: boolean = false;
   editAddressModal: boolean = false;
@@ -56,7 +57,7 @@ export class ManageAddressComponent implements OnInit {
   }
 
   onAddressRegistration() {
-    this.manageAddressService.addAddress(this.onAddress).subscribe(
+    this.manageAddressService.addAddress(this.addAddress).subscribe(
       (res) => {
         if (res && res.isSuccess) {
           this.toastr.success('Address Registration Successful'); 

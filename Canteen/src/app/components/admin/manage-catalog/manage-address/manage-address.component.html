@@ -11,9 +11,9 @@
                     <button id="close-btn" (click)="closeModal()">X</button>
                 </div>
                 <div class="register-name-container">
-                    <input type="text" name="firstName"  placeholder="barangay" required="">
-                    <input type="text" name="middleName"  placeholder="postal code" required="">
-                    <input type="text" name="lastName"  placeholder="region" required="">
+                    <input type="text" name="barangay" [(ngModel)]="addAddress.barangay" placeholder="barangay" required="">
+                    <input type="text" name="postal code" [(ngModel)]="addAddress.postalCode" placeholder="postal code" required="">
+                    <input type="text" name="region"  [(ngModel)]="addAddress.region" placeholder="region" required="">
                 </div>
                 <button type="button" (click)="onAddressRegistration()">Add Address</button>
             </form>

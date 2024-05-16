@@ -11,8 +11,8 @@
               <button id="close-btn" type="button" (click)="closeModal()">X</button>
             </div>
             <div class="register-name-container">
-              <input type="text" name="category" placeholder="Category Name" required>
-              <input type="text" name="description" placeholder="Description" required>
+              <input type="text" name="category" [(ngModel)]="addCategory.category" placeholder="Category Name" required>
+              <input type="text" name="description" [(ngModel)]="addCategory.description" placeholder="Description" required>
             </div>
             <button type="button" (click)="onCategoryRegistration()">Add Category</button>
           </form>

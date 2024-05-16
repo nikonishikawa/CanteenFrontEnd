@@ -7,13 +7,13 @@
         <div class="modal-content">
           <form class="register">
             <div class="register-header-container">
-              <h1>Add Category</h1>
+              <h1>Add Membership</h1>
               <button id="close-btn" type="button" (click)="closeModal()">X</button>
             </div>
             <div class="register-name-container">
-              <input type="text" name="membership"  placeholder="membership name" required>
-              <input type="text" name="loyaltyPoints"  placeholder="loyaltyPoints" required>
-              <input type="text" name="status"  placeholder="status" required>
+              <input type="text" name="membership" [(ngModel)]="addMembership.membership" placeholder="membership name" required>
+              <input type="text" name="loyaltyPoints" [(ngModel)]="addMembership.loyaltyPoints"placeholder="loyaltyPoints" required>
+              <input type="text" name="status" [(ngModel)]="addMembership.status" placeholder="status" required>
             </div>
             <button type="button" (click)="onMembershipRegistration()">Add Membership</button>
           </form>

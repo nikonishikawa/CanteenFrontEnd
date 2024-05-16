@@ -18,6 +18,7 @@ import { CategoryDto } from '../../../../models/manage-catalog.model';
 
 export class ManageFoodCategoryComponent implements OnInit {
   category: CategoryDto[] = [];
+  addCategory: CategoryDto = {} as CategoryDto;
   onCategory: CategoryDto = {} as CategoryDto;
   addCategoryModal: boolean = false;
   editCategoryModal: boolean = false;
@@ -90,7 +91,7 @@ export class ManageFoodCategoryComponent implements OnInit {
 
   
   onCategoryRegistration(): void {
-    this.manageCategoryService.addCategory(this.onCategory).subscribe({
+    this.manageCategoryService.addCategory(this.addCategory).subscribe({
       next: (res) => {
         if (res && res.isSuccess) {
           this.toastr.success('Category Registration Successful');

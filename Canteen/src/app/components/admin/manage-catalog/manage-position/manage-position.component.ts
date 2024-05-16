@@ -15,6 +15,7 @@ import { ManagePositionService } from '../../../../services/manage-position.serv
 })
 export class ManagePositionComponent implements OnInit {
   position: PositionDto[] = [];
+  addPosition: PositionDto = {} as PositionDto;
   onPosition: PositionDto = {} as PositionDto;
   addPositionModal: boolean = false;
   editPositionModal: boolean = false;
@@ -53,7 +54,7 @@ export class ManagePositionComponent implements OnInit {
   }
 
   onPositionRegistration(): void {
-    this.managePositionService.addPosition(this.onPosition).subscribe({
+    this.managePositionService.addPosition(this.addPosition).subscribe({
       next: (res) => {
         if (res && res.isSuccess) {
           this.toastr.success('Position Registration Successful');

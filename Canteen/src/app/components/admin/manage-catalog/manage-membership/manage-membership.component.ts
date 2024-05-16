@@ -17,6 +17,7 @@ import { UserStatus } from '../../../../models/load-data.model';
 })
 export class ManageMembershipComponent implements OnInit {
   membership: MembershipDto[] = [];
+  addMembership: MembershipDto = {} as MembershipDto;
   onMembership: MembershipDto = {} as MembershipDto;
   addMembershipModal: boolean = false;
   editMembershipModal: boolean = false;
@@ -58,7 +59,7 @@ export class ManageMembershipComponent implements OnInit {
   }
 
   onMembershipRegistration(): void {
-    this.manageMembershipService.addMembership(this.onMembership).subscribe({
+    this.manageMembershipService.addMembership(this.addMembership).subscribe({
       next: (res) => {
         if (res && res.isSuccess) {
           this.toastr.success('Membership Registration Successful');
