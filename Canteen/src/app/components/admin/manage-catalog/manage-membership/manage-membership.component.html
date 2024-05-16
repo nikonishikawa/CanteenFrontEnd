@@ -53,10 +53,11 @@
             <div class="header-container">
               <h1>Edit Membership</h1>
             </div>
-            <input type="text" [(ngModel)]="onMembership.memberShipId" name="memberShipId" placeholder="memberShipId">
             <input type="text" [(ngModel)]="onMembership.membership" name="membership" placeholder="membership">
             <input type="text" [(ngModel)]="onMembership.loyaltyPoints" name="loyaltyPoints" placeholder="loyaltyPoints">
-            <input type="text" [(ngModel)]="onMembership.status" name="status" placeholder="status">
+            <select name="status" [(ngModel)]="onMembership.status" required>
+              <option *ngFor="let stat of loadUser" [value]="stat.status" name="status" placeholder="Status" >{{ stat.status }} </option>
+            </select>
             <div class="action-button-container">
               <button (click)="saveMembership()">Update</button>
               <button (click)="closeModal()">Cancel</button>

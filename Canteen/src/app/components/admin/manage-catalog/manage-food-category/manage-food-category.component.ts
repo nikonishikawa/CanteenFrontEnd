@@ -32,6 +32,18 @@ export class ManageFoodCategoryComponent implements OnInit {
     this.loadCategory();
   }
 
+  
+
+  addCatModal(): void {
+    this.addCategoryModal = true;
+  }
+
+  closeModal(): void {
+    this.addCategoryModal = false;
+    this.editCategoryModal = false;
+  }
+
+
   openEditCatModal(category: CategoryDto): void {
     this.onCategory = { ...category };
     this.editCategoryModal = true; 
@@ -61,18 +73,7 @@ export class ManageFoodCategoryComponent implements OnInit {
       }
     );
   }
-
-  addCatModal(): void {
-    this.addCategoryModal = true;
-  }
-
-  closeCatModal(): void {
-    this.addCategoryModal = false;
-  }
-  closeCatEditModal(): void {
-    this.editCategoryModal = false;
-  }
-
+  
   loadCategory(): void {
     this.manageCategoryService.getAllCategory().subscribe({
       next: (res) => {

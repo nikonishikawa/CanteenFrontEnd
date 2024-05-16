@@ -31,7 +31,6 @@ export class ManagePositionComponent implements OnInit {
 
   openModal(): void {
     this.addPositionModal = true;
-    this.editPositionModal = true;
   }
 
   closeModal(): void {

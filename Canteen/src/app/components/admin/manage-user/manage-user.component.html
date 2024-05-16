@@ -18,12 +18,10 @@
             <input type="text" name="middleName" [(ngModel)]="registernUser.info.middleName" placeholder="middle name" required="">
             <input type="text" name="lastName" [(ngModel)]="registernUser.info.lastName" placeholder="last name" required="">
           </div>
-          <div class="register-address-container">
-            <select name="addressId" [(ngModel)]="getUser.addressId" required>
-              <option *ngFor="let addr of address" [value]="addr.addressId">{{ addr.barangay }}</option>
+            <select name="addressId" [(ngModel)]="registernUser.info.addressId" required>
+              <option *ngFor="let addr of address" [value]="addr.addressId" name="barangay">{{ addr.barangay }}</option>
             </select>
             <input type="text" name="contactNumber" [(ngModel)]="registernUser.info.contactNumber" placeholder="phone number" required="">
-          </div>
           <button type="button" (click)="onRegister()">Register</button>
         </form>
       </div>

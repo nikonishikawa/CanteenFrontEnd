@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { LoadDataService } from '../../../../services/load-data.service';
+import { UserStatus } from '../../../../models/load-data.model';
 
 @Component({
   selector: 'app-manage-membership',
@@ -18,20 +20,22 @@ export class ManageMembershipComponent implements OnInit {
   onMembership: MembershipDto = {} as MembershipDto;
   addMembershipModal: boolean = false;
   editMembershipModal: boolean = false;
+  loadUser: UserStatus[] = [];
 
   constructor(
     private manageMembershipService: ManageMembershipService,
+    private loadDataService: LoadDataService,
     private router: Router,
     private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
     this.loadMembership();
+    this.loadStatus();
   }
 
   openModal(): void {
-    this.addMembershipModal = true;
-    this.editMembershipModal = true;
+    this.addMembershipModal = true; 
   }
 
   closeModal(): void {
@@ -90,6 +94,7 @@ export class ManageMembershipComponent implements OnInit {
           this.toastr.success('Data updated successfully');
           this.editMembershipModal = false;
           this.loadMembership();
+          this.loadStatus();
         } else {
           alert(res && res.message ? res.message : 'Update failed');
         }
@@ -114,6 +119,21 @@ export class ManageMembershipComponent implements OnInit {
       error: (error) => {
         console.error('Membership Deletion failed:', error);
         this.toastr.error('An error occurred during Membership Deletion');
+      }
+    });
+  }
+
+  
+  loadStatus(): void {
+    this.loadDataService.getUserStatus().subscribe({
+      next: (res) => {
+        if (res && res.data) {
+          this.loadUser = res.data;
+          console.log('Received Status data:', res.data);
+        }
+      },
+      error: (err) => {
+        console.error('Error fetching Status data:', err);
       }
     });
   }

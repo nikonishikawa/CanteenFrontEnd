@@ -8,11 +8,11 @@
           <form class="register">
             <div class="register-header-container">
               <h1>Add Category</h1>
-              <button id="close-btn" type="button" (click)="closeCatModal()">X</button>
+              <button id="close-btn" type="button" (click)="closeModal()">X</button>
             </div>
             <div class="register-name-container">
-              <input type="text" name="category" [(ngModel)]="onCategory.category" placeholder="Category Name" required>
-              <input type="text" name="description" [(ngModel)]="onCategory.description" placeholder="Description" required>
+              <input type="text" name="category" placeholder="Category Name" required>
+              <input type="text" name="description" placeholder="Description" required>
             </div>
             <button type="button" (click)="onCategoryRegistration()">Add Category</button>
           </form>
@@ -55,7 +55,7 @@
             <input type="text" [(ngModel)]="onCategory.description" name="description" placeholder="description">
             <div class="action-button-container">
               <button (click)="saveCustomer()">Update</button>
-              <button (click)="closeCatEditModal()">Cancel</button>
+              <button (click)="closeModal()">Cancel</button>
             </div>
           </div>
         </div>
