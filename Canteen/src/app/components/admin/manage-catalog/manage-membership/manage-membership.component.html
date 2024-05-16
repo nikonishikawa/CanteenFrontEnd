@@ -1,6 +1,6 @@
 <div class="catalog-category">
     <div class="manage-user-container">
-      <div class="addCategory">
+      <div class="addMembership">
         <input type="button" (click)="openModal()" value="Add Membesrhip">
       </div>
       <div class="modal" [class.open]="addMembershipModal">
@@ -28,8 +28,8 @@
             <div class="data-details">
               <p id="item-id-label">MembershipId</p>
               <p id="category-label">MembershipName</p>
-              <p id="description-label">loyaltyPoints/p>
-                <p id="description-label">Status/p>
+              <p id="description-label">loyaltyPoints</p>
+              <p id="status-label">Status</p>
               <p id="action-label">Action</p>
             </div>
           </div>
@@ -38,7 +38,8 @@
               <p>{{ memb.memberShipId }}</p>
               <p>{{ memb.membership }}</p>
               <p>{{ memb.loyaltyPoints }}</p>
-              <p>{{ memb.status }}</p>
+              <p *ngIf="memb.status === 'Active'" style="color: #6BBC2B">{{ memb.status }}</p>
+              <p *ngIf="memb.status === 'Inactive'" style="color: red">{{ memb.status }}</p>
               <div class="user-details-buttons-container">
                 <button (click)="openEditMembershipModal(memb)">Edit</button>
                 <button (click)="deleteMembership(memb.memberShipId)">Delete</button>

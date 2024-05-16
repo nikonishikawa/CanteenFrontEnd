@@ -1,4 +1,4 @@
-.addCategory input {
+.addAddress input {
     margin: 0 15px 0 0;
     padding: 8px 24px 8px 24px;
     border-radius: 20px;
@@ -6,10 +6,11 @@
     background-color: #fff;
     font-weight: 600;
     color: #DA062E;
+    font-size: 15px
   }
-  
 
-  .addCategory {
+  .addAddress {
+    width: fit-content;
     margin: 0 0 30px 0;
   }
 
