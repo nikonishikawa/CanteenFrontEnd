@@ -14,14 +14,14 @@ import { Component, OnInit } from '@angular/core';
 import { getAllUser } from '../../../models/manage-user.model';
 
 @Component({
-  selector: 'app-manage-order',
+  selector: 'app-vendor-order',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './manage-order.component.html',
-  styleUrl: './manage-order.component.css'
+  templateUrl: './vendor-order.component.html',
+  styleUrl: './vendor-order.component.css'
 })
 
-export class ManageOrderComponent implements OnInit {
+export class VendorOrderComponent implements OnInit {
   customer: CustomerById = {} as CustomerById;
   tray: TrayItemsDTO = {} as TrayItemsDTO;
   orderItems: orderItems[] =  [];
@@ -61,7 +61,7 @@ export class ManageOrderComponent implements OnInit {
     this.orderService.updateOrderStatus(orderId, newStatus).subscribe({
       next: (res) => {
         if (res.isSuccess) {
-          this.toastr.show("Status updated successfully");
+          console.log("Status updated successfully");
           this.getOrders(this.selectedStatus, this.currentIndex); 
         } else {
           console.error("Error updating status:", res.message);
@@ -77,7 +77,7 @@ export class ManageOrderComponent implements OnInit {
     this.orderService.updateOrderStatusCompleted(orderId, newStatus).subscribe({
       next: (res) => {
         if (res.isSuccess) {
-          this.toastr.show("Status updated successfully");
+          console.log("Status updated successfully");
           this.getOrders(this.selectedStatus, this.currentIndex); 
         } else {
           console.error("Error updating status:", res.message);
@@ -89,17 +89,21 @@ export class ManageOrderComponent implements OnInit {
     });
   }
   
+  
   getOrders(selectedStatus: string, index: number) {
     this.orderService.getAllOrders().subscribe({
       next: (res) => {
         if (res.isSuccess) {
           this.orderItems = res.data;
+          
+          console.log("Response", res);
           this.orderItems.forEach(orderItem => {
             this.loadItem(orderItem.item, orderItem);
           });
           if (this.orderItems && this.orderItems.length > 0) {
             
             this.preprocessOrderItems(this.orderItems, selectedStatus, index);
+            console.log("this: " + selectedStatus);
           } else {
             console.error("Order items array is empty or undefined");
           }
@@ -118,15 +122,18 @@ export class ManageOrderComponent implements OnInit {
       next: (res) => {
         if (res.isSuccess){
           this.status = res.data;
+          console.log("Status", res)
         }
       }
     })
   }
 
-  getStatusName(categoryId: number): string | number {
-    const categoryIdNumber = parseInt(categoryId.toString(), 10);
+  getStatusName(categoryId: any): any {
+    console.log(categoryId);
+    const categoryIdNumber = parseInt(categoryId, 10);
     const correspondingCategory = this.status.find(cat => cat.statusId === categoryIdNumber);
     this.isActive = categoryIdNumber;
+    console.log(categoryIdNumber, correspondingCategory);
     return correspondingCategory ? correspondingCategory.status : categoryId;
   }
 
@@ -148,16 +155,17 @@ export class ManageOrderComponent implements OnInit {
       (res) => {
         if (res.isSuccess) {
           this.menus = res.data;
+          console.log("Response", res);
 
           if (this.menus && this.menus.length > 0) {
             this.menus.forEach(menuItem => {
               if (menuItem && menuItem) {
-                menuItem.itemId
-                menuItem.item
-                menuItem.description
-                menuItem.isHalal
-                menuItem.price
-                menuItem.category
+                console.log("Item ID:", menuItem.itemId);
+                console.log("Item:", menuItem.item);
+                console.log("Description:", menuItem.description);
+                console.log("Is Halal:", menuItem.isHalal);
+                console.log("Price:", menuItem.price);
+                console.log("Category:", menuItem.category);
               } else {
                 console.error("Menu item or its data is undefined:", menuItem);
               }

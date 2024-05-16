@@ -10,18 +10,17 @@ import { FormsModule } from '@angular/forms';
 import { ManageMenuService } from '../../../services/manage-menu.service';
 
 @Component({
-  selector: 'app-manage-menu',
+  selector: 'app-vendor-menu',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './manage-menu.component.html',
-  styleUrl: './manage-menu.component.css'
+  templateUrl: './vendor-menu.component.html',
+  styleUrl: './vendor-menu.component.css'
 })
-
-
-export class ManageMenuComponent implements OnInit {
+export class VendorMenuComponent implements OnInit {
   menus: Menu[] = [];
   category: Category[] = [];
   filteredMenu: { [key: number]: Menu[] } = {};
+  trayItems: any[] = [];
   trayTempId: string | null = null; 
   selectedCategory: number = 0;
   groupedMenu: { [key: string]: Menu[] } = {};
@@ -65,6 +64,7 @@ export class ManageMenuComponent implements OnInit {
       response => {
         this.toastr.success("Added Item Successfully!");
         this.loadMenu(); 
+        console.log(response);
       },
       error => {
         console.error(error);
@@ -108,6 +108,7 @@ export class ManageMenuComponent implements OnInit {
         if (res && res.data) {
           this.menus = res.data;
           this.loadCategory();
+          console.log(this.menus);
           this.groupedMenu = this.groupByCategory(this.menus);
         }
       },
@@ -121,6 +122,7 @@ export class ManageMenuComponent implements OnInit {
     this.menuService.getAllCaetegory().subscribe({
       next: (res) => {
         if (res && res.data) {
+          console.log(res.data);
           this.category = res.data;
           this.filterMenu(0);
         }
@@ -135,7 +137,7 @@ export class ManageMenuComponent implements OnInit {
     this.setActiveIndex(this.filterSelected);  
   }
 
-  setActiveIndex(index: number | 0) {
+  setActiveIndex(index: any | 0) {
     this.activeIndex = index;
   }
 
@@ -143,7 +145,7 @@ export class ManageMenuComponent implements OnInit {
     return this.activeIndex;
   }
   
-  filterMenu(categoryId: number) {
+  filterMenu(categoryId: any) {
     this.filtSelect(categoryId);
     const uniqueCategories = [...new Set(this.menus.map(menu => menu.category))];
     this.category = this.category.filter(cat => uniqueCategories.includes(cat.categoryId));
@@ -166,6 +168,7 @@ export class ManageMenuComponent implements OnInit {
     this.manageMenuService.updateItemStock(itemId, newStockValue).subscribe(
       response => {
         this.loadMenu();
+        console.log(response); 
         delete this.newStockValues[itemId];
       },
       error => {
@@ -178,6 +181,7 @@ export class ManageMenuComponent implements OnInit {
     this.manageMenuService.updateItemStock(itemId, 0).subscribe(
       response => {
         this.loadMenu();
+        console.log(response);
       },
       error => {
         console.error(error);
@@ -193,6 +197,7 @@ export class ManageMenuComponent implements OnInit {
     this.manageMenuService.updateItemStock(itemId, newStockValue).subscribe(
       response => {
         this.loadMenu();
+        console.log(response);
       },
       error => {
         console.error(error);
@@ -208,6 +213,7 @@ export class ManageMenuComponent implements OnInit {
     this.manageMenuService.updateItemStock(itemId, newStockValue).subscribe(
       response => {
         this.loadMenu();
+        console.log(response);
       },
       error => {
         console.error(error);
@@ -224,6 +230,7 @@ export class ManageMenuComponent implements OnInit {
     this.manageMenuService.updateItemStock(itemId, newStockValue).subscribe(
       response => {
         this.loadMenu();
+        console.log(response);
       },
       error => {
         console.error(error);
@@ -239,6 +246,7 @@ export class ManageMenuComponent implements OnInit {
     this.manageMenuService.updateItemStock(itemId, newStockValue).subscribe(
       response => {
         this.loadMenu();
+        console.log(response);
       },
       error => {
         console.error(error);
@@ -254,6 +262,7 @@ export class ManageMenuComponent implements OnInit {
     this.manageMenuService.updateItemStock(itemId, newStockValue).subscribe(
       response => {
         this.loadMenu();
+        console.log(response);
       },
       error => {
         console.error(error);
@@ -269,6 +278,7 @@ export class ManageMenuComponent implements OnInit {
     this.manageMenuService.updateItemStock(itemId, newStockValue).subscribe(
       response => {
         this.loadMenu();
+        console.log(response);
       },
       error => {
         console.error(error);
@@ -277,18 +287,14 @@ export class ManageMenuComponent implements OnInit {
   }
   
  
-  getCategoryName(categoryId: number | string): string {
-    const categoryIdNumber = typeof categoryId === 'string' ? parseInt(categoryId, 10) : categoryId;
+  getCategoryName(categoryId: any): any {
+    console.log(categoryId);
+    const categoryIdNumber = parseInt(categoryId, 10);
     const correspondingCategory = this.category.find(cat => cat.categoryId === categoryIdNumber);
-    return correspondingCategory ? correspondingCategory.category : categoryId.toString();
+    
+    console.log(categoryIdNumber, correspondingCategory);
+    return correspondingCategory ? correspondingCategory.category : categoryId;
   }
-
-  // getStatusName(categoryId: number): string | number {
-  //   const categoryIdNumber = parseInt(categoryId.toString(), 10);
-  //   const correspondingCategory = this.status.find(cat => cat.statusId === categoryIdNumber);
-  //   this.isActive = categoryIdNumber;
-  //   return correspondingCategory ? correspondingCategory.status : categoryId;
-  // }
 
   groupByCategory(menuItems: Menu[]): { [key: string]: Menu[] } {
     return menuItems.reduce((result: { [key: string]: Menu[] }, menuItem) => {

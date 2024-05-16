@@ -1,0 +1,87 @@
+<div class="menu">
+    <h1 id="title" >Manage Menu</h1>
+    <hr>
+    <div class="filter-container">
+      <div class="modal" [class.open]="modalOpen">
+      <div class="modal-content">
+        <button class="close-btn" (click)="closeModal()">&times;</button>
+        <button id="modal-add-btn" (click)="submitMenu()">+</button>
+        <div class="image-addmenu-container">
+          <input type="file" (change)="onFileSelected($event)">
+          <div class="main-image-addmenu-container">
+            <img [src]="addMenu.foodImage"/>
+          </div>
+        </div>
+        <div class="content-addmenu-container">
+          <div class="header-addmenu-container">
+            <input id="item-name" type="text" [(ngModel)]="addMenu.item" placeholder="Item">
+            <input id="item-price" type="number" [(ngModel)]="addMenu.price" placeholder="Price">
+            <input id="item-price" type="number" [(ngModel)]="addMenu.stocks" placeholder="Stocks">
+          </div>
+          <div class="halal-addmenu-container">
+            <input id="isHalal" type="checkbox" [(ngModel)]="addMenu.isHalal" (change)="updateHalalValue($event)">
+            <h3>Halal</h3>
+          </div>
+          <textarea [(ngModel)]="addMenu.description" placeholder="Description"></textarea>
+          <div class="category-addmenu-container">
+            <select [(ngModel)]="addMenu.category">
+              <option *ngFor="let category of category" [value]="category.categoryId">{{ category.category }}</option>
+            </select>
+            <div class="belt"></div>
+          </div>
+        </div>
+      </div>
+      </div>
+      <div class="filt">
+        <input type="button" [value]="'All'" [class.active]="filterSelected === 0" (click)="filterMenu(0)">
+        <div class="filter-items" *ngFor="let cat of category">
+          <input type="button" [class.active]="filterSelected === cat.categoryId" [value]="getCategoryName(cat.categoryId)" (click)="filterMenu(cat.categoryId)">
+        </div>
+      </div>
+      <div class="action">
+        <input type ="button" [value] ="'Add Menu'"(click)="openModal()">
+      </div>
+    </div>
+  
+  <div class="main-category-container">
+    <ng-container *ngFor="let category of filteredMenu | keyvalue">
+      <div class="category-container">
+        <h1 class="category-name">{{ getCategoryName(category.key) }}</h1>
+        <div class="main-container">
+          <div class="grid-wrapper">
+            <div class="item-container" *ngFor="let menuItem of category.value">
+              <div class="image-container">
+                <img [src]="menuItem.foodImage" alt="Food image">
+              </div>
+              <div class="header-container">
+                <div class="main-header">
+                  <h1 class="item" [ngStyle]="{'font-size.px': menuItem.item.length > 8 ? 26 : 32}">
+                    {{ menuItem.item }}
+                  </h1>
+                  <p *ngIf="menuItem.stock !== 0">{{menuItem.stock}} Left</p>
+                  <p *ngIf="menuItem.stock === 0" style="color: #DA062E;">No Stock</p>
+                  <div class="stock-custom-container">
+                    <input type="number" [(ngModel)]="newStockValues[menuItem.itemId]" placeholder="New Stock Value">
+                    <input type="button" (click)="updateStock(menuItem.itemId)" value="Custom"/>
+                  </div>
+                  <div class="stock-action-button-container">
+                    <input type="button" (click)="decreaseStockBy10(menuItem.itemId)" value="-10"/>
+                    <input type="button" (click)="decreaseStockBy5(menuItem.itemId)" value="-5"/>
+                    <input type="button" (click)="decreaseStockBy1(menuItem.itemId)" value="-1"/>
+                    <input type="button" (click)="updateStockToZero(menuItem.itemId)" value="0"/>
+                    <input type="button" (click)="increaseStockBy1(menuItem.itemId)" value="+1"/>
+                    <input type="button" (click)="increaseStockBy5(menuItem.itemId)" value="+5"/>
+                    <input type="button" (click)="increaseStockBy10(menuItem.itemId)" value="+10"/>
+                  </div>
+                </div>
+                <h1 id="price">₱{{ menuItem.price }}</h1>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+  
+  
+  </div>

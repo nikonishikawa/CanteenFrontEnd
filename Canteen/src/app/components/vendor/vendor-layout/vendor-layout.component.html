@@ -1,0 +1,45 @@
+<div class="canteen-body">
+  <nav class="nav_cont">
+    <div class="nav-profile" [routerLink]="['vendor-profile']" (click)="toggleActive(0)">
+      <div class="image-container">
+        <img src="https://static.vecteezy.com/system/resources/previews/000/422/799/original/avatar-icon-vector-illustration.jpg"/>
+      </div>
+      <h3>{{adminName.firstName}} {{adminName.middleName}}. {{adminName.lastName}}</h3>
+    </div>
+    <ul class="nav">
+      <li [routerLink]="['vendor-dashboard']" [ngClass]="{'nav_items': isActive === 1}" (click)="toggleActive(1)">
+        <a>
+          <i class="fa-solid fa-qrcode">
+          </i>
+          <span>Dashboard</span>
+        </a>
+      </li>
+      <li [routerLink]="['vendor-order']" [ngClass]="{'nav_items': isActive === 2}" (click)="toggleActive(2)">
+        <a>
+          <i class="fa-solid fa-qrcode">
+          </i>
+          <span>Orders</span>
+        </a>
+      </li>
+      
+      <li [routerLink]="['vendor-menu']" [ngClass]="{'nav_items': isActive === 6}" (click)="toggleActive(6)">
+        <a>
+          <i class="fa-solid fa-receipt">
+          </i>
+          <span>Manage Menu</span>
+        </a>
+      </li>
+      
+    <li [routerLink]="['logout']" [ngClass]="{'nav_items': isActive === 8}" (click)="logout()">
+      <a>
+        <i class="fa-solid fa-receipt">
+        </i>
+        <span>Logout</span>
+      </a>
+    </li>
+    </ul>
+  </nav>
+  <div class="body-container">
+    <router-outlet></router-outlet>
+  </div>
+</div>
