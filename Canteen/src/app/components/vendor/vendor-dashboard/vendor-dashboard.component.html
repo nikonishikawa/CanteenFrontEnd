@@ -1,0 +1,94 @@
+<div class="admin-dashboard">
+    <div class="summary-count">
+      <div class="highest-count">
+        <div class="summary-count-main">
+          <p>Highest Sale</p>
+          <p>{{ highestSalesProduct.price }}</p>
+        </div>
+        <div class="summary-count-icon-container">
+  
+        </div>
+      </div>
+      <div class="product-count">
+        <div class="summary-count-main">
+          <p>Total # of Products </p>
+          <p>{{ menus.length }}</p>
+        </div>
+        <div class="summary-count-icon-container">
+          
+        </div>
+      </div>
+      <div class="month-sold-count">
+        <div class="summary-count-main">
+          <p>Monthly Total Revenue</p>
+          <p>₱ {{ totalRevenueForMonth }}</p>
+        </div>
+        <div class="summary-count-icon-container">
+          
+        </div>
+      </div>
+    </div>
+    <div class="sales">
+      <div class="products">
+        <h1>Sales Per Product</h1>
+        <h2>Overview of latest month</h2>
+        <table class="sales-table">
+          <thead>
+            <tr>
+              <th>Product Name</th>
+              <th>Sales</th>
+              <th>No. of Items Sold</th>
+            </tr>
+          </thead>
+          <tbody *ngIf="salesPerProduct === null">
+            <tr>
+              <td></td>
+              <td>No datas found</td>
+              <td></td>
+            </tr>
+          </tbody>
+          <tbody *ngIf="salesPerProduct !== null">
+            <tr *ngFor="let product of salesPerProduct | keyvalue">
+              <td>{{ product.value.name }}</td>
+              <td>{{ product.value.price }}</td>
+              <td>{{ product.value.quantitySold }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="month-count-bar">
+          <h1>Total Sold Items</h1>
+          <canvas id="monthlyQuantityChart"></canvas>
+      </div>
+    </div>
+    <div class="others">
+      <div class="stocks-count">
+        <div class="stocks-header-container">
+          <h1>Stocks</h1>
+          <select [(ngModel)]="selectedCategoryId" (ngModelChange)="onCategoryChange($event)">
+            <option [value]="0">All</option>
+            <option *ngFor="let cat of category" [value]="cat.categoryId">{{ cat.category }}</option>
+          </select>                    
+        </div>
+        <div class="diagram">
+          <div class="legend">
+            <div class="legend-items" *ngFor="let stock of filteredMenus; let i = index">
+              <div id="color-code" style="background-color: {{colors[i]}}"></div>
+              <p>({{stock.stock}}) {{stock.item}}</p>
+            </div>
+                    
+          </div>
+          <div class="percent">
+            <canvas id="menuStockChart"></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="user-summary">
+        <div class="month-count-bar">
+          <h1>Total Sales</h1>
+          <canvas id="monthlyPriceChart"></canvas>
+      </div>
+      </div>
+    </div>
+  </div>
+  

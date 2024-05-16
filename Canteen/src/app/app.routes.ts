@@ -21,6 +21,11 @@ import { ManageAddressComponent } from './components/admin/manage-catalog/manage
 import { ManageVendorComponent } from './components/admin/manage-vendor/manage-vendor.component';
 import { ManagePositionComponent } from './components/admin/manage-catalog/manage-position/manage-position.component';
 import { ManageMembershipComponent } from './components/admin/manage-catalog/manage-membership/manage-membership.component';
+import { VendorLayoutComponent } from './components/vendor/vendor-layout/vendor-layout.component';
+import { VendorDashboardComponent } from './components/vendor/vendor-dashboard/vendor-dashboard.component';
+import { VendorOrderComponent } from './components/vendor/vendor-order/vendor-order.component';
+import { VendorMenuComponent } from './components/vendor/vendor-menu/vendor-menu.component';
+import { VendorProfileComponent } from './components/vendor/vendor-profile/vendor-profile.component';
 
 export const routes: Routes = [
   {
@@ -143,9 +148,35 @@ export const routes: Routes = [
         path: 'profile',
         component: AdminProfileComponent,
         canActivate: [AuthGuard]
-      },
+      }
     ]
-  },
+  }, 
+     {
+      path: '', 
+      component: VendorLayoutComponent,
+      canActivate: [AuthGuard],
+      children: [
+        {
+          path: 'vendor-dashboard',
+          component: VendorDashboardComponent,
+          canActivate: [AuthGuard]
+        },
+        {
+          path: 'vendor-order',
+          component: VendorOrderComponent,
+          canActivate: [AuthGuard]
+        },
+        {
+          path: 'vendor-menu',
+          component: VendorMenuComponent,
+          canActivate: [AuthGuard]
+        },
+        {
+          path: 'vendor-profile',
+          component: VendorProfileComponent,
+          canActivate: [AuthGuard]
+        }]
+      },
   {
     path: '**', 
     redirectTo: 'login'

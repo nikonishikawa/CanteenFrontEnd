@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
         this.router.navigateByUrl('dashboard'); 
         break;
       case 'Editor':
-        this.router.navigateByUrl('layout/editor-dashboard'); 
+        this.router.navigateByUrl('vendor-dashboard'); 
         break;
       default:
         this.toaster.error('Invalid user role');
