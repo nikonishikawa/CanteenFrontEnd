@@ -40,16 +40,19 @@ export class ManagePositionService {
 
   addPosition(PositionCategory: PositionDto): Observable<ApiResponseMessage<PositionDto[]>> {
     const headers = this.getHeaders();
-    return this.http.post<ApiResponseMessage<PositionDto[]>>(`${this.baseApiUrl}api/Position/InsertPosition`,  PositionCategory);
+    return this.http.post<ApiResponseMessage<PositionDto[]>>(`${this.baseApiUrl}api/Position/InsertPosition`,  PositionCategory)
+    .pipe(catchError(this.handleError));
   }
 
   editPosition(UpdatePosition: PositionDto): Observable<ApiResponseMessage<PositionDto[]>> {
     const headers = this.getHeaders();
-    return this.http.post<ApiResponseMessage<PositionDto[]>>(`${this.baseApiUrl}api/Position/UpdatePosition`,  UpdatePosition);
+    return this.http.post<ApiResponseMessage<PositionDto[]>>(`${this.baseApiUrl}api/Position/UpdatePosition`,  UpdatePosition)
+    .pipe(catchError(this.handleError));
   }
 
   deletePosition(positionId: number): Observable<ApiResponseMessage<PositionDto>> {
     const headers = new HttpHeaders(); 
-    return this.http.delete<ApiResponseMessage<PositionDto>>(`${this.baseApiUrl}api/Position/DeletePosition/${positionId}`, { headers });
+    return this.http.delete<ApiResponseMessage<PositionDto>>(`${this.baseApiUrl}api/Position/DeletePosition/${positionId}`, { headers })
+    .pipe(catchError(this.handleError));
   }
 }

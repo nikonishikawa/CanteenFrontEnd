@@ -38,102 +38,87 @@ export class MenuService {
 
   getAllMenu(): Observable<ApiResponseMessage<Menu[]>> {
     const headers = this.getHeaders();
-    return this.http.get<ApiResponseMessage<Menu[]>>(`${this.baseApiUrl}api/Item/GetAllItem`, { headers })
-      .pipe(catchError(this.handleError));
+    return this.http.get<ApiResponseMessage<Menu[]>>(`${this.baseApiUrl}api/Item/GetAllItem`, { headers }).pipe(catchError(this.handleError));
   }
 
   getAllCaetegory(): Observable<ApiResponseMessage<Category[]>> {
     const headers = this.getHeaders();
-    return this.http.get<ApiResponseMessage<Category[]>>(`${this.baseApiUrl}api/Category/GetAllCategory`, { headers })
-      .pipe(catchError(this.handleError));
+    return this.http.get<ApiResponseMessage<Category[]>>(`${this.baseApiUrl}api/Category/GetAllCategory`, { headers }).pipe(catchError(this.handleError));
   }
 
-  getItemsByTrayTempId(trayTempId: number): Observable<any> {
+  getItemsByTrayTempId(trayTempId: number): Observable<ApiResponseMessage<any>> {
     const headers = this.getHeaders();
-    return this.http.get<any>(`${this.baseApiUrl}api/TrayItem/tray/${trayTempId}`, { headers })
-      .pipe(catchError(this.handleError));
+    return this.http.get<ApiResponseMessage<any>>(`${this.baseApiUrl}api/TrayItem/tray/${trayTempId}`, { headers })
+    .pipe(catchError(this.handleError));
   }
 
-  removeFromTrayById(itemId: number): Observable<any>{
+  removeFromTrayById(itemId: number): Observable<ApiResponseMessage<number>>{
     const headers = this.getHeaders();
-    return this.http.delete<any>(`${this.baseApiUrl}api/TrayItem/RemoveTray/${itemId}`, { headers })
-      .pipe(catchError(this.handleError));
+    return this.http.delete<ApiResponseMessage<number>>(`${this.baseApiUrl}api/TrayItem/RemoveTray/${itemId}`, { headers })
+    .pipe(catchError(this.handleError));
   }
-  GetTraytempId(cusId: number): Observable<any> {
+  GetTraytempId(cusId: number): Observable<ApiResponseMessage<string>> {
     const headers = this.getHeaders();
-    return this.http.get<any>(`${this.baseApiUrl}api/TrayItem/GetTrayTempId/${cusId}`, { headers })
-      .pipe(catchError(this.handleError));
+    return this.http.get<ApiResponseMessage<string>>(`${this.baseApiUrl}api/TrayItem/GetTrayTempId/${cusId}`, { headers })
+    .pipe(catchError(this.handleError));
   }
 
   deleteTrayItem(trayItemTempId: number): Observable<ApiResponseMessage<string>> {
-    const headers = this.getHeaders().set('Content-Type', 'application/json');
+    const headers = this.getHeaders();
     const url = `${this.baseApiUrl}api/TrayItem/RemoveTrayItemTemp/${trayItemTempId}`;
     return this.http.delete<ApiResponseMessage<string>>(url, { headers })
-      .pipe(catchError(this.handleError));
+    .pipe(catchError(this.handleError));
   }
 
-  addMenu(addMenuRequest: Menu): Observable<Menu> {
+  addMenu(addMenuRequest: Menu): Observable<ApiResponseMessage<Menu>> {
     const headers = this.getHeaders();
-    return this.http.post<Menu>(`${this.baseApiUrl}api/Item/InsertItem`, addMenuRequest, { headers })
-      .pipe(catchError(this.handleError));
+    return this.http.post<ApiResponseMessage<Menu>>(`${this.baseApiUrl}api/Item/InsertItem`, addMenuRequest, { headers })
+    .pipe(catchError(this.handleError));
   }
 
   insertOrderStatus(CusId: number, OrderStamp: string, Cost: number, ModeOfPayment: number): Observable<ApiResponseMessage<string>>  {
     const headers = this.getHeaders();
-    const InsertToOrder = {
-      CusId: CusId,
-      OrderStamp: OrderStamp,
-      Cost: Cost,
-      ModeOfPayment: ModeOfPayment
-    };
+    const InsertToOrder = { CusId: CusId, OrderStamp: OrderStamp, Cost: Cost, ModeOfPayment: ModeOfPayment };
     return this.http.post<ApiResponseMessage<string>>(`${this.baseApiUrl}api/OrderStatus/InsertOrderStatus`, InsertToOrder, { headers })
-      .pipe(catchError(this.handleError));
+    .pipe(catchError(this.handleError));
   }
 
-  insertTempToNotTemp(cusId: number, trayTempId: string, orderStamp: string, cost: number, modeOfPayment: number, items: any[]): Observable<any> {
+  insertTempToNotTemp(cusId: number, trayTempId: string, orderStamp: string, cost: number, modeOfPayment: number, items: any[]): Observable<ApiResponseMessage<string>> {
     const headers = this.getHeaders();
-    const InsertData = {   
-      orderStamp: orderStamp,
-      cost: cost,
-      modeOfPayment: modeOfPayment,
-      items: items
-    };
-    return this.http.post<any>(`${this.baseApiUrl}api/TrayItem/InsertTray?cusId=${cusId}&trayTempId=${trayTempId}`, InsertData, { headers })
-      .pipe(catchError(this.handleError));
+    const InsertData = { orderStamp: orderStamp, cost: cost, modeOfPayment: modeOfPayment, items: items};
+    return this.http.post<ApiResponseMessage<string>>(`${this.baseApiUrl}api/TrayItem/InsertTray?cusId=${cusId}&trayTempId=${trayTempId}`, InsertData, { headers })
+    .pipe(catchError(this.handleError));
   }
 
   updateMenu(itemId: number, newStock: number ) {
     const headers = this.getHeaders();
     return this.http.put<ApiResponseMessage<Menu[]>>(`${this.baseApiUrl}api/Item/UpdateItemById?itemId=${itemId}&newStock=${newStock}`, { headers })
-      .pipe(catchError(this.handleError));
+    .pipe(catchError(this.handleError));
   }
 
-  insertData(data: any): Observable<any> {
+  insertData(data: any): Observable<ApiResponseMessage<string>> {
     const headers = this.getHeaders();
-    return this.http.post<any>(`${this.baseApiUrl}api/TrayItem/AddToTrayTest`, data, { headers })
-      .pipe(catchError(this.handleError));
+    return this.http.post<ApiResponseMessage<string>>(`${this.baseApiUrl}api/TrayItem/AddToTray`, data, { headers })
+    .pipe(catchError(this.handleError));
   }
 
   updateTrayItemQuantity(trayTempId: number, quantity: number): Observable<ApiResponseMessage<string>> {
     const headers = this.getHeaders();
     const url = `${this.baseApiUrl}api/TrayItem/UpdateTrayItemQuantity`; 
-    const updateData = {
-      TrayItemTempId: trayTempId,
-      NewQuantity: quantity
-    };
+    const updateData = { TrayItemTempId: trayTempId, NewQuantity: quantity };
     return this.http.post<ApiResponseMessage<string>>(url, updateData, { headers })
-      .pipe(catchError(this.handleError));
+     .pipe(catchError(this.handleError));
   }
 
   getAllMOP(): Observable<ApiResponseMessage<MOP[]>> {
     const headers = this.getHeaders();
     return this.http.get<ApiResponseMessage<MOP[]>>(`${this.baseApiUrl}api/ModeOfPayment/GetAllMOP`, { headers })
-      .pipe(catchError(this.handleError));
+     .pipe(catchError(this.handleError));
   }
   
   generateTrayTempId(cusId: string): Observable<string> {
     const headers = this.getHeaders();
     return this.http.post<string>(`${this.baseApiUrl}api/TrayItem/AddTrayTempId`, { cusId }, { headers })
-      .pipe(catchError(this.handleError));
+     .pipe(catchError(this.handleError));
   }
 }

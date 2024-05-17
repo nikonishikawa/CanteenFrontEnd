@@ -41,16 +41,19 @@ export class ManageCategoryService {
 
   addCategory(AddCategory: CategoryDto): Observable<ApiResponseMessage<CategoryDto[]>> {
     const headers = this.getHeaders();
-    return this.http.post<ApiResponseMessage<CategoryDto[]>>(`${this.baseApiUrl}api/Category/InsertCategory`,  AddCategory);
+    return this.http.post<ApiResponseMessage<CategoryDto[]>>(`${this.baseApiUrl}api/Category/InsertCategory`,  AddCategory)
+    .pipe(catchError(this.handleError));
   }
 
   editCategory(UpdateCategory: CategoryDto): Observable<ApiResponseMessage<CategoryDto[]>> {
     const headers = this.getHeaders();
-    return this.http.post<ApiResponseMessage<CategoryDto[]>>(`${this.baseApiUrl}api/Category/UpdateCategory`,  UpdateCategory);
+    return this.http.post<ApiResponseMessage<CategoryDto[]>>(`${this.baseApiUrl}api/Category/UpdateCategory`,  UpdateCategory)
+    .pipe(catchError(this.handleError));
   }
 
   deleteCategory(categoryId: number): Observable<ApiResponseMessage<CategoryDto>> {
     const headers = new HttpHeaders(); 
-    return this.http.delete<ApiResponseMessage<CategoryDto>>(`${this.baseApiUrl}api/Category/DeleteCategory/${categoryId}`, { headers });
+    return this.http.delete<ApiResponseMessage<CategoryDto>>(`${this.baseApiUrl}api/Category/DeleteCategory/${categoryId}`, { headers })
+    .pipe(catchError(this.handleError));
   }
 }

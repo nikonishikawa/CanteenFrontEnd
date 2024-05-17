@@ -40,16 +40,19 @@ export class ManageMembershipService {
 
   addMembership(AddMembership: MembershipDto): Observable<ApiResponseMessage<MembershipDto[]>> {
     const headers = this.getHeaders();
-    return this.http.post<ApiResponseMessage<MembershipDto[]>>(`${this.baseApiUrl}api/Membership/InsertMembership`,  AddMembership);
+    return this.http.post<ApiResponseMessage<MembershipDto[]>>(`${this.baseApiUrl}api/Membership/InsertMembership`,  AddMembership)
+    .pipe(catchError(this.handleError));
   }
 
   editMembership(UpdateMembership: MembershipDto): Observable<ApiResponseMessage<MembershipDto[]>> {
     const headers = this.getHeaders();
-    return this.http.post<ApiResponseMessage<MembershipDto[]>>(`${this.baseApiUrl}api/Membership/UpdateMembership`,  UpdateMembership);
+    return this.http.post<ApiResponseMessage<MembershipDto[]>>(`${this.baseApiUrl}api/Membership/UpdateMembership`,  UpdateMembership)
+    .pipe(catchError(this.handleError));
   }
 
   deleteMembership(membershipId: number): Observable<ApiResponseMessage<MembershipDto>> {
     const headers = new HttpHeaders(); 
-    return this.http.delete<ApiResponseMessage<MembershipDto>>(`${this.baseApiUrl}api/Membership/DeleteMembership/${membershipId}`, { headers });
+    return this.http.delete<ApiResponseMessage<MembershipDto>>(`${this.baseApiUrl}api/Membership/DeleteMembership/${membershipId}`, { headers })
+    .pipe(catchError(this.handleError));
   }
 }

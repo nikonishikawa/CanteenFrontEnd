@@ -50,16 +50,13 @@ import { FormsModule } from '@angular/forms';
         next: (res) => {
           if (res && res.data) {
             this.menus = res.data;
-            console.log("Items loaded", this.menus);
             
             if (this.selectedCategoryId == 0) {
               this.filteredMenus = this.menus.filter(menu => menu.category !== this.selectedCategoryId);
               this.filteredMenus.sort((a, b) => {
-                // First, compare by stock (numerically)
                 if (a.stock !== b.stock) {
                   return a.stock - b.stock;
                 }
-                // If stock is the same, compare by item (alphabetically)
                 return a.item.localeCompare(b.item);
               });
               this.loadChart();
@@ -67,11 +64,9 @@ import { FormsModule } from '@angular/forms';
             else {
               this.filteredMenus = this.menus.filter(menu => menu.category == this.selectedCategoryId);
               this.filteredMenus.sort((a, b) => {
-                // First, compare by stock (numerically)
                 if (a.stock !== b.stock) {
                   return a.stock - b.stock;
                 }
-                // If stock is the same, compare by item (alphabetically)
                 return a.item.localeCompare(b.item);
               });
               this.loadChart();
@@ -89,7 +84,6 @@ import { FormsModule } from '@angular/forms';
       this.menuService.getAllCaetegory().subscribe({
         next: (res) => {
           if (res && res.data) {
-            console.log("Cat loaded", res.data);
             this.category = res.data;
           }
         },
@@ -98,7 +92,7 @@ import { FormsModule } from '@angular/forms';
       });
     }
 
-    onCategoryChange(selectedValue: any) {
+    onCategoryChange(selectedValue: number) {
       this.selectedCategoryId = selectedValue;
       this.loadMenu();
     }
@@ -109,13 +103,12 @@ import { FormsModule } from '@angular/forms';
         labels: this.filteredMenus.map(menu => menu.item),
         datasets: [{
           label: 'Stock',
-          data: this.filteredMenus.map(menu => menu.stock), // Calculate percentage of total stock
-          backgroundColor: this.getRandomColors(this.filteredMenus.length), // Generate random colors for each menu
+          data: this.filteredMenus.map(menu => menu.stock), 
+          backgroundColor: this.getRandomColors(this.filteredMenus.length), 
           hoverOffset: 20
         }]
       };
 
-      // Render doughnut chart
       const ctx = document.getElementById('menuStockChart') as HTMLCanvasElement;
       if (this.menuStockChart) {
         this.menuStockChart.destroy();
@@ -166,18 +159,17 @@ import { FormsModule } from '@angular/forms';
 
     getRandomColors(count: number): string[] {
       this.colors = [];
-      const minRed = 255; // Minimum red value (to create yellow)
-      const maxRed = 255; // Maximum red value (to create red)
-      const minGreen = 0; // Minimum green value (to create yellow)
-      const maxGreen = 255; // Maximum green value (to create yellow)
-      const alpha = 0.6; // Alpha value for transparency
-    
+      const minRed = 255;
+      const maxRed = 255;
+      const minGreen = 0;
+      const maxGreen = 255;
+      const alpha = 0.6; 
+
       for (let i = 0; i < count; i++) {
-          const red = Math.floor(Math.random() * (maxRed - minRed + 1)) + minRed; // Generate random red value
-          const green = Math.floor(Math.random() * (maxGreen - minGreen + 1)) + minGreen; // Generate random green value
-          this.colors.push(`rgba(${red}, ${green}, 0, ${alpha})`); // Add the color to the array
+          const red = Math.floor(Math.random() * (maxRed - minRed + 1)) + minRed;
+          const green = Math.floor(Math.random() * (maxGreen - minGreen + 1)) + minGreen; 
+          this.colors.push(`rgba(${red}, ${green}, 0, ${alpha})`); 
       }
-      console.log("ningnong", this.colors)
       return this.colors;
   }
 
@@ -187,7 +179,6 @@ import { FormsModule } from '@angular/forms';
         next: (res) => {
           if (res && res.data) {
             this.totalRev = res.data;
-            console.log("Total Rev Data", this.totalRev);
             this.renderMonthlyQuantityChart();
             this.renderMonthlyPriceChart();
             this.calculateTotalRevenueForMonth();
@@ -227,7 +218,7 @@ import { FormsModule } from '@angular/forms';
       });
     
       const labels = monthlyData.map(data => {
-        const monthIndex = data.month - 1; // Months are zero-indexed in JavaScript Date objects
+        const monthIndex = data.month - 1;
         const monthAbbreviation = new Date(2022, monthIndex).toLocaleString('default', { month: 'short' });
         return `${monthAbbreviation}`;
       });
@@ -286,7 +277,7 @@ import { FormsModule } from '@angular/forms';
       });
     
       const labels = monthlyData.map(data => {
-        const monthIndex = data.month - 1; // Months are zero-indexed in JavaScript Date objects
+        const monthIndex = data.month - 1; 
         const monthAbbreviation = new Date(2022, monthIndex).toLocaleString('default', { month: 'short' });
         return `${monthAbbreviation}`;
       });

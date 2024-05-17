@@ -104,7 +104,6 @@ export class ManageUserComponent implements OnInit {
         if (res.isSuccess) {
           this.users = res.data;
           this.toastr.success('Received Customer Details');
-          console.log(res)
         }});
       }
 
@@ -131,7 +130,6 @@ export class ManageUserComponent implements OnInit {
         next: (res) => {
           if (res && res.data) {
             this.address = res.data;
-            console.log('Received address data:', res.data);
           }
         },
         error: (err) => {
@@ -145,7 +143,6 @@ export class ManageUserComponent implements OnInit {
         next: (res) => {
           if (res && res.data) {
             this.loadUser = res.data;
-            console.log('Received Status data:', res.data);
           }
         },
         error: (err) => {
@@ -159,7 +156,6 @@ export class ManageUserComponent implements OnInit {
         next: (res) => {
           if (res && res.data) {
             this.loadMem = res.data;
-            console.log('Received Membership data:', res.data);
           }
         },
         error: (err) => {

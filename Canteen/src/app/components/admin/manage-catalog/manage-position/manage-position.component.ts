@@ -44,7 +44,6 @@ export class ManagePositionComponent implements OnInit {
       next: (res) => {
         if (res && res.data) {
           this.position = res.data;
-          console.log('load position', this.position);
         }
       },
       error: (error) => {

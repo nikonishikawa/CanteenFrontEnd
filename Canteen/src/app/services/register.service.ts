@@ -44,7 +44,8 @@ export class RegisterService {
   }
 
   RegisterVendor(RegisterVendor: Register): Observable<ApiResponseMessage<Register>> {
-    return this.http.post<ApiResponseMessage<Register>>(this.baseApiUrl + 'api/UserCredential/RegisterVendor', RegisterVendor);
+    return this.http.post<ApiResponseMessage<Register>>(this.baseApiUrl + 'api/UserCredential/RegisterVendor', RegisterVendor)
+    .pipe(catchError(this.handleError));
   }
 
 }

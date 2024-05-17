@@ -283,13 +283,6 @@ export class ManageMenuComponent implements OnInit {
     return correspondingCategory ? correspondingCategory.category : categoryId.toString();
   }
 
-  // getStatusName(categoryId: number): string | number {
-  //   const categoryIdNumber = parseInt(categoryId.toString(), 10);
-  //   const correspondingCategory = this.status.find(cat => cat.statusId === categoryIdNumber);
-  //   this.isActive = categoryIdNumber;
-  //   return correspondingCategory ? correspondingCategory.status : categoryId;
-  // }
-
   groupByCategory(menuItems: Menu[]): { [key: string]: Menu[] } {
     return menuItems.reduce((result: { [key: string]: Menu[] }, menuItem) => {
       const categoryName = this.getCategoryName(menuItem.category);

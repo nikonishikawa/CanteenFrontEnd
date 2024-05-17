@@ -80,7 +80,6 @@ export class ManageFoodCategoryComponent implements OnInit {
       next: (res) => {
         if (res && res.data) {
           this.category = res.data;
-          console.log('load category', this.category);
         }
       },
       error: (error) => {

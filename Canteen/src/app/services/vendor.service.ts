@@ -1,14 +1,14 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../environments/environment';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { ApiResponseMessage } from '../models/apiresponsemessage.model';
 import { Observable } from 'rxjs';
-import { Admin, AdminName } from '../models/admin.model';
+import { ApiResponseMessage } from '../models/apiresponsemessage.model';
+import { UpdateVendorDto } from '../models/load-data.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AdminService {
+export class VendorService {
 
   private baseApiUrl: string = environment.baseApiUrl;
   constructor(private http: HttpClient) { }
@@ -55,22 +55,16 @@ export class AdminService {
     }
   }
 
-  loadCustomerData(): Observable<ApiResponseMessage<Admin>> {
+  loadVendorData(): Observable<ApiResponseMessage<UpdateVendorDto>> {
     const headers = this.getHeaders();
     const userId = this.getUserIdFromToken();
     if (!userId) {
-      return new Observable<ApiResponseMessage<Admin>>(observer => {
+      return new Observable<ApiResponseMessage<UpdateVendorDto>>(observer => {
       });
     }
-    const url = `${this.baseApiUrl}api/Admin/GetAdminDetails?AdminCredentials=${userId}`;
+    const url = `${this.baseApiUrl}api/Vendor/GetVendor?vendorCredentials=${userId}`;
 
-    return this.http.get<ApiResponseMessage<Admin>>(url, { headers });
+    return this.http.get<ApiResponseMessage<UpdateVendorDto>>(url, { headers });
   }
 
-  editAdminName(adminName: Admin): Observable<ApiResponseMessage<Admin>> {
-    const headers = this.getHeaders();
-    const url = `${this.baseApiUrl}api/Name/UpdateName`;
-
-    return this.http.put<ApiResponseMessage<Admin>>(url, adminName, { headers });
-   }
 }

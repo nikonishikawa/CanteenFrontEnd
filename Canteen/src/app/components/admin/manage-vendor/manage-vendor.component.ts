@@ -111,7 +111,6 @@ export class ManageVendorComponent implements OnInit {
       next: (res) => {
         if (res && res.data) {
           this.address = res.data;
-          console.log('Received address data:', res.data);
         }
       },
       error: (err) => {
@@ -125,7 +124,6 @@ export class ManageVendorComponent implements OnInit {
       next: (res) => {
         if (res && res.data) {
           this.vendors = res.data;
-          console.log('Load Vendor data:', res.data);
         }
       },
       error: (err) => {
@@ -139,7 +137,6 @@ export class ManageVendorComponent implements OnInit {
       next: (res) => {
         if (res && res.data) {
           this.loadStat = res.data;
-          console.log('Received Status data:', res.data);
         }
       },
       error: (err) => {
@@ -153,7 +150,6 @@ export class ManageVendorComponent implements OnInit {
       next: (res) => {
         if (res && res.data) {
           this.loadMemb = res.data;
-          console.log('Received Membership data:', res.data);
         }
       },
       error: (err) => {
@@ -167,7 +163,6 @@ export class ManageVendorComponent implements OnInit {
       next: (res) => {
         if (res && res.data) {
           this.loadPos = res.data;
-          console.log('Received Position data:', res.data);
         }
       },
       error: (err) => {
@@ -175,7 +170,4 @@ export class ManageVendorComponent implements OnInit {
       }
     });
   }
-
-  
 }
-

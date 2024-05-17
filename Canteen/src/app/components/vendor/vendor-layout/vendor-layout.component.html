@@ -4,7 +4,8 @@
       <div class="image-container">
         <img src="https://static.vecteezy.com/system/resources/previews/000/422/799/original/avatar-icon-vector-illustration.jpg"/>
       </div>
-      <h3>{{adminName.firstName}} {{adminName.middleName}}. {{adminName.lastName}}</h3>
+      <h3>{{vendor.firstName}} {{vendor.middleName}}. {{vendor.lastName}}</h3>
+      <p>{{vendor.email}}</p>
     </div>
     <ul class="nav">
       <li [routerLink]="['vendor-dashboard']" [ngClass]="{'nav_items': isActive === 1}" (click)="toggleActive(1)">

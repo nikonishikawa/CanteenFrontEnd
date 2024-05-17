@@ -38,7 +38,6 @@ export class ManageAddressComponent implements OnInit {
       next: (res) => {
         if (res && res.data) {
           this.address = res.data;
-          console.log("load address", this.address);
         }
       },
       error: (error) => {

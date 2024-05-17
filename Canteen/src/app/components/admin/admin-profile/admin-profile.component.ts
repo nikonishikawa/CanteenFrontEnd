@@ -18,6 +18,10 @@ export class AdminProfileComponent implements OnInit {
   admin: Admin = {} as Admin;
   adminName: AdminName = {} as AdminName;
   enableEditing: boolean = false;
+  inputNameActive: number = 0;
+  activeIndex: number = 0;
+  btnActive: boolean = false;
+  updateSuccess: boolean = false;
   
   constructor(
     private adminService: AdminService,
@@ -29,33 +33,55 @@ export class AdminProfileComponent implements OnInit {
 
   ngOnInit() {
     this.loadAdminData();
-    console.log("hello")
+    this.inputNameActive = this.getActiveIndex();
   }
 
   loadAdminData() {
-    this.adminService.loadAdminData().subscribe({
+    this.adminService.loadCustomerData().subscribe({
       next: (res) => {
-        console.log('Received Admin Data:', res);
         this.toaster.success('Received Admin Data!')
         this.admin = res.data;
-        this.loadCustomerName();
-      }
-    });
-  }
-
-  loadCustomerName() {
-    this.customerService.getCustomerName(this.admin.adminName).subscribe({
-      next: (res) => {
-        this.adminName = res.data;
-        console.log('Received Admin Name:', res);
-      },
-      error: (error) => {
-        console.error('Error loading Admin Name:', error);
       }
     });
   }
 
   toggleEditing() {
     this.enableEditing = !this.enableEditing;
+    this.inputNameActive = 0;
+    this.btnActive = !this.btnActive;
+  }
+
+  toggleActive(index: number) {
+    if (this.enableEditing) {
+      this.inputNameActive = index;
+      this.setActiveIndex(this.inputNameActive);
+    }
+  }
+
+  getActiveIndex() {
+    return this.activeIndex;
+  }
+
+  setActiveIndex(index: number | 0) {
+    this.activeIndex = index;
+  }
+
+  updateName(){
+    this.customerService.editName(this.admin).subscribe(
+      (res) => {
+        if (res && res.isSuccess) {
+          this.toaster.success('Admin Name updated successfully');
+          this.loadAdminData();
+          window.location.reload();
+        } else {
+          alert(res && res.message ? res.message : 'Update failed');
+        }
+      },
+      (error) => {
+        console.error('Update failed:', error);
+        this.toaster.error('An error occurred during the update');
+      }
+    );
   }
 }
+  

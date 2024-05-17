@@ -64,7 +64,6 @@ export class VendorMenuComponent implements OnInit {
       response => {
         this.toastr.success("Added Item Successfully!");
         this.loadMenu(); 
-        console.log(response);
       },
       error => {
         console.error(error);
@@ -108,7 +107,6 @@ export class VendorMenuComponent implements OnInit {
         if (res && res.data) {
           this.menus = res.data;
           this.loadCategory();
-          console.log(this.menus);
           this.groupedMenu = this.groupByCategory(this.menus);
         }
       },
@@ -122,7 +120,6 @@ export class VendorMenuComponent implements OnInit {
     this.menuService.getAllCaetegory().subscribe({
       next: (res) => {
         if (res && res.data) {
-          console.log(res.data);
           this.category = res.data;
           this.filterMenu(0);
         }
@@ -168,7 +165,6 @@ export class VendorMenuComponent implements OnInit {
     this.manageMenuService.updateItemStock(itemId, newStockValue).subscribe(
       response => {
         this.loadMenu();
-        console.log(response); 
         delete this.newStockValues[itemId];
       },
       error => {
@@ -181,7 +177,6 @@ export class VendorMenuComponent implements OnInit {
     this.manageMenuService.updateItemStock(itemId, 0).subscribe(
       response => {
         this.loadMenu();
-        console.log(response);
       },
       error => {
         console.error(error);
@@ -197,7 +192,6 @@ export class VendorMenuComponent implements OnInit {
     this.manageMenuService.updateItemStock(itemId, newStockValue).subscribe(
       response => {
         this.loadMenu();
-        console.log(response);
       },
       error => {
         console.error(error);
@@ -213,7 +207,6 @@ export class VendorMenuComponent implements OnInit {
     this.manageMenuService.updateItemStock(itemId, newStockValue).subscribe(
       response => {
         this.loadMenu();
-        console.log(response);
       },
       error => {
         console.error(error);
@@ -230,7 +223,6 @@ export class VendorMenuComponent implements OnInit {
     this.manageMenuService.updateItemStock(itemId, newStockValue).subscribe(
       response => {
         this.loadMenu();
-        console.log(response);
       },
       error => {
         console.error(error);
@@ -246,7 +238,6 @@ export class VendorMenuComponent implements OnInit {
     this.manageMenuService.updateItemStock(itemId, newStockValue).subscribe(
       response => {
         this.loadMenu();
-        console.log(response);
       },
       error => {
         console.error(error);
@@ -262,7 +253,6 @@ export class VendorMenuComponent implements OnInit {
     this.manageMenuService.updateItemStock(itemId, newStockValue).subscribe(
       response => {
         this.loadMenu();
-        console.log(response);
       },
       error => {
         console.error(error);
@@ -278,7 +268,6 @@ export class VendorMenuComponent implements OnInit {
     this.manageMenuService.updateItemStock(itemId, newStockValue).subscribe(
       response => {
         this.loadMenu();
-        console.log(response);
       },
       error => {
         console.error(error);
@@ -288,11 +277,8 @@ export class VendorMenuComponent implements OnInit {
   
  
   getCategoryName(categoryId: any): any {
-    console.log(categoryId);
     const categoryIdNumber = parseInt(categoryId, 10);
     const correspondingCategory = this.category.find(cat => cat.categoryId === categoryIdNumber);
-    
-    console.log(categoryIdNumber, correspondingCategory);
     return correspondingCategory ? correspondingCategory.category : categoryId;
   }
 
@@ -308,5 +294,4 @@ export class VendorMenuComponent implements OnInit {
     const cat = this.getCategoryByName.find(x => x.categoryId === categoryId)
     return cat ? cat.category : '';
   }
-  
 }

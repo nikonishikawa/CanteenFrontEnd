@@ -46,7 +46,6 @@ loadAddress(): void {
     next: (res) => {
       if (res && res.data) {
         this.address = res.data;
-        console.log('Received address data:', res.data);
       }
     },
     error: (err) => {

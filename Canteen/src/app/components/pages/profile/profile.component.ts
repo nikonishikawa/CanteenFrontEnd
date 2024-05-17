@@ -45,8 +45,7 @@ export class ProfileComponent implements OnInit {
 
   loadCustomerData() {
     this.customerService.loadCustomerData().subscribe({
-      next: (res) => {
-        console.log('Received customer data:', res);
+      next: (res) => {  
         this.customer = res.data;
         this.loadCustomerName();
         
@@ -58,7 +57,6 @@ export class ProfileComponent implements OnInit {
     this.customerService.getCustomerName(this.customer.cusName).subscribe({
       next: (res) => {
         this.customerName = res.data;
-        console.log('Received customer name:', res);
         this.loadCustomerAddress();
       },
       error: (error) => {
@@ -71,7 +69,6 @@ export class ProfileComponent implements OnInit {
     this.customerService.getCustomerAddress(this.customer.cusAddress).subscribe({
       next: (res) => {
         this.customerAddress = res.data;
-        console.log('Received customer address:', res);
         this.loadAddress();
       },
       error: (error) => {
@@ -84,7 +81,6 @@ export class ProfileComponent implements OnInit {
     this.customerService.getAddress(this.customerAddress.addressId).subscribe({
       next: (res) => {
         this.address = res.data;
-        console.log('Received address:', res);
       },
       error: (error) => {
         console.error('Error loading address:', error);
@@ -137,7 +133,6 @@ loadAllAddress(): void {
     next: (res) => {
       if (res && res.data) {
         this.allAddress = res.data;
-        console.log('Received address data:', res.data);
       }
     },
     error: (err) => {

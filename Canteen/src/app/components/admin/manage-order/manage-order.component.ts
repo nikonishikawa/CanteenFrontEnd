@@ -199,7 +199,7 @@ export class ManageOrderComponent implements OnInit {
       cost: this.getUniqueCost(orderGroupsMap[Number(orderId)]),
       orderItems: orderGroupsMap[Number(orderId)],
       firstName: String(orderGroupsMap[Number(orderId)][0].firstName) 
-    }));
+    })).sort((a, b) => new Date(b.orderStamp).getTime() - new Date(a.orderStamp).getTime());
   }
   
   

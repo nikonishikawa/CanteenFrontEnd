@@ -1,10 +1,12 @@
 import { Component, NO_ERRORS_SCHEMA, OnInit } from '@angular/core';
 import { LayoutService } from '../../../services/layout.service';
-import { Admin, AdminName } from '../../../models/admin.model';
+import { Admin } from '../../../models/admin.model';
 import { Router, RouterModule } from '@angular/router';
 import { MenuService } from '../../../services/menu.service';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
+import { VendorService } from '../../../services/vendor.service';
+import { UpdateVendorDto } from '../../../models/load-data.model';
 
 @Component({
   selector: 'app-vendor-layout',
@@ -17,16 +19,16 @@ import { CommonModule } from '@angular/common';
 export class VendorLayoutComponent implements OnInit {
   isActive!: number | 1;
   isSubActive!: number | 1;
-  admin: Admin = {} as Admin;
-  adminName: AdminName = {} as AdminName;
+  vendor: UpdateVendorDto = {} as UpdateVendorDto;
 
   constructor(private layoutService: LayoutService,
               private router: Router, 
-              private menuService: MenuService,
+              private vendorService: VendorService,
               private toastr: ToastrService,) {}
 
   ngOnInit() {
     this.isActive = this.layoutService.getActiveIndex();
+    this.loadVendorData();
   }
 
   toggleActive(index: number) {
@@ -45,6 +47,14 @@ export class VendorLayoutComponent implements OnInit {
     this.toggleActive(index);
   }
 
+  loadVendorData() {
+    this.vendorService.loadVendorData().subscribe({
+      next: (res) => {
+        this.vendor = res.data;
+        console.log("vendor data", res.data);
+      }
+    });
+  }
   menu() {
     this.toastr.success('Moving to menu');
     
@@ -55,18 +65,4 @@ export class VendorLayoutComponent implements OnInit {
     this.toastr.success('Logged Out Successfully');
     
   }
-
-  // loadCategory() {
-  //   this.menuService.getAllCaetegory().subscribe({
-  //     next: (res) => {
-  //       if (res && res.data) {
-  //         console.log(res.data);
-  //         this.category = res.data;
-  //         this.filterMenu(0);
-  //       }
-  //     },
-  //     error: (error) => {
-  //     }
-  //   });
-  // }
 }

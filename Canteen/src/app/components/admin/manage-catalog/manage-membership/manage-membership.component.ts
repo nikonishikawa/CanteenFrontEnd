@@ -49,7 +49,6 @@ export class ManageMembershipComponent implements OnInit {
       next: (res) => {
         if (res && res.data) {
           this.membership = res.data;
-          console.log('load Membership', this.membership);
         }
       },
       error: (error) => {
@@ -130,7 +129,6 @@ export class ManageMembershipComponent implements OnInit {
       next: (res) => {
         if (res && res.data) {
           this.loadUser = res.data;
-          console.log('Received Status data:', res.data);
         }
       },
       error: (err) => {

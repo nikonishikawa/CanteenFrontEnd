@@ -47,7 +47,6 @@ export class DashboardComponent implements OnInit {
   loadOrders() {
     this.loadDataService.getTopOrder().subscribe({
       next: (res) => {
-        console.log('Received orders:', res);
         const currentDate = new Date().toLocaleDateString(); 
         const filteredOrders = res.data.filter(order => {
           const completedDate = new Date(order.completedStamp).toLocaleDateString();
@@ -66,7 +65,6 @@ export class DashboardComponent implements OnInit {
   loadRecentlyOrdered() {
     this.loadDataService.getRecentOrdersById(this.customer.customerId).subscribe({
       next: (res) => {
-        console.log('Received Recently Ordered:', res);
         this.getRecentlySold();
       },
       error: (error) => {
@@ -78,7 +76,6 @@ export class DashboardComponent implements OnInit {
   loadUserOrders() {
     this.loadDataService.getUserOrders(this.customer.customerId).subscribe({
       next: (res) => {
-        console.log('Received User Orders:', res);
         this.userOrders = this.getUserOrders(res.data); 
       },
       error: (error) => {
@@ -90,7 +87,6 @@ export class DashboardComponent implements OnInit {
   loadUserRecentTransactions(){
     this.loadDataService.getRecentUserTransaction(this.customer.customerId).subscribe({
       next: (res) => {
-        console.log('Received User Recent Transaction:', res);
         const sortedTransactions = res.data.sort((a, b) => {
           return new Date(b.orderStamp).getTime() - new Date(a.orderStamp).getTime();
         });
@@ -233,7 +229,6 @@ export class DashboardComponent implements OnInit {
   loadCustomerData() {
     this.customerService.loadCustomerData().subscribe({
       next: (res) => {
-        console.log('Received customer data:', res);
         this.customer = res.data;
         this.loadOrders(); 
         this.loadRecentlyOrdered();

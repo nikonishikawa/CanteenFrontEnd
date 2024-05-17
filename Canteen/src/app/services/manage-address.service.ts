@@ -40,17 +40,20 @@ export class ManageAddressService {
 
   addAddress(AddAddress: Address): Observable<ApiResponseMessage<Address[]>> {
     const headers = this.getHeaders();
-    return this.http.post<ApiResponseMessage<Address[]>>(`${this.baseApiUrl}api/Address/AddAddress`,  AddAddress);
+    return this.http.post<ApiResponseMessage<Address[]>>(`${this.baseApiUrl}api/Address/AddAddress`,  AddAddress)
+    .pipe(catchError(this.handleError));
   }
 
   editAddress(UpdateAddress: Address): Observable<ApiResponseMessage<Address[]>> {
     const headers = this.getHeaders();
-    return this.http.post<ApiResponseMessage<Address[]>>(`${this.baseApiUrl}api/Address/UpdateAddress`,  UpdateAddress);
+    return this.http.post<ApiResponseMessage<Address[]>>(`${this.baseApiUrl}api/Address/UpdateAddress`,  UpdateAddress)
+    .pipe(catchError(this.handleError));
   }
 
   
   deleteAddress(AddressId: number): Observable<ApiResponseMessage<Address>> {
     const headers = new HttpHeaders(); 
-    return this.http.delete<ApiResponseMessage<Address>>(`${this.baseApiUrl}api/Address/DeleteAddress/${AddressId}`, { headers });
+    return this.http.delete<ApiResponseMessage<Address>>(`${this.baseApiUrl}api/Address/DeleteAddress/${AddressId}`, { headers })
+    .pipe(catchError(this.handleError));
   }
 }

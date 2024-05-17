@@ -35,33 +35,20 @@ export class OrderService {
 
   getOrders(cusId: number): Observable<ApiResponseMessage<orderItems[]>> {
     const headers = this.getHeaders();
-    return this.http.get<ApiResponseMessage<orderItems[]>>(`${this.baseApiUrl}api/OrderStatus/GetOrderStatus/${cusId}`, { headers }).pipe(
-      catchError((error) => {
-        console.error('Error fetching orders by customer ID:', error);
-        return throwError('Error fetching orders by customer ID. Please try again later.');
-      })
-    );
+    return this.http.get<ApiResponseMessage<orderItems[]>>(`${this.baseApiUrl}api/OrderStatus/GetOrderStatus/${cusId}`, { headers })
+    .pipe(catchError(this.handleError));
   }
 
-  
-  updateOrderStatusCompleted(orderId: number, newStatus: number): Observable<ApiResponseMessage<any>> {
+  updateOrderStatusCompleted(orderId: number, newStatus: number): Observable<ApiResponseMessage<string>> {
     const headers = this.getHeaders();
-    return this.http.post<ApiResponseMessage<any>>(`${this.baseApiUrl}api/OrderStatus/UpdateOrderCompleted?orderId=${orderId}&newStatus=${newStatus}`, { headers }).pipe(
-      catchError((error: any) => {
-        console.error('Error updating order status:', error);
-        return throwError('Error updating order status. Please try again later.');
-      })
-    );
+    return this.http.post<ApiResponseMessage<string>>(`${this.baseApiUrl}api/OrderStatus/UpdateOrderCompleted?orderId=${orderId}&newStatus=${newStatus}`, { headers })
+    .pipe(catchError(this.handleError));
   }
 
-   updateOrderStatus(orderId: number, newStatus: number): Observable<ApiResponseMessage<any>> {
+   updateOrderStatus(orderId: number, newStatus: number): Observable<ApiResponseMessage<string>> {
     const headers = this.getHeaders();
-    return this.http.put<ApiResponseMessage<any>>(`${this.baseApiUrl}api/OrderStatus/UpdateOrderStatus?orderId=${orderId}&newStatus=${newStatus}`, { headers }).pipe(
-      catchError((error: any) => {
-        console.error('Error updating order status:', error);
-        return throwError('Error updating order status. Please try again later.');
-      })
-    );
+    return this.http.put<ApiResponseMessage<string>>(`${this.baseApiUrl}api/OrderStatus/UpdateOrderStatus?orderId=${orderId}&newStatus=${newStatus}`, { headers })
+    .pipe(catchError(this.handleError));
   }
 
   getAllOrders(): Observable<ApiResponseMessage<orderItems[]>> {
@@ -70,9 +57,9 @@ export class OrderService {
       .pipe(catchError(this.handleError));
   }
 
-  loadItemsById(): Observable<ApiResponseMessage<any>> {
+  loadItemsById(): Observable<ApiResponseMessage<string>> {
     const headers = this.getHeaders();
-    return this.http.get<ApiResponseMessage<any>>(`${this.baseApiUrl}api/Item/GetAllItem`, { headers })
+    return this.http.get<ApiResponseMessage<string>>(`${this.baseApiUrl}api/Item/GetAllItem`, { headers })
       .pipe(catchError(this.handleError));
   }
   getTrayStatus(): Observable<ApiResponseMessage<status[]>> {

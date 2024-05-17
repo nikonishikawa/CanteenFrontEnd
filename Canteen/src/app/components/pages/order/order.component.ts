@@ -59,7 +59,6 @@ export class OrderComponent {
     this.customerService.loadCustomerData().subscribe({
       next: (res) => {
         this.customer.customerId = res.data.customerId;
-        console.log('Received customer data:', res.data.customerId);
         this.getOrders(this.selectedStatus, this.currentIndex);
       }
     });
@@ -75,13 +74,11 @@ export class OrderComponent {
       next: (res) => {
         if (res.isSuccess) {  
           this.orderItems = res.data;
-          console.log("Response", res);
           this.orderItems.forEach(orderItem => {
             this.loadItem(orderItem.item, orderItem);
           });
           if (this.orderItems && this.orderItems.length > 0) {
             this.preprocessOrderItems(this.orderItems, selectedStatus, index); 
-            console.log("this: " + selectedStatus);
           } else {
             console.error("Order items array is empty or undefined");
           }
@@ -100,18 +97,15 @@ export class OrderComponent {
       next: (res: { isSuccess: boolean, data: status[], message: string }) => {
         if (res.isSuccess){
           this.status = res.data;
-          console.log("Status", res)
         }
       }
     })
   }
 
-  getStatusName(categoryId: any): any {
-    console.log(categoryId);
-    const categoryIdNumber = parseInt(categoryId, 10);
+  getStatusName(categoryId: number): string | number {
+    const categoryIdNumber = parseInt(categoryId.toString(), 10);
     const correspondingCategory = this.status.find(cat => cat.statusId === categoryIdNumber);
     this.isActive = categoryIdNumber;
-    console.log(categoryIdNumber, correspondingCategory);
     return correspondingCategory ? correspondingCategory.status : categoryId;
   }
 
@@ -120,13 +114,11 @@ export class OrderComponent {
       next: (res) => {
         orderItem.foodImage = res.data.foodImage;
         orderItem.item = res.data.item;
-        console.log('Received order foodImage:', res.data.foodImage);
-        console.log('Received order item:', res.data.item);
       }
     });
   }
   
-  openModal(orderId: any) {
+  openModal(orderId: number) {
     this.openOrderItem = this.openOrderItem === orderId ? null : orderId;
   }
   
@@ -135,17 +127,16 @@ export class OrderComponent {
       (res) => {
         if (res.isSuccess) {
           this.menus = res.data;
-          console.log("Response", res);
 
           if (this.menus && this.menus.length > 0) {
             this.menus.forEach(menuItem => {
               if (menuItem && menuItem) {
-                console.log("Item ID:", menuItem.itemId);
-                console.log("Item:", menuItem.item);
-                console.log("Description:", menuItem.description);
-                console.log("Is Halal:", menuItem.isHalal);
-                console.log("Price:", menuItem.price);
-                console.log("Category:", menuItem.category);
+                menuItem.itemId
+                menuItem.item
+                menuItem.description
+                menuItem.isHalal
+                menuItem.price
+                menuItem.category
               } else {
                 console.error("Menu item or its data is undefined:", menuItem);
               }
@@ -190,7 +181,7 @@ export class OrderComponent {
       orderStamp: this.getUniqueOrderStamp(orderGroupsMap[Number(orderId)]),
       cost: this.getUniqueCost(orderGroupsMap[Number(orderId)]),
       orderItems: orderGroupsMap[Number(orderId)]
-    }));
+    })).sort((a, b) => new Date(b.orderStamp).getTime() - new Date(a.orderStamp).getTime());
   }
 
   filterStatus(orderItems: orderItems[], index: string, currentIndex: number): orderItems[] {
@@ -203,7 +194,7 @@ export class OrderComponent {
     this.setActiveIndex(this.filterSelected);  
   }
 
-  setActiveIndex(index: any | 0) {
+  setActiveIndex(index: number | 0) {
     this.activeIndex = index;
   }
 

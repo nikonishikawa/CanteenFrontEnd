@@ -57,7 +57,6 @@ export class MenuComponent implements OnInit {
   loadCustomerData(): void {
     this.customerService.loadCustomerData().subscribe({
       next: (res) => {
-        console.log('Received customer data:', res.data.customerId);
         this.customer.customerId = res.data.customerId;
         this.generateTrayTempId();
        
@@ -95,7 +94,6 @@ export class MenuComponent implements OnInit {
   
     this.menuService.GetTraytempId(this.customer.customerId).subscribe({
       next: (res) => {
-        console.log('Received trayTempId:', res.data);
         this.trayTempId = res.data;
         this.fetchTrayItems();
       },
@@ -114,7 +112,6 @@ export class MenuComponent implements OnInit {
           this.fetchTrayItems();
           this.loadMOP();
           this.groupedMenu = this.groupByCategory(this.menus);
-          console.log("load menus", this.menus)
         }
       },
       error: (error) => {
@@ -127,7 +124,6 @@ export class MenuComponent implements OnInit {
     this.menuService.getAllCaetegory().subscribe({
       next: (res) => {
         if (res && res.data) {
-          console.log(res.data);
           this.category = res.data;
           this.filterMenu(0);
         }
@@ -142,8 +138,6 @@ export class MenuComponent implements OnInit {
       next: (res) => {
         if (res && res.data) {
           this.mop = res.data;
-          console.log('Received MOP data:', res.data);
-
           this.modeOfPaymentId = 1;
         }
       },
@@ -155,7 +149,6 @@ export class MenuComponent implements OnInit {
 
   onMOPSelectionChange(event: any): void {
     this.modeOfPaymentId = event.target.value;
-    console.log('Selected MOP:', this.modeOfPaymentId);
   }
 
   filtSelect(index: number) {
@@ -187,11 +180,9 @@ export class MenuComponent implements OnInit {
 
 
   getCategoryName(categoryId: any): any {
-    console.log(categoryId);
     const categoryIdNumber = parseInt(categoryId, 10);
     const correspondingCategory = this.category.find(cat => cat.categoryId === categoryIdNumber);
     
-    console.log(categoryIdNumber, correspondingCategory);
     return correspondingCategory ? correspondingCategory.category : categoryId;
   }
 
@@ -219,7 +210,6 @@ export class MenuComponent implements OnInit {
 
     this.menuService.insertData(data).subscribe(
       response => {
-        console.log('Data inserted to tray successfully:', response);
         this.toastr.success('Item added to tray successfully');
         this.fetchTrayItems();
       },
@@ -248,7 +238,6 @@ export class MenuComponent implements OnInit {
                 this.filterOutStockZeroItems(); 
                 this.fetchTrayItemDetails(); 
                 this.calculateTotal();
-                console.log('Tray items loaded from server:', this.trayItems);
               }
             },
             error: (error) => {
@@ -273,18 +262,16 @@ export class MenuComponent implements OnInit {
   
   orderNow() {
     const orderStamp = new Date().toISOString();
-
-    // Iterate over trayItems
     if (this.customer.customerId && this.trayTempId && this.modeOfPaymentId && this.trayItems) {
       this.trayItems.forEach(trayItem => {
-        const menuItem = this.menus.find(menu => menu.itemId === trayItem.itemId); // Corrected property name here
+        const menuItem = this.menus.find(menu => menu.itemId === trayItem.itemId); 
         if (menuItem && trayItem.quantity !== undefined) {
           const newStock = menuItem.stock - trayItem.quantity;
-          this.updateMenuStock(trayItem.itemId, newStock); // Corrected property name here
+          this.updateMenuStock(trayItem.itemId, newStock); 
         }
       });
 
-      const orderItems = this.trayItems.map(item => ({ itemId: item.itemId, quantity: item.quantity })); // Corrected property name here
+      const orderItems = this.trayItems.map(item => ({ itemId: item.itemId, quantity: item.quantity })); 
 
       this.menuService.insertTempToNotTemp(this.customer.customerId, this.trayTempId, orderStamp, this.order.Cost, this.modeOfPaymentId, orderItems).subscribe(
         (response) => {
@@ -306,7 +293,6 @@ export class MenuComponent implements OnInit {
   updateMenuStock(itemId: number, newStock: number) {
     this.menuService.updateMenu(itemId, newStock).subscribe(
       response => {
-        console.log('Menu stock updated successfully:', response);
       },
       error => {
         console.error('Error updating menu stock:', error);
@@ -316,7 +302,6 @@ export class MenuComponent implements OnInit {
 
   increaseQuantity(trayItem: any) {
     const menuItem = this.menus.find(menu => menu.itemId === trayItem.itemId);
-    console.log('menuItem:', menuItem); 
     if (menuItem && trayItem.quantity < menuItem.stock) {
       trayItem.quantity++; 
       this.loadMenu();
@@ -328,8 +313,6 @@ export class MenuComponent implements OnInit {
     }
   }
   
-  
-  
   decreaseQuantity(trayItem: trayItemTest) {
     if (trayItem.quantity > 1) {
       trayItem.quantity--; 
@@ -340,14 +323,7 @@ export class MenuComponent implements OnInit {
   }
 
   updateTrayItemQuantity(trayItemId: number, newQuantity: number) {
-  this.menuService.updateTrayItemQuantity(trayItemId, newQuantity).subscribe(
-    response => {
-      console.log('Tray item quantity updated successfully:', response);
-    },
-    error => {
-      console.error('Error updating tray item quantity:', error);
-    }
-  );
+  this.menuService.updateTrayItemQuantity(trayItemId, newQuantity).subscribe();
   }
 
   removeItem(trayItem: TrayItem) {
@@ -356,7 +332,6 @@ export class MenuComponent implements OnInit {
     response => {
       if (response.isSuccess) {
         this.toastr.success('Removed item successfully');
-        console.log(response.message);
         this.fetchTrayItems();
       } else {
         console.error(response.message);
@@ -377,7 +352,6 @@ fetchTrayItemDetails() {
       trayItem.foodImage = menuItem.foodImage;
       trayItem.price = menuItem.price;
       trayItem.stock = menuItem.stock;
-      console.log("menuItemresult:", menuItem)
     } else {
       console.warn(`Menu item not found for tray item with ID ${trayItem.item}`);
     }
@@ -396,13 +370,9 @@ fetchTrayItemDetails() {
       (res) => {
         if (res.isSuccess) {
           this.mop = res.data;
-          console.log("Response", res);
-  
           if (this.mop && this.mop.length > 0) {
             this.mop.forEach(mop => {
               if (mop && mop) {
-                console.log("Item:", mop.modeOfPaymentId);
-                console.log("Item ID:", mop.modeOfPayment);
               } else {
                 console.error("Menu item or its data is undefined:", mop);
               }
@@ -424,5 +394,4 @@ fetchTrayItemDetails() {
       return result;
     }, {});
   }
-  
 }

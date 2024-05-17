@@ -5,7 +5,6 @@ import { RegisterComponent } from './components/pages/register/register.componen
 import { MenuComponent } from './components/pages/menu/menu.component';
 import { DashboardComponent } from './components/pages/dashboard/dashboard.component';
 import { AddMenuComponent } from './components/pages/menu/add-menu/add-menu.component';
-import { TransactionComponent } from './components/pages/transaction/transaction.component';
 import { OrderComponent } from './components/pages/order/order.component';
 import { AuthGuard } from './AuthInterceptor/authGuard';
 import { ProfileComponent } from './components/pages/profile/profile.component';
@@ -53,11 +52,6 @@ export const routes: Routes = [
         canActivate: [AuthGuard]
       },
       {
-        path: 'transaction',
-        component: TransactionComponent,
-        canActivate: [AuthGuard] 
-      },
-      {
         path: 'order',
         component: OrderComponent,
         canActivate: [AuthGuard]
@@ -88,11 +82,6 @@ export const routes: Routes = [
         path: 'dashboard',
         component: AdminDashboardComponent,
         canActivate: [AuthGuard]
-      },
-      {
-        path: 'transaction',
-        component: TransactionComponent,
-        canActivate: [AuthGuard] 
       },
       {
         path: 'manage-order',

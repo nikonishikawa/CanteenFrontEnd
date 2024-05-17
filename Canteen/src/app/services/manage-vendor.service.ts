@@ -45,14 +45,3 @@ export class ManageVendorService {
       .pipe(catchError(this.handleError));
   }
 }
-
-
-// <select name="positionId" [(ngModel)]="editedVendor.positionId" required>
-// <option *ngFor="let pos of loadPos" [value]="pos.positionId">{{ pos.position }}</option>
-// </select>
-// <div class="register-address-container">
-// <select name="addressId" [(ngModel)]="editedVendor.addressId" required>
-//   <option *ngFor="let addr of address" [value]="addr.addressId">{{ addr.barangay }}</option>
-// </select>
-// <input type="text" name="contactNumber" [(ngModel)]="editedVendor.contactNumber" placeholder="phone number" required="">
-// </div>

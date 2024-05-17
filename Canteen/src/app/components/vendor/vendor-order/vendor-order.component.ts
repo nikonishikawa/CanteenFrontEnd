@@ -61,7 +61,6 @@ export class VendorOrderComponent implements OnInit {
     this.orderService.updateOrderStatus(orderId, newStatus).subscribe({
       next: (res) => {
         if (res.isSuccess) {
-          console.log("Status updated successfully");
           this.getOrders(this.selectedStatus, this.currentIndex); 
         } else {
           console.error("Error updating status:", res.message);
@@ -77,7 +76,6 @@ export class VendorOrderComponent implements OnInit {
     this.orderService.updateOrderStatusCompleted(orderId, newStatus).subscribe({
       next: (res) => {
         if (res.isSuccess) {
-          console.log("Status updated successfully");
           this.getOrders(this.selectedStatus, this.currentIndex); 
         } else {
           console.error("Error updating status:", res.message);
@@ -96,14 +94,12 @@ export class VendorOrderComponent implements OnInit {
         if (res.isSuccess) {
           this.orderItems = res.data;
           
-          console.log("Response", res);
           this.orderItems.forEach(orderItem => {
             this.loadItem(orderItem.item, orderItem);
           });
           if (this.orderItems && this.orderItems.length > 0) {
             
             this.preprocessOrderItems(this.orderItems, selectedStatus, index);
-            console.log("this: " + selectedStatus);
           } else {
             console.error("Order items array is empty or undefined");
           }
@@ -122,18 +118,15 @@ export class VendorOrderComponent implements OnInit {
       next: (res) => {
         if (res.isSuccess){
           this.status = res.data;
-          console.log("Status", res)
         }
       }
     })
   }
 
-  getStatusName(categoryId: any): any {
-    console.log(categoryId);
-    const categoryIdNumber = parseInt(categoryId, 10);
+  getStatusName(categoryId: number): string | number {
+    const categoryIdNumber = parseInt(categoryId.toString(), 10);
     const correspondingCategory = this.status.find(cat => cat.statusId === categoryIdNumber);
     this.isActive = categoryIdNumber;
-    console.log(categoryIdNumber, correspondingCategory);
     return correspondingCategory ? correspondingCategory.status : categoryId;
   }
 
@@ -155,17 +148,16 @@ export class VendorOrderComponent implements OnInit {
       (res) => {
         if (res.isSuccess) {
           this.menus = res.data;
-          console.log("Response", res);
 
           if (this.menus && this.menus.length > 0) {
             this.menus.forEach(menuItem => {
               if (menuItem && menuItem) {
-                console.log("Item ID:", menuItem.itemId);
-                console.log("Item:", menuItem.item);
-                console.log("Description:", menuItem.description);
-                console.log("Is Halal:", menuItem.isHalal);
-                console.log("Price:", menuItem.price);
-                console.log("Category:", menuItem.category);
+                menuItem.itemId
+                menuItem.item
+                menuItem.description
+                menuItem.isHalal
+                menuItem.price
+                menuItem.category
               } else {
                 console.error("Menu item or its data is undefined:", menuItem);
               }
@@ -207,7 +199,7 @@ export class VendorOrderComponent implements OnInit {
       cost: this.getUniqueCost(orderGroupsMap[Number(orderId)]),
       orderItems: orderGroupsMap[Number(orderId)],
       firstName: String(orderGroupsMap[Number(orderId)][0].firstName) 
-    }));
+    })).sort((a, b) => new Date(b.orderStamp).getTime() - new Date(a.orderStamp).getTime());
   }
   
   

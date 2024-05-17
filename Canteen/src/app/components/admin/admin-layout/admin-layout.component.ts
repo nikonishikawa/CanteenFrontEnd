@@ -1,10 +1,11 @@
 import { Component, NO_ERRORS_SCHEMA, OnInit } from '@angular/core';
 import { LayoutService } from '../../../services/layout.service';
-import { Admin, AdminName } from '../../../models/admin.model';
+import { Admin } from '../../../models/admin.model';
 import { Router, RouterModule } from '@angular/router';
 import { MenuService } from '../../../services/menu.service';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
+import { AdminService } from '../../../services/admin.service';
 
 @Component({
   selector: 'app-admin-layout',
@@ -17,15 +18,17 @@ import { CommonModule } from '@angular/common';
 export class AdminLayoutComponent implements OnInit {
   isActive!: number | 1;
   isSubActive!: number | 1;
+  admins: Admin[] = [];
   admin: Admin = {} as Admin;
-  adminName: AdminName = {} as AdminName;
 
   constructor(private layoutService: LayoutService,
               private router: Router, 
               private menuService: MenuService,
-              private toastr: ToastrService,) {}
+              private toastr: ToastrService,
+              private adminService: AdminService) {}
 
   ngOnInit() {
+    this.loadAdminData();
     this.isActive = this.layoutService.getActiveIndex();
   }
 
@@ -45,6 +48,14 @@ export class AdminLayoutComponent implements OnInit {
     this.toggleActive(index);
   }
 
+  loadAdminData() {
+    this.adminService.loadCustomerData().subscribe({
+      next: (res) => {
+        this.admin = res.data;
+      }
+    });
+  }
+
   menu() {
     this.toastr.success('Moving to menu');
     
@@ -55,18 +66,4 @@ export class AdminLayoutComponent implements OnInit {
     this.toastr.success('Logged Out Successfully');
     
   }
-
-  // loadCategory() {
-  //   this.menuService.getAllCaetegory().subscribe({
-  //     next: (res) => {
-  //       if (res && res.data) {
-  //         console.log(res.data);
-  //         this.category = res.data;
-  //         this.filterMenu(0);
-  //       }
-  //     },
-  //     error: (error) => {
-  //     }
-  //   });
-  // }
 }
