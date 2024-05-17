@@ -16,7 +16,7 @@
           <h1>Best Seller</h1>
           <a [routerLink]="['../menu']">See All</a>
         </div>
-        <div class="body-container">
+        <div *ngIf="getMostSoldItems.length !== 0" class="body-container">
           <div class="menu-items-container" *ngFor="let item of getMostSoldItems()">
               <img [src]="item.foodImage" [alt]="item.itemName">
               <div class="item-header-container">
@@ -24,6 +24,10 @@
               </div>
           </div>   
         </div>
+        <div *ngIf="getMostSoldItems.length == 0" class="body-container">
+          <p>No best sellers today. We have not received any orders yet. Check back later!</p>
+        </div>
+
     </div>
     
     <div class="recent-transactions-container">

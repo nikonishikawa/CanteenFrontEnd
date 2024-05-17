@@ -30,10 +30,12 @@ export class AdminLayoutComponent implements OnInit {
   ngOnInit() {
     this.loadAdminData();
     this.isActive = this.layoutService.getActiveIndex();
+    
+    this.navigateTo('admin-dashboard', 1);
   }
 
   toggleActive(index: number) {
-    this.isActive = index === 8 ? 1 : (index === this.isActive ? 1 : index);
+    this.isActive = index;
     this.isSubActive = 1;
     this.toggleSubActive(1);
     this.layoutService.setActiveIndex(this.isActive);

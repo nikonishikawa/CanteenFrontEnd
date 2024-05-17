@@ -29,10 +29,11 @@ export class VendorLayoutComponent implements OnInit {
   ngOnInit() {
     this.isActive = this.layoutService.getActiveIndex();
     this.loadVendorData();
+    this.navigateTo('vendor-dashboard', 1);
   }
 
   toggleActive(index: number) {
-    this.isActive = index === 8 ? 1 : (index === this.isActive ? 1 : index);
+    this.isActive = index;
     this.isSubActive = 1;
     this.toggleSubActive(1);
     this.layoutService.setActiveIndex(this.isActive);

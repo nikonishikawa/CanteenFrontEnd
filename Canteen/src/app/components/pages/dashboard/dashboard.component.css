@@ -103,6 +103,14 @@
     height: 100%;
     width: 100%;
     overflow-x: auto;
+    justify-self: center;
+    align-items: center;
+}
+
+.body-container p {
+    width: 100%;
+    text-align: center;
+    margin: 0;
 }
 
 .menu-container .body-container .menu-items-container {

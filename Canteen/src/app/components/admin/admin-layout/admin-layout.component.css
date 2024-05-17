@@ -84,8 +84,8 @@ body{
       list-style: none;
       height: fit-content;
       color: #fff;
-      font-size: 24px;
-      padding: 25px 25px 25px 45px;
+      font-size: 18px;
+      padding: 10px 10px 10px 45px;
     }
 
     .nav li a {
@@ -128,7 +128,7 @@ body{
     .nav_cont ul li.nav_items-main-sub {
       background: #ac010a;
       color: #fff;
-      padding: 25px;
+      padding: 10px;
       font-weight: 400;
       border-top-left-radius: 50px;
       border-bottom-left-radius: 50px;
@@ -149,7 +149,7 @@ body{
     }
 
     .nav_cont ul li.nav_items-users a span {
-      font-size: 20px;
+      font-size: 18px;
       padding-left: 30px;
     }
     
@@ -157,7 +157,7 @@ body{
     .nav_cont ul li.nav_items, .nav_cont ul li.nav_items-sub {
       background: #fff;
       color: #DA062E;
-      padding: 25px;
+      padding: 10px;
       font-weight: 800;
       border-top-left-radius: 50px;
       border-bottom-left-radius: 50px;

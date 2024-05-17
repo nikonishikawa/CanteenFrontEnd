@@ -30,15 +30,16 @@ export class LayoutComponent implements OnInit {
 
   ngOnInit() {
     this.isActive = this.layoutService.getActiveIndex();
-    this.loadCustomerData()
+    this.loadCustomerData();
   }
 
   toggleActive(index: number) {
-    this.isActive = index === 5 ? 1 : (index === this.isActive ? index : index);
+    this.isActive = index;
     this.layoutService.setActiveIndex(this.isActive);
   }  
 
   navigateTo(route: string, index: number) {
+    console.log("butangag name", route);
     this.router.navigate([route]);
     this.toggleActive(index);
   }
@@ -49,7 +50,6 @@ export class LayoutComponent implements OnInit {
         console.log('Received customer data:', res);
         this.customer = res.data;
         this.loadCustomerName();
-        
       }
     });
   }

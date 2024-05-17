@@ -4,6 +4,7 @@
   }
   
   .addUser input {
+    width: fit-content;
     margin: 0 15px 0 0;
     padding: 8px 24px 8px 24px;
     border-radius: 20px;
@@ -32,15 +33,27 @@
   
   .modal.open {
     display: flex;
+    margin-left: 400px;
   }
   
   .modal-content {
     background-color: #fefefe;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
     padding: 20px;
-    border-radius: 10px;
-    width: 50%;
-    max-width: 600px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    width: 10%;
+    height: 65%;
+    top: 50%;
+    left: 40%;
+    transform: translate(-50%, -50%);
+    border-radius: 30px;
+    border: 1px solid #fff;
+    width: 40%;
+    max-width: 700px;
+    overflow-y: inherit;
+    overflow-y: inherit;
   }
   
   .register, .edit {
@@ -52,11 +65,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-  }
-  
-  .action-button-container {
-    display: flex;
-    justify-content: flex-end;
   }
   
   button {
@@ -121,14 +129,12 @@
   
   .register button, .action-button-container button {
     width: 100%;
-    padding: 15px 30px;
     color: #fff;
-    font-size: 21px;
+    font-size: 15px;
     font-weight: 600;
     background-color: #DA062E;
     border-radius: 20px;
     border: 1px solid #DA062E;
-    margin-top: 10px;
   }
   
   .users-container {
@@ -160,13 +166,18 @@
     box-shadow: 0 10px 5.4px rgba(0, 0, 0, 0.15);
   }
   
-  .user-details p, .user-details button {
+  .user-details p, .user-details div {
     flex: 1;
     width: 0;
     margin: 0;
     padding: 0;
     text-align: center;
     justify-self: center;
+  }
+
+  .user-details #img {
+    width: 50px;
+    padding: 15px;
   }
   
   .user-details img {
@@ -180,15 +191,10 @@
   .user-details .action-button-container {
     display: flex;
     flex-direction: column;
-    padding: 15px;
-    width: 170px;
-  }
+    justify-content: center;
+    align-items: center;
+    flex: 1;
 
-  .action-button-container button{
-  flex: 1;
-  width: 100%;
-  font-size: 15px;
-  padding: 6px;
   }
 
   .action-button-container button:first-child {
@@ -243,15 +249,6 @@
       display: flex;
     }
     
-    .modal-content {
-      background-color: #fefefe;
-      padding: 20px;
-      border-radius: 10px;
-      width: 50%;
-      max-width: 600px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    }
-    
     .register, .edit {
       display: flex;
       flex-direction: column;
@@ -261,11 +258,6 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-    }
-    
-    .action-button-container {
-      display: flex;
-      justify-content: flex-end;
     }
     
     button {
@@ -328,18 +320,6 @@
       color: #DA062E;
     }
     
-    .register button, .action-button-container button {
-      width: 100%;
-      padding: 15px 30px;
-      color: #fff;
-      font-size: 21px;
-      font-weight: 600;
-      background-color: #DA062E;
-      border-radius: 20px;
-      border: 1px solid #DA062E;
-      margin-top: 10px;
-    }
-    
     .users-container {
       display: flex;
       flex-direction: column;
@@ -369,15 +349,6 @@
       box-shadow: 0 10px 5.4px rgba(0, 0, 0, 0.15);
     }
     
-    .user-details p, .user-details button {
-      flex: 1;
-      width: 0;
-      margin: 0;
-      padding: 0;
-      text-align: center;
-      justify-self: center;
-    }
-    
     .user-details img {
       width: 50px;
       background-color: #fff;
@@ -386,26 +357,12 @@
       border: 1px solid #8a8a8a;
     }
   
-    .user-details .action-button-container {
-      display: flex;
-      flex-direction: column;
-      padding: 15px;
-      width: 170px;
-    }
-  
     .action-button-container button{
-    flex: 1;
-    width: 100%;
-    font-size: 15px;
-    padding: 6px;
-    }
-  
-    .action-button-container button:first-child {
-      margin-bottom: 10px;
-      background-color: #ecad00;
-      border-radius: 20px;
-      border: 1px solid #ecad00;
-      color: #fff;
+      width: 90%;
+      height: fit-content;
+      font-size: 15px;
+      margin: 0;
+      padding: 6px;
     }
     
     #customer-id-label, #name-label, #membership-label, #address-label, #status-label, #action-label {
