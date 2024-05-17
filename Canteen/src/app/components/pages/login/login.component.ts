@@ -41,10 +41,10 @@ export class LoginComponent implements OnInit {
   redirectBasedOnRole(roleName: string) {
     switch (roleName) {
       case 'User':
-        this.router.navigateByUrl('layout/dashboard'); 
+        this.router.navigateByUrl('dashboard'); 
         break;
       case 'Admin':
-        this.router.navigateByUrl('dashboard'); 
+        this.router.navigateByUrl('admin-dashboard'); 
         break;
       case 'Editor':
         this.router.navigateByUrl('vendor-dashboard'); 

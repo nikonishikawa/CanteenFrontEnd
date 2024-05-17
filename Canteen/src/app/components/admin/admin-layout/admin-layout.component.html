@@ -7,7 +7,7 @@
         <h3>{{adminName.firstName}} {{adminName.middleName}}. {{adminName.lastName}}</h3>
       </div>
       <ul class="nav">
-        <li [routerLink]="['dashboard']" [ngClass]="{'nav_items': isActive === 1}" (click)="toggleActive(1)">
+        <li [routerLink]="['admin-dashboard']" [ngClass]="{'nav_items': isActive === 1}" (click)="toggleActive(1)">
           <a>
             <i class="fa-solid fa-qrcode">
             </i>
