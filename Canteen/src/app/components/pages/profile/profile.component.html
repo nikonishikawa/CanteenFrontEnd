@@ -33,7 +33,6 @@
   </div>
   <div class="address-container">
     <div *ngIf="customerAddress" [class.active]="inputNameActive === 4" (click)="toggleActive(4)">
-      <p>Address:</p>
       <select class="editable-input" id="addressId" [(ngModel)]="customerAddress.addressId">
         <option *ngFor="let addr of allAddress" [value]="addr.addressId">{{ addr.barangay }}</option>
       </select>

@@ -6,7 +6,7 @@ import { CustomerDto, TrayItemsDTO } from '../../../models/tray.model';
 import { CommonModule } from '@angular/common';
 import { OrderService } from '../../../services/order.service';
 import { Customer } from '../../../models/user.model';
-import { orderItems, orders, status } from '../../../models/orders.model';
+import { loadItem, orderGroupsDto, orderItems, orders, status } from '../../../models/orders.model';
 import { constants } from 'buffer';
 import { Menu } from '../../../models/menu.model';
 import { MenuService } from '../../../services/menu.service';
@@ -28,13 +28,11 @@ export class OrderComponent {
   order: orders = {} as orders;
   menus: Menu[] = [];
   orderItemsMap: { [orderId: number]: orderItems[] } = {};
-  // orderGroups: { orderId: number; modeOfPayment: string; status: string; orderStamp: string; cost:number; orderItems: orderItems[] }[] = [];
-  orderGroups: any[] = [];
-  openOrderItem: any = null;
+  orderGroups: orderGroupsDto[] = [];
+  openOrderItem: number = 0;
   showFirstContent: boolean = false;
-  
   selectedStatus: string = 'All';
-  filterSelected: any = null;
+  filterSelected: number = 0;
   currentIndex: number = 0;
   activeIndex: number = 0;
   isActive!: number | 1;
@@ -109,7 +107,7 @@ export class OrderComponent {
     return correspondingCategory ? correspondingCategory.status : categoryId;
   }
 
-  loadItem(itemId: string, orderItem: any) {
+  loadItem(itemId: string, orderItem: loadItem) {
     this.orderService.getItemById(itemId).subscribe({
       next: (res) => {
         orderItem.foodImage = res.data.foodImage;
@@ -119,7 +117,7 @@ export class OrderComponent {
   }
   
   openModal(orderId: number) {
-    this.openOrderItem = this.openOrderItem === orderId ? null : orderId;
+    this.openOrderItem = this.openOrderItem === orderId ? 0 : orderId;
   }
   
   getAllMenus() {
@@ -180,7 +178,8 @@ export class OrderComponent {
       status: this.getUniqueStatus(orderGroupsMap[Number(orderId)]),
       orderStamp: this.getUniqueOrderStamp(orderGroupsMap[Number(orderId)]),
       cost: this.getUniqueCost(orderGroupsMap[Number(orderId)]),
-      orderItems: orderGroupsMap[Number(orderId)]
+      orderItems: orderGroupsMap[Number(orderId)],
+      firstName: String(orderGroupsMap[Number(orderId)][0].firstName) 
     })).sort((a, b) => new Date(b.orderStamp).getTime() - new Date(a.orderStamp).getTime());
   }
 
